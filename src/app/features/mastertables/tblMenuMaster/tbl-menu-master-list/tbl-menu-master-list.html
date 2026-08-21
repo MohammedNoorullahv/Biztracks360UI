@@ -1,0 +1,133 @@
+<div class="container grid-page-shell">
+
+    <!-- ============================================
+		 Page header: caption + record toggle + New Record
+		 ============================================ -->
+    <div class="page-header-bar">
+
+        <h1 class="page-caption">TblMenuMastersList</h1>
+
+        <div class="page-header-center">
+            <button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Load All'"
+                (click)="OnFormSubmit('Load All')"
+                [attr.title]="actionType !== 'Load All' ? 'Loading All Records' : 'All Records'">
+                <i class="bi bi-list-ul"></i>
+                All Records
+            </button>
+
+            <button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Active Only'"
+                (click)="OnFormSubmit('Active Only')"
+                [attr.title]="actionType !== 'Active Only' ? 'Loading Active Records' : 'Active Records'">
+                <i class="bi bi-check-circle"></i>
+                Active Records
+            </button>
+        </div>
+
+        <div class="page-header-right">
+            <a [routerLink]="['add']" class="btn-app btn-new">
+                <i class="bi bi-plus-lg"></i>
+                New Record
+            </a>
+        </div>
+
+    </div>
+
+    <div class="page-card">
+
+        <div class="page-header-bar-secondary">
+
+            <div class="page-header-left">
+                <button type="button" class="btn-app btn-outline">
+                    <i class="bi bi-funnel"></i>
+                    Filter
+                </button>
+
+                <button type="button" class="btn-app btn-outline">
+                    <i class="bi bi-download"></i>
+                    Export CSV
+                </button>
+            </div>
+
+            <div class="page-header-right">
+                <ng-container *ngIf="tblMenuMaster$ | async as tblmenumasters">
+                    <span class="pagination-info">
+                        Showing {{ tblmenumasters.length }} of {{ tblmenumasters.length }} Records
+                    </span>
+                </ng-container>
+
+                <button type="button" class="pager-btn" disabled>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                <button type="button" class="pager-btn" disabled>
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <ng-container *ngIf="tblMenuMaster$ | async as tblmenumasters">
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Table Or View</th>
+                        <th>F K Category</th>
+                        <th>Category</th>
+                        <th>Menu Name</th>
+                        <th>Table Or View Name</th>
+                        <th>Condition</th>
+                        <th>Role Of The Menu</th>
+                        <th>Controller Name</th>
+                        <th>Icon</th>
+                        <th>Is Process Program</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let tblmenumaster of tblmenumasters">
+                        <td class="cell-code">{{tblmenumaster.fldId}}</td>
+                        <td class="cell-primary">{{tblmenumaster.fldTableOrView}}</td>
+                        <td>{{tblmenumaster.fldFKCategory}}</td>
+                        <td>{{tblmenumaster.fldCategory}}</td>
+                        <td>{{tblmenumaster.fldMenuName}}</td>
+                        <td>{{tblmenumaster.fldTableOrViewName}}</td>
+                        <td>{{tblmenumaster.fldCondition}}</td>
+                        <td>{{tblmenumaster.fldRoleOfTheMenu}}</td>
+                        <td>{{tblmenumaster.fldControllerName}}</td>
+                        <td>{{tblmenumaster.fldIcon}}</td>
+                        <td>
+                            <span class="badge-pill"
+                                [ngClass]="tblmenumaster.fldIsProcessProgram ? 'badge-success' : 'badge-muted'">
+                                {{tblmenumaster.fldIsProcessProgram ? 'Yes' : 'No'}}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="row-actions">
+                                <a class="icon-btn edit" title="Edit"
+                                    [routerLink]="['/mastertables/tblMenuMaster/Edit', tblmenumaster.fldId]"
+                                    [queryParams]="{ action: 'Edit' }">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a class="icon-btn delete" title="Delete"
+                                    [routerLink]="['/mastertables/tblMenuMaster/Edit', tblmenumaster.fldId]"
+                                    [queryParams]="{ action: 'Delete' }">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <p class="grid-footnote" *ngIf="tblmenumasters.length === 0">
+                No records found.
+            </p>
+
+        </ng-container>
+
+    </div>
+
+</div>

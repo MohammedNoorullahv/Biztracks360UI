@@ -1,0 +1,102 @@
+<div class="container grid-page-shell">
+
+	<!-- ============================================
+		 Section 1: Caption
+		 ============================================ -->
+	<div class="page-header-bar-simple">
+		<h1 class="page-caption">Add Property Master</h1>
+	</div>
+
+	<form #form="ngForm" (ngSubmit)="OnFormSubmit(form)" novalidate>
+		<!--<form #form="ngForm" (ngSubmit)="OnFormSubmit(form)" novalidate> -->
+
+		<!-- ============================================
+			 Section 2: Input fields
+			 ============================================ -->
+		<div class="page-card">
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-1 field-group">
+					<label class="form-label" for="fldSlNo">Sl No</label>
+					<input type="number" id="fldSlNo" class="form-control" name="fldSlNo" [(ngModel)]="model.fldSlNo"
+						step="1" min="1" required>
+
+					<div class="text-danger" *ngIf="form.controls['fldSlNo']?.touched && form.controls['fldSlNo']?.invalid">
+
+						Sl No must be greater than zero.
+
+					</div>
+				</div>
+
+				<div class="col-4 field-group">
+					<label class="form-label" for="fldDescription">Description</label>
+					<input type="text" id="fldDescription" class="form-control" name="fldDescription"
+						[(ngModel)]="model.fldDescription" maxlength="30" required>
+
+					<div class="text-danger" *ngIf="form.controls['fldDescription']?.touched &&
+							form.controls['fldDescription']?.invalid">
+
+						Description is required.
+
+					</div>
+				</div>
+
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldShortName">Short Name</label>
+					<input type="text" id="fldShortName" class="form-control" name="fldShortName"
+						[(ngModel)]="model.fldShortName" maxlength="10" required>
+
+					<div class="text-danger" *ngIf="form.controls['fldShortName']?.touched &&
+							form.controls['fldShortName']?.invalid">
+
+						Short Name is required.
+
+					</div>
+
+				</div>
+
+				<div class="col-2 field-group field-group-switch">
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="fldIsEditAllowed" #fldIsEditAllowed
+							[checked]="model.fldIsEditAllowed"
+							(change)="model.fldIsEditAllowed = fldIsEditAllowed.checked">
+						<label class="form-check-label" for="fldIsEditAllowed">Is Edit Allowed </label>
+					</div>
+					<!-- </div>
+
+				<div class="col-2 field-group field-group-switch"> -->
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="fldIsDeleteAllowed" #fldIsDeleteAllowed
+							[checked]="model.fldIsDeleteAllowed"
+							(change)="model.fldIsDeleteAllowed = fldIsDeleteAllowed.checked">
+						<label class="form-check-label" for="fldIsDeleteAllowed">Is Delete Allowed</label>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- ============================================
+			 Section 3: Command buttons
+			 ============================================ -->
+		<div class="page-actions-bar">
+			<button type="submit" (click)="submitAction = 'SaveAndAddNew'" class="btn-app btn-save">
+				<!-- [disabled]="form.invalid"> -->
+				<i class="bi bi-floppy"></i>
+				Save &amp; Add New
+			</button>
+			<button type="submit" (click)="submitAction = 'SaveAndClose'" class="btn-app btn-new">
+				<!-- [disabled]="form.invalid"> -->
+				<i class="bi bi-check2-circle"></i>
+				Save &amp; Close
+			</button>
+			<button type="button" (click)="backToHome()" class="btn-app btn-dark">
+				<i class="bi bi-arrow-left"></i>
+				Back
+			</button>
+		</div>
+
+	</form>
+
+</div>

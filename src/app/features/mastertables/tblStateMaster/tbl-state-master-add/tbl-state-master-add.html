@@ -1,0 +1,56 @@
+<div class="container grid-page-shell">
+
+	<!-- ============================================
+		 Section 1: Caption
+		 ============================================ -->
+	<div class="page-header-bar-simple">
+		<h1 class="page-caption">Add State Masters</h1>
+	</div>
+
+	<form #form="ngForm" (ngSubmit)="OnFormSubmit()" novalidate>
+
+		<!-- ============================================
+			 Section 2: Input fields
+			 ============================================ -->
+		<div class="page-card">
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldStateName">State Name</label>
+					<input type="text" id="fldStateName" class="form-control" name="fldStateName" [(ngModel)]="model.fldStateName" maxlength="100">
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldStateCode">State Code</label>
+					<input type="text" id="fldStateCode" class="form-control" name="fldStateCode" [(ngModel)]="model.fldStateCode" maxlength="2">
+				</div>
+			</div>
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldShortName">Short Name</label>
+					<input type="text" id="fldShortName" class="form-control" name="fldShortName" [(ngModel)]="model.fldShortName" maxlength="30">
+				</div>
+			</div>
+		</div>
+
+		<!-- ============================================
+			 Section 3: Command buttons
+			 ============================================ -->
+		<div class="page-actions-bar">
+			<button type="submit" (click)="submitAction = 'SaveAndAddNew'" class="btn-app btn-save" [disabled]="form.invalid">
+				<i class="bi bi-floppy"></i>
+				Save &amp; Add New
+			</button>
+			<button type="submit" (click)="submitAction = 'SaveAndClose'" class="btn-app btn-new" [disabled]="form.invalid">
+				<i class="bi bi-check2-circle"></i>
+				Save &amp; Close
+			</button>
+			<button type="button" (click)="backToHome()" class="btn-app btn-dark">
+				<i class="bi bi-arrow-left"></i>
+				Back
+			</button>
+		</div>
+
+	</form>
+
+</div>
+

@@ -1,0 +1,123 @@
+<div class="container grid-page-shell">
+
+	<!-- ============================================
+		 Section 1: Caption
+		 ============================================ -->
+	<div class="page-header-bar-simple">
+		<h1 class="page-caption">Add Menu Masters</h1>
+	</div>
+
+	<form #form="ngForm" novalidate>
+
+		<!-- ============================================
+			 Section 2: Input fields
+			 ============================================ -->
+		<div class="page-card">
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldTableOrView">Table Or View</label>
+					<input type="text" id="fldTableOrView" class="form-control" name="fldTableOrView" [(ngModel)]="model.fldTableOrView" maxlength="1" required>
+					<div class="text-danger" *ngIf="form.controls['fldTableOrView']?.touched && form.controls['fldTableOrView']?.invalid">
+						Table Or View is required.
+					</div>
+
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldFKCategory">F K Category</label>
+					<select id="fldFKCategory" class="form-select" name="fldFKCategory" [(ngModel)]="model.fldFKCategory" (change)="onSelectChange($event, 'fldCategory')" required>
+						<option value="">-- Select --</option>
+						<option *ngFor="let tblPropertyCategory of tblPropertyCategory$ | async" [value]="tblPropertyCategory.fldId">{{ tblPropertyCategory.fldDescription }}</option>
+					</select>
+					<div class="text-danger" *ngIf="form.controls['fldFKCategory']?.touched && form.controls['fldFKCategory']?.invalid">
+						F K Category is required and should be greater than 0.
+					</div>
+
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldCategory">Category</label>
+					<input type="text" id="fldCategory" class="form-control" name="fldCategory" [(ngModel)]="model.fldCategory" maxlength="50" required>
+					<div class="text-danger" *ngIf="form.controls['fldCategory']?.touched && form.controls['fldCategory']?.invalid">
+						Category is required.
+					</div>
+
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldMenuName">Menu Name</label>
+					<input type="text" id="fldMenuName" class="form-control" name="fldMenuName" [(ngModel)]="model.fldMenuName" maxlength="50" required>
+					<div class="text-danger" *ngIf="form.controls['fldMenuName']?.touched && form.controls['fldMenuName']?.invalid">
+						Menu Name is required.
+					</div>
+
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldTableOrViewName">Table Or View Name</label>
+					<input type="text" id="fldTableOrViewName" class="form-control" name="fldTableOrViewName" [(ngModel)]="model.fldTableOrViewName" maxlength="50" required>
+					<div class="text-danger" *ngIf="form.controls['fldTableOrViewName']?.touched && form.controls['fldTableOrViewName']?.invalid">
+						Table Or View Name is required.
+					</div>
+
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldCondition">Condition</label>
+					<input type="text" id="fldCondition" class="form-control" name="fldCondition" [(ngModel)]="model.fldCondition" maxlength="50">
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldRoleOfTheMenu">Role Of The Menu</label>
+					<input type="text" id="fldRoleOfTheMenu" class="form-control" name="fldRoleOfTheMenu" [(ngModel)]="model.fldRoleOfTheMenu" maxlength="50">
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldControllerName">Controller Name</label>
+					<input type="text" id="fldControllerName" class="form-control" name="fldControllerName" [(ngModel)]="model.fldControllerName" maxlength="50">
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldIcon">Icon</label>
+					<input type="text" id="fldIcon" class="form-control" name="fldIcon" [(ngModel)]="model.fldIcon" maxlength="50">
+				</div>
+				<div class="col-3 field-group field-group-switch">
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="fldIsProcessProgram" name="fldIsProcessProgram" [(ngModel)]="model.fldIsProcessProgram">
+						<label class="form-check-label" for="fldIsProcessProgram">Is Process Program</label>
+					</div>
+					<div class="text-danger" *ngIf="form.controls['fldIsProcessProgram']?.touched && form.controls['fldIsProcessProgram']?.invalid">
+						Is Process Program is required.
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+		<!-- ============================================
+			 Section 3: Command buttons
+			 ============================================ -->
+		<div class="page-actions-bar">
+			<button type="button" (click)="OnFormSubmit(form, 'SaveAndAddNew')" class="btn-app btn-save" [disabled]="isSaving">
+				<i class="bi bi-floppy"></i>
+				Save &amp; Add New
+			</button>
+			<button type="button" (click)="OnFormSubmit(form, 'SaveAndClose')" class="btn-app btn-new" [disabled]="isSaving">
+				<i class="bi bi-check2-circle"></i>
+				Save &amp; Close
+			</button>
+			<button type="button" (click)="backToHome()" class="btn-app btn-dark">
+				<i class="bi bi-arrow-left"></i>
+				Back
+			</button>
+		</div>
+
+	</form>
+
+</div>

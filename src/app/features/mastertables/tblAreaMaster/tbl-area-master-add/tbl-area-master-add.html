@@ -1,0 +1,128 @@
+<div class="container grid-page-shell">
+
+	<!-- ============================================
+		 Section 1: Caption
+		 ============================================ -->
+	<div class="page-header-bar-simple">
+		<h1 class="page-caption">Add Area Masters</h1>
+	</div>
+
+	<form #form="ngForm" novalidate>
+
+		<!-- ============================================
+			 Section 2: Input fields
+			 ============================================ -->
+		<div class="page-card">
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldFKState">State</label>
+
+					<select id="fldFKState" class="form-select" name="fldFKState" [(ngModel)]="model.fldFKState"
+						(change)="onSelectChange($event, 'fldState')" required>
+						<option value="">-- Select --</option>
+						<option *ngFor="let tblStateMaster of tblStateMaster$ | async" [value]="tblStateMaster.fldId">{{
+							tblStateMaster.fldStateName }}</option>
+					</select>
+					<div class="text-danger"
+						*ngIf="form.controls['fldFKState']?.touched && form.controls['fldFKState']?.invalid">
+						F K State is required and should be greater than 0.
+					</div>
+
+					<input type="text" id="fldState" class="form-control" name="fldState" [(ngModel)]="model.fldState"
+						maxlength="50" hidden>
+				</div>
+			<!-- </div>
+
+			<div class="d-flex flex-row form-row"> -->
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldFKCity">City</label>
+					<select id="fldFKCity" class="form-select" name="fldFKCity" [(ngModel)]="model.fldFKCity"
+						(change)="onSelectChange($event, 'fldCity')" required>
+						<option value="">-- Select --</option>
+						<option *ngFor="let tblPropertyCity of tblPropertyCity$ | async"
+							[value]="tblPropertyCity.fldId">{{ tblPropertyCity.fldDescription }}</option>
+					</select>
+					<div class="text-danger"
+						*ngIf="form.controls['fldFKCity']?.touched && form.controls['fldFKCity']?.invalid">
+						F K City is required and should be greater than 0.
+					</div>
+
+					<input type="text" id="fldCity" class="form-control" name="fldCity" [(ngModel)]="model.fldCity"
+						maxlength="50" hidden>
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldFKArea">Area</label>
+					<select id="fldFKArea" class="form-select" name="fldFKArea" [(ngModel)]="model.fldFKArea"
+						(change)="onSelectChange($event, 'fldArea')" required>
+						<option value="">-- Select --</option>
+						<option *ngFor="let tblPropertyArea of tblPropertyArea$ | async"
+							[value]="tblPropertyArea.fldId">{{ tblPropertyArea.fldDescription }}</option>
+					</select>
+					<div class="text-danger"
+						*ngIf="form.controls['fldFKArea']?.touched && form.controls['fldFKArea']?.invalid">
+						F K Area is required and should be greater than 0.
+					</div>
+
+					<input type="text" id="fldArea" class="form-control" name="fldArea" [(ngModel)]="model.fldArea"
+						maxlength="50" hidden>
+				</div>
+			<!-- </div>
+
+			<div class="d-flex flex-row form-row"> -->
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldFKPincode">Pincode</label>
+					<select id="fldFKPincode" class="form-select" name="fldFKPincode" [(ngModel)]="model.fldFKPincode" (change)="onSelectChange($event, 'fldPincode')" required>
+						<option value="">-- Select --</option>
+						<option *ngFor="let tblPropertyPincode of tblPropertyPincode$ | async"
+							[value]="tblPropertyPincode.fldId">{{ tblPropertyPincode.fldDescription }}</option>
+					</select>
+					<div class="text-danger"
+						*ngIf="form.controls['fldFKPincode']?.touched && form.controls['fldFKPincode']?.invalid">
+						F K Pincode is required and should be greater than 0.
+					</div>
+
+					<input type="text" id="fldPincode" class="form-control" name="fldPincode"
+						[(ngModel)]="model.fldPincode" maxlength="50" hidden>
+
+					<input type="number" id="fldStateCode" class="form-control" name="fldStateCode"
+						[(ngModel)]="model.fldStateCode" step="1" min="0" hidden>
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+
+					<input type="text" id="fldStateShortCode" class="form-control" name="fldStateShortCode"
+						[(ngModel)]="model.fldStateShortCode" maxlength="5" hidden>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- ============================================
+			 Section 3: Command buttons
+			 ============================================ -->
+		<div class="page-actions-bar">
+			<button type="button" (click)="OnFormSubmit(form, 'SaveAndAddNew')" class="btn-app btn-save"
+				[disabled]="isSaving">
+				<i class="bi bi-floppy"></i>
+				Save &amp; Add New
+			</button>
+			<button type="button" (click)="OnFormSubmit(form, 'SaveAndClose')" class="btn-app btn-new"
+				[disabled]="isSaving">
+				<i class="bi bi-check2-circle"></i>
+				Save &amp; Close
+			</button>
+			<button type="button" (click)="backToHome()" class="btn-app btn-dark">
+				<i class="bi bi-arrow-left"></i>
+				Back
+			</button>
+		</div>
+
+	</form>
+
+</div>

@@ -1,0 +1,73 @@
+<div class="container grid-page-shell">
+	<!-- ============================================
+		 Section 1: Caption
+		 ============================================ -->
+	<div class="page-header-bar-simple">
+		<h1 class="page-caption">{{ actionType }} State Masters</h1>
+	</div>
+
+	<ng-container *ngIf="tblStateMaster; else notFound">
+
+		<form #form="ngForm" (ngSubmit)="OnFormSubmit()">
+
+			<!-- ============================================
+				 Section 2: Input fields
+				 ============================================ -->
+			<div class="page-card">
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldStateName">State Name</label>
+						<input type="text" id="fldStateName" class="form-control" name="fldStateName" [(ngModel)]="tblStateMaster.fldStateName" maxlength="100">
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldStateCode">State Code</label>
+						<input type="text" id="fldStateCode" class="form-control" name="fldStateCode" [(ngModel)]="tblStateMaster.fldStateCode" maxlength="2">
+					</div>
+				</div>
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldShortName">Short Name</label>
+						<input type="text" id="fldShortName" class="form-control" name="fldShortName" [(ngModel)]="tblStateMaster.fldShortName" maxlength="30">
+					</div>
+				</div>
+				<input id="fldId" name="fldId"[(ngModel)] = "tblStateMaster.fldId" hidden>
+				<input id="fldIsActive" name="fldIsActive"[(ngModel)] = "tblStateMaster.fldIsActive" hidden>
+				<input id="fldCreatedBy" name="fldCreatedBy"[(ngModel)] = "tblStateMaster.fldCreatedBy" hidden>
+				<input id="fldCreatedDt" name="fldCreatedDt"[(ngModel)] = "tblStateMaster.fldCreatedDt" hidden>
+
+			</div>
+
+			<!-- ============================================
+				 Section 3: Command buttons
+				 ============================================ -->
+			<div class="page-actions-bar">
+				<button type="submit" (click)="submitAction = 'Edit'" class="btn-app btn-save" [disabled]="actionType !== 'Edit'"
+					[attr.title]="actionType !== 'Edit' ? 'Only editable records can be saved' : 'Save changes'">
+					<i class="bi bi-floppy"></i>
+					Save
+				</button>
+				<button type="submit" (click)="submitAction = 'Delete'" class="btn-app btn-delete" [disabled]="actionType !== 'Delete'"
+					[attr.title]="actionType !== 'Delete' ? 'Only deletable records can be removed' : 'Delete record'">
+					<i class="bi bi-trash3"></i>
+					Delete
+				</button>
+				<button type="button" (click)="backToHome()" class="btn-app btn-dark">
+					<i class="bi bi-arrow-left"></i>
+					Back
+				</button>
+			</div>
+
+		</form>
+
+	</ng-container>
+
+	<ng-template #notFound>
+		<div class="page-card">
+			<div class="alert alert-warning mb-0" role="alert">
+				TblStateMaster Not Found
+			</div>
+		</div>
+	</ng-template>
+
+</div>

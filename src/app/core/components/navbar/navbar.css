@@ -1,0 +1,256 @@
+/* =========================================================
+   BizTrack360 - Enterprise Admin Sidebar
+   ========================================================= */
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.sidebar {
+  width: 260px;
+  min-height: 100vh;
+  overflow-y: auto;
+
+  background-color: #e8ecfc;
+
+  border-right: 1px solid #c9cee0;
+
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.main-content {
+  min-width: 0;
+  width: 100%;
+  padding: 20px;
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+
+/* Minimized sidebar */
+.app-layout.sidebar-collapsed {
+  grid-template-columns: 70px 1fr;
+}
+
+.app-layout.sidebar-collapsed .sidebar {
+  width: 70px;
+}
+
+/* =========================================================
+   Header
+   ========================================================= */
+
+.sidebar-header {
+  padding: 26px 20px 30px 20px;
+}
+
+.brand-name {
+  color: #06457d;
+
+  font-size: 24px;
+  font-weight: 600;
+
+  line-height: 1.2;
+}
+
+.brand-subtitle {
+  color: #444b5a;
+
+  font-size: 13px;
+  font-weight: 400;
+
+  margin-top: 4px;
+}
+
+
+/* =========================================================
+   Navigation
+   ========================================================= */
+
+.sidebar-nav {
+  padding: 0 10px;
+}
+
+
+/* =========================================================
+   Main Menu Item
+   ========================================================= */
+
+.nav-item {
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+
+  position: relative;
+
+  padding: 0 12px 0 16px;
+
+  margin: 4px 0;
+
+  color: #183d67;
+
+  font-size: 15px;
+  font-weight: 400;
+
+  text-decoration: none;
+
+  border-radius: 4px;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+
+/* Icon */
+
+.nav-icon {
+  width: 28px;
+
+  font-size: 19px;
+
+  margin-right: 13px;
+
+  color: #16456f;
+}
+
+
+/* Menu text */
+
+.nav-item span {
+  flex: 1;
+}
+
+
+/* Arrow */
+
+.menu-arrow {
+  font-size: 11px;
+
+  margin-left: auto;
+
+  color: #68758a;
+}
+
+
+/* =========================================================
+   Hover
+   ========================================================= */
+
+.nav-item:hover {
+  background-color: #dde4f8;
+
+  color: #063f72;
+}
+
+.nav-item:hover .nav-icon {
+  color: #063f72;
+}
+
+
+/* =========================================================
+   Active menu
+   ========================================================= */
+
+.nav-item.active {
+  background-color: transparent;
+
+  color: #003f73;
+
+  font-weight: 500;
+}
+
+
+/*
+   Right-side blue active indicator
+   Similar to the indicator in your screenshot
+*/
+
+.nav-item.active::after {
+  content: "";
+
+  position: absolute;
+
+  right: 0;
+
+  top: 7px;
+  bottom: 7px;
+
+  width: 4px;
+
+  background-color: #004b82;
+
+  border-radius: 3px 0 0 3px;
+}
+
+
+/* =========================================================
+   Submenu
+   ========================================================= */
+
+.submenu {
+  margin: 0 0 6px 0;
+
+  padding: 3px 0 4px 57px;
+}
+
+
+/* Submenu item */
+
+.submenu a {
+  display: block;
+
+  padding: 8px 10px;
+
+  color: #41516a;
+
+  font-size: 14px;
+
+  text-decoration: none;
+
+  border-radius: 3px;
+}
+
+
+/* Submenu hover */
+
+.submenu a:hover {
+  background-color: #dce3f7;
+
+  color: #06457d;
+}
+
+
+/* Active submenu */
+
+.submenu a.active-submenu {
+  color: #06457d;
+
+  font-weight: 500;
+
+  background-color: #dce3f7;
+}
+
+
+/* =========================================================
+   Scrollbar
+   ========================================================= */
+
+.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #b7bfd5;
+
+  border-radius: 5px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background-color: transparent;
+}

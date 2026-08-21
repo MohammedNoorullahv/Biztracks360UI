@@ -1,0 +1,103 @@
+<div class="container grid-page-shell">
+	<!-- ============================================
+		 Section 1: Caption
+		 ============================================ -->
+	<div class="page-header-bar-simple">
+		<h1 class="page-caption">{{ actionType }} H S N Masters</h1>
+	</div>
+
+	<ng-container *ngIf="tblHSNMaster; else notFound">
+
+		<form #form="ngForm" novalidate>
+
+			<!-- ============================================
+				 Section 2: Input fields
+				 ============================================ -->
+			<div class="page-card">
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldFKHSNCategory">F K H S N Category</label>
+						<select id="fldFKHSNCategory" class="form-select" name="fldFKHSNCategory" [(ngModel)]="tblHSNMaster.fldFKHSNCategory" required>
+							<option value="">-- Select --</option>
+							<option *ngFor="let tblPropertyHSNCategory of tblPropertyHSNCategory$ | async" [value]="tblPropertyHSNCategory.fldId"> {{ tblPropertyHSNCategory.fldDescription }}</option>
+						</select>
+						<div class="text-danger" *ngIf="form.controls['fldFKHSNCategory']?.touched && form.controls['fldFKHSNCategory']?.invalid">
+							F K H S N Category is required and should be greater than 0.
+						</div>
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldItemNames">Item Names</label>
+						<input type="text" id="fldItemNames" class="form-control" name="fldItemNames" [(ngModel)]="tblHSNMaster.fldItemNames" maxlength="200">
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldSalesCode">Sales Code</label>
+						<input type="text" id="fldSalesCode" class="form-control" name="fldSalesCode" [(ngModel)]="tblHSNMaster.fldSalesCode" maxlength="50" required>
+						<div class="text-danger" *ngIf="form.controls['fldSalesCode']?.touched && form.controls['fldSalesCode']?.invalid">
+							Sales Code is required.
+						</div>
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldJobworkCode">Jobwork Code</label>
+						<input type="text" id="fldJobworkCode" class="form-control" name="fldJobworkCode" [(ngModel)]="tblHSNMaster.fldJobworkCode" maxlength="50">
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldGSTSalesPercentage">G S T Sales Percentage</label>
+						<input type="number" id="fldGSTSalesPercentage" class="form-control" name="fldGSTSalesPercentage" [(ngModel)]="tblHSNMaster.fldGSTSalesPercentage" step="0.01" min="0" required>
+						<div class="text-danger" *ngIf="form.controls['fldGSTSalesPercentage']?.touched && form.controls['fldGSTSalesPercentage']?.invalid">
+							G S T Sales Percentage is required and should be greater than 0.
+						</div>
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldGSTJobworkPercentage">G S T Jobwork Percentage</label>
+						<input type="number" id="fldGSTJobworkPercentage" class="form-control" name="fldGSTJobworkPercentage" [(ngModel)]="tblHSNMaster.fldGSTJobworkPercentage" step="0.01" min="0" required>
+						<div class="text-danger" *ngIf="form.controls['fldGSTJobworkPercentage']?.touched && form.controls['fldGSTJobworkPercentage']?.invalid">
+							G S T Jobwork Percentage is required and should be greater than 0.
+						</div>
+					</div>
+				</div>
+
+				<input id="fldId" name="fldId" [(ngModel)]="tblHSNMaster.fldId" hidden>
+				<input id="fldIsActive" name="fldIsActive" [(ngModel)]="tblHSNMaster.fldIsActive" hidden>
+				<input id="fldCreatedBy" name="fldCreatedBy" [(ngModel)]="tblHSNMaster.fldCreatedBy" hidden>
+				<input id="fldCreatedDt" name="fldCreatedDt" [(ngModel)]="tblHSNMaster.fldCreatedDt" hidden>
+
+			</div>
+
+			<!-- ============================================
+				 Section 3: Command buttons
+				 ============================================ -->
+			<div class="page-actions-bar">
+				<button type="button" (click)="submitAction = 'Edit'; OnFormSubmit(form)" class="btn-app btn-save" [disabled]="actionType !== 'Edit'">
+					<i class="bi bi-floppy"></i>
+					Save
+				</button>
+				<button type="button" (click)="submitAction = 'Delete'; OnFormSubmit(form)" class="btn-app btn-delete" [disabled]="actionType !== 'Delete'">
+					<i class="bi bi-trash3"></i>
+					Delete
+				</button>
+				<button type="button" (click)="backToHome()" class="btn-app btn-dark">
+					<i class="bi bi-arrow-left"></i>
+					Back
+				</button>
+			</div>
+
+		</form>
+
+	</ng-container>
+
+	<ng-template #notFound>
+		<div class="page-card">
+			<div class="alert alert-warning mb-0" role="alert">
+				TblHSNMaster Not Found
+			</div>
+		</div>
+	</ng-template>
+
+</div>

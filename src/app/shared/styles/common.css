@@ -1,0 +1,634 @@
+/* =========================================================
+   BizTrack360 - Common Page Styles
+   Toolbar, Data Grid, Badges, Action Buttons
+   (Reusable across every list / master page,
+    independent of the sidebar in navbar.css)
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   Page shell - light backdrop so the panel below reads as
+   a distinct "feature panel", not a flat page
+   --------------------------------------------------------- */
+
+.grid-page-shell {
+  background-color: #eef1f8;
+
+  padding: 20px 22px 26px 22px;
+
+  border-radius: 12px;
+}
+
+.page-card {
+  background-color: #ffffff;
+
+  border: 1px solid #e3e7f3;
+  border-radius: 12px;
+
+  padding: 20px 22px 14px 22px;
+
+  box-shadow: 0 4px 14px rgba(16, 24, 64, 0.08);
+}
+
+.page-title {
+  color: #1c2b45;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  margin: 0 0 14px 0;
+}
+
+
+/* ---------------------------------------------------------
+   Page header bar - caption + all page-level actions,
+   sitting above the grid panel as its own panel.
+   Echoes the brand mark (same navy, same Arial family) and
+   borrows the sidebar's active-item accent bar motif, but
+   with its own gradient accent so it reads as a distinct,
+   purpose-built header rather than a repeat of the sidebar
+   or a plain copy of the grid card below it.
+   --------------------------------------------------------- */
+
+.page-header-bar {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+
+  background-color: #ffffff;
+
+  border: 1px solid #e3e7f3;
+  border-radius: 12px;
+
+  padding: 16px 22px 16px 28px;
+
+  margin-bottom: 16px;
+
+  box-shadow: 0 4px 14px rgba(16, 24, 64, 0.07);
+
+  overflow: hidden;
+}
+
+.page-header-bar::before {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  width: 5px;
+
+  background: linear-gradient(180deg, #06457d 0%, #1a76c4 100%);
+}
+
+/* Caption - same brand family/colour as the BizTrack360 logo,
+   sized between the logo (24px) and body copy (13-14px) */
+
+.page-caption {
+  color: #06457d;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+
+  letter-spacing: 0.01em;
+
+  margin: 0;
+  white-space: nowrap;
+}
+
+.page-header-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.header-divider {
+  width: 1px;
+  height: 22px;
+
+  background-color: #e3e7f3;
+
+  margin: 0 2px;
+}
+
+
+/* ---------------------------------------------------------
+   Toolbar (filter / export / pagination / New Record)
+   --------------------------------------------------------- */
+
+.grid-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-bottom: 14px;
+}
+
+.toolbar-left,
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination-info {
+  color: #5b647a;
+
+  font-size: 13px;
+
+  margin-right: 4px;
+  white-space: nowrap;
+}
+
+.pager-btn {
+  width: 30px;
+  height: 30px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #ffffff;
+  border: 1px solid #d5dae8;
+  border-radius: 6px;
+
+  color: #445068;
+
+  cursor: pointer;
+
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.pager-btn:hover:not(:disabled) {
+  background-color: #eef1fb;
+  border-color: #c3cbe4;
+}
+
+.pager-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+
+/* ---------------------------------------------------------
+   Buttons - base
+   --------------------------------------------------------- */
+
+.btn-app {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  height: 38px;
+  padding: 0 16px;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+
+  border: 1px solid transparent;
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.btn-app:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-app .bi {
+  font-size: 15px;
+}
+
+/* Neutral / outline utility button, e.g. "Filter", "Export CSV" */
+
+.btn-outline {
+  background-color: #ffffff;
+  border-color: #d5dae8;
+  color: #3a4560;
+}
+
+.btn-outline:hover:not(:disabled) {
+  background-color: #f2f4fb;
+  border-color: #c3cbe4;
+}
+
+/* Toggle style used for "All Records" / "Active Records" */
+
+.btn-toggle {
+  background-color: #ffffff;
+  border-color: #c9cee0;
+  color: #444b5a;
+}
+
+.btn-toggle:hover:not(:disabled) {
+  background-color: #eef1fb;
+}
+
+.btn-toggle[disabled] {
+  background-color: #dde4f8;
+  border-color: #b9c3e6;
+  color: #06457d;
+  opacity: 1;
+  font-weight: 700;
+}
+
+
+/* ---------------------------------------------------------
+   Buttons - action colours
+   New / Save / Update / Delete / Back
+   --------------------------------------------------------- */
+
+/* New - primary navy, matches sidebar brand colour */
+
+.btn-new {
+  background-color: #06457d;
+  color: #ffffff;
+}
+
+.btn-new:hover:not(:disabled) {
+  background-color: #04365f;
+}
+
+/* Save - success green */
+
+.btn-save {
+  background-color: #1c8a4b;
+  color: #ffffff;
+}
+
+.btn-save:hover:not(:disabled) {
+  background-color: #146c3a;
+}
+
+/* Update - amber */
+
+.btn-update {
+  background-color: #d98a1a;
+  color: #ffffff;
+}
+
+.btn-update:hover:not(:disabled) {
+  background-color: #b3720f;
+}
+
+/* Delete - danger red */
+
+.btn-delete {
+  background-color: #d1394a;
+  color: #ffffff;
+}
+
+.btn-delete:hover:not(:disabled) {
+  background-color: #ab1f30;
+}
+
+/* Back - neutral grey, low emphasis */
+
+.btn-back {
+  background-color: #ffffff;
+  border-color: #c9cee0;
+  color: #444b5a;
+}
+
+.btn-back:hover:not(:disabled) {
+  background-color: #eceff5;
+  border-color: #b6bdd4;
+}
+
+
+/* ---------------------------------------------------------
+   Row-level icon buttons (Actions column)
+   --------------------------------------------------------- */
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.icon-btn {
+  width: 30px;
+  height: 30px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 6px;
+  background-color: transparent;
+
+  color: #68758a;
+
+  cursor: pointer;
+
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.icon-btn.edit:hover {
+  background-color: #dde4f8;
+  color: #06457d;
+}
+
+.icon-btn.delete:hover {
+  background-color: #fbe1e4;
+  color: #ab1f30;
+}
+
+
+/* ---------------------------------------------------------
+   Data grid table
+   --------------------------------------------------------- */
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table thead th {
+  background-color: #16324f;
+
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+
+  text-align: left;
+
+  padding: 12px 14px;
+
+  border-bottom: 1px solid #16324f;
+  white-space: nowrap;
+}
+
+.data-table thead th:first-child {
+  border-top-left-radius: 6px;
+}
+
+.data-table thead th:last-child {
+  border-top-right-radius: 6px;
+}
+
+.data-table tbody td {
+  padding: 14px;
+
+  font-size: 14px;
+  color: #2a3350;
+
+  border-bottom: 1px solid #eef0f7;
+
+  vertical-align: middle;
+}
+
+.data-table tbody tr:hover {
+  background-color: #f7f8fd;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Code-style column, e.g. Id / Sl No */
+
+.cell-code {
+  color: #06457d;
+  font-weight: 700;
+  font-size: 13.5px;
+}
+
+/* Bold primary label column, e.g. Description */
+
+.cell-primary {
+  font-weight: 600;
+  color: #1c2b45;
+}
+
+/* Monospace column, e.g. Short Name / GST-style codes */
+
+.cell-mono {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
+  color: #414c63;
+}
+
+.cell-muted {
+  color: #8a92a6;
+  font-style: italic;
+}
+
+
+/* ---------------------------------------------------------
+   Status / boolean badges
+   --------------------------------------------------------- */
+
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 4px 11px;
+
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+
+  border-radius: 999px;
+}
+
+.badge-pill::before {
+  content: "";
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background-color: currentColor;
+}
+
+.badge-success {
+  background-color: #dcf3e6;
+  color: #16824a;
+}
+
+.badge-muted {
+  background-color: #e6e9f3;
+  color: #5b647a;
+}
+
+
+/* ---------------------------------------------------------
+   Grid footer caption
+   --------------------------------------------------------- */
+
+.grid-footnote {
+  color: #8a92a6;
+
+  font-size: 12px;
+  font-style: italic;
+
+  margin: 10px 2px 4px 2px;
+}
+
+.page-header-bar-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+
+  background-color: #ffffff;
+  border: 1px solid #e3e7f3;
+  border-radius: 12px;
+
+  padding: 12px 22px;
+  margin-bottom: 16px;
+
+  box-shadow: 0 4px 14px rgba(16, 24, 64, 0.07);
+}
+
+.page-header-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.page-header-bar-simple {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  background-color: #ffffff;
+  border: 1px solid #e3e7f3;
+  border-radius: 12px;
+
+  padding: 16px 22px;
+  margin-bottom: 16px;
+
+  box-shadow: 0 4px 14px rgba(16, 24, 64, 0.07);
+}
+
+.form-row {
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-group-switch {
+  justify-content: center;
+}
+
+.form-label {
+  color: #33405c;
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.form-control {
+  border: 2px solid #b6bdd4; /* Thicker width and a more defined grey-blue color */
+  border-radius: 6px;
+  padding: 8px 12px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.form-control:focus {
+  border-color: #1a76c4;
+  box-shadow: 0 0 0 0.2rem rgba(6, 69, 125, 0.15);
+}
+
+.form-check-input:checked {
+  background-color: #06457d;
+  border-color: #06457d;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn-dark {
+  background-color: #1c1f26;
+  color: #ffffff;
+}
+
+.btn-dark:hover:not(:disabled) {
+  background-color: #0e1015;
+}
+
+.page-actions-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+
+  background-color: #ffffff;
+  border: 1px solid #e3e7f3;
+  border-radius: 12px;
+
+  padding: 16px 22px;
+  margin-top: 16px;
+
+  box-shadow: 0 4px 14px rgba(16, 24, 64, 0.07);
+}
+
+/* Give every stacked section panel (caption / fields / actions)
+   a strong top accent so each reads as its own distinct panel,
+   not just a shadowed rectangle blending into the next */
+
+.page-header-bar-simple,
+.page-card,
+.page-actions-bar {
+  border-top: 2px solid #06457d;
+  border-left: 2px solid #06457d;
+  border-right: 2px solid #06457d;
+  border-bottom: 2px solid #06457d;
+  box-shadow: 0 6px 18px rgba(16, 24, 64, 0.12);
+}
+
+.page-header-bar-simple {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* was: space-between */
+  gap: 14px;
+
+  background-color: #ffffff;
+  border: 2px solid #1a76c4;
+  border-radius: 12px;
+
+  padding: 16px 22px;
+  margin-bottom: 5px;
+
+  box-shadow: 0 6px 18px rgba(16, 24, 64, 0.12);
+}
+
+.page-actions-bar {
+  margin-top: 1px;
+}

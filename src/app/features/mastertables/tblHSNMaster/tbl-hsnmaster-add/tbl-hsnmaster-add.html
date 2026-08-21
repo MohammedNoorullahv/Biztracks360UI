@@ -1,0 +1,92 @@
+<div class="container grid-page-shell">
+
+	<!-- ============================================
+		 Section 1: Caption
+		 ============================================ -->
+	<div class="page-header-bar-simple">
+		<h1 class="page-caption">Add H S N Masters</h1>
+	</div>
+
+	<form #form="ngForm" novalidate>
+
+		<!-- ============================================
+			 Section 2: Input fields
+			 ============================================ -->
+		<div class="page-card">
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldFKHSNCategory">F K H S N Category</label>
+					<select id="fldFKHSNCategory" class="form-select" name="fldFKHSNCategory" [(ngModel)]="model.fldFKHSNCategory" required>
+						<option value="">-- Select --</option>
+						<option *ngFor="let tblPropertyHSNCategory of tblPropertyHSNCategory$ | async" [value]="tblPropertyHSNCategory.fldId">{{ tblPropertyHSNCategory.fldDescription }}</option>
+					</select>
+					<div class="text-danger" *ngIf="form.controls['fldFKHSNCategory']?.touched && form.controls['fldFKHSNCategory']?.invalid">
+						F K H S N Category is required and should be greater than 0.
+					</div>
+
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldItemNames">Item Names</label>
+					<input type="text" id="fldItemNames" class="form-control" name="fldItemNames" [(ngModel)]="model.fldItemNames" maxlength="200">
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldSalesCode">Sales Code</label>
+					<input type="text" id="fldSalesCode" class="form-control" name="fldSalesCode" [(ngModel)]="model.fldSalesCode" maxlength="50" required>
+					<div class="text-danger" *ngIf="form.controls['fldSalesCode']?.touched && form.controls['fldSalesCode']?.invalid">
+						Sales Code is required.
+					</div>
+
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldJobworkCode">Jobwork Code</label>
+					<input type="text" id="fldJobworkCode" class="form-control" name="fldJobworkCode" [(ngModel)]="model.fldJobworkCode" maxlength="50">
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldGSTSalesPercentage">G S T Sales Percentage</label>
+					<input type="number" id="fldGSTSalesPercentage" class="form-control" name="fldGSTSalesPercentage" [(ngModel)]="model.fldGSTSalesPercentage" step="0.01" min="0" required>
+					<div class="text-danger" *ngIf="form.controls['fldGSTSalesPercentage']?.touched && form.controls['fldGSTSalesPercentage']?.invalid">
+						G S T Sales Percentage is required and should be greater than 0.
+					</div>
+
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldGSTJobworkPercentage">G S T Jobwork Percentage</label>
+					<input type="number" id="fldGSTJobworkPercentage" class="form-control" name="fldGSTJobworkPercentage" [(ngModel)]="model.fldGSTJobworkPercentage" step="0.01" min="0" required>
+					<div class="text-danger" *ngIf="form.controls['fldGSTJobworkPercentage']?.touched && form.controls['fldGSTJobworkPercentage']?.invalid">
+						G S T Jobwork Percentage is required and should be greater than 0.
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+		<!-- ============================================
+			 Section 3: Command buttons
+			 ============================================ -->
+		<div class="page-actions-bar">
+			<button type="button" (click)="OnFormSubmit(form, 'SaveAndAddNew')" class="btn-app btn-save" [disabled]="isSaving">
+				<i class="bi bi-floppy"></i>
+				Save &amp; Add New
+			</button>
+			<button type="button" (click)="OnFormSubmit(form, 'SaveAndClose')" class="btn-app btn-new" [disabled]="isSaving">
+				<i class="bi bi-check2-circle"></i>
+				Save &amp; Close
+			</button>
+			<button type="button" (click)="backToHome()" class="btn-app btn-dark">
+				<i class="bi bi-arrow-left"></i>
+				Back
+			</button>
+		</div>
+
+	</form>
+
+</div>
+

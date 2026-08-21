@@ -1,0 +1,208 @@
+<div class="app-layout" [class.sidebar-collapsed]="isSidebarCollapsed">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <!-- Application Header -->
+    <div class="sidebar-header">
+      <div class="brand-name">BizTrack360</div>
+      <div class="brand-subtitle">Enterprise Admin</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+
+      <!-- Dashboard -->
+      <a class="nav-item" routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+
+        <i class="bi bi-grid-3x3-gap-fill nav-icon"></i>
+        <span>Dashboard</span>
+      </a>
+
+
+      <!-- Invoicing -->
+      <div class="menu-group">
+
+        <div class="nav-item" (click)="toggleMenu('invoicing')">
+
+          <i class="bi bi-receipt nav-icon"></i>
+          <span>Invoicing</span>
+
+          <i class="bi" [ngClass]="isMenuOpen('invoicing')
+             ? 'bi-chevron-down menu-arrow'
+             : 'bi-chevron-right menu-arrow'">
+          </i>
+        </div>
+
+        <div class="submenu" *ngIf="isMenuOpen('invoicing')">
+
+          <a routerLink="/invoicing/invoiceMaster" routerLinkActive="active-submenu">
+            Invoice Master
+          </a>
+
+          <a routerLink="/invoicing/invoiceList" routerLinkActive="active-submenu">
+            Invoice List
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- Receivables -->
+      <div class="menu-group">
+
+        <div class="nav-item" (click)="toggleMenu('receivables')">
+
+          <i class="bi bi-wallet2 nav-icon"></i>
+          <span>Receivables</span>
+
+          <i class="bi" [ngClass]="isMenuOpen('receivables')
+             ? 'bi-chevron-down menu-arrow'
+             : 'bi-chevron-right menu-arrow'">
+          </i>
+        </div>
+
+        <div class="submenu" *ngIf="isMenuOpen('receivables')">
+
+          <a routerLink="/receivables/customer" routerLinkActive="active-submenu">
+            Customers
+          </a>
+
+          <a routerLink="/receivables/receipt" routerLinkActive="active-submenu">
+            Receipts
+          </a>
+
+          <a routerLink="/receivables/outstanding" routerLinkActive="active-submenu">
+            Outstanding
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- Payables -->
+      <div class="menu-group">
+
+        <div class="nav-item" (click)="toggleMenu('payables')">
+
+          <i class="bi bi-cash-stack nav-icon"></i>
+          <span>Payables</span>
+
+          <i class="bi" [ngClass]="isMenuOpen('payables')
+             ? 'bi-chevron-down menu-arrow'
+             : 'bi-chevron-right menu-arrow'">
+          </i>
+        </div>
+
+        <div class="submenu" *ngIf="isMenuOpen('payables')">
+
+          <a routerLink="/payables/supplier" routerLinkActive="active-submenu">
+            Suppliers
+          </a>
+
+          <a routerLink="/payables/payment" routerLinkActive="active-submenu">
+            Payments
+          </a>
+
+          <a routerLink="/payables/outstanding" routerLinkActive="active-submenu">
+            Outstanding
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- Analytics -->
+      <div class="menu-group">
+
+        <div class="nav-item" (click)="toggleMenu('analytics')">
+
+          <i class="bi bi-bar-chart-fill nav-icon"></i>
+          <span>Analytics</span>
+
+          <i class="bi" [ngClass]="isMenuOpen('analytics')
+             ? 'bi-chevron-down menu-arrow'
+             : 'bi-chevron-right menu-arrow'">
+          </i>
+        </div>
+
+        <div class="submenu" *ngIf="isMenuOpen('analytics')">
+
+          <a routerLink="/analytics/sales" routerLinkActive="active-submenu">
+            Sales Analysis
+          </a>
+
+          <a routerLink="/analytics/receivables" routerLinkActive="active-submenu">
+            Receivables Analysis
+          </a>
+
+          <a routerLink="/analytics/payables" routerLinkActive="active-submenu">
+            Payables Analysis
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- Settings -->
+      <div class="menu-group">
+
+        <div class="nav-item" (click)="toggleMenu('settings')">
+
+          <i class="bi bi-gear-fill nav-icon"></i>
+          <span>Settings</span>
+
+          <i class="bi" [ngClass]="isMenuOpen('settings')
+             ? 'bi-chevron-down menu-arrow'
+             : 'bi-chevron-right menu-arrow'">
+          </i>
+        </div>
+
+        <div class="submenu" *ngIf="isMenuOpen('settings')">
+
+          <!-- Retained from your existing navbar -->
+          <a routerLink="/mastertables/tblPropertyMaster" routerLinkActive="active-submenu">
+            Property Master
+          </a>
+
+          <a routerLink="/mastertables/tblProperty" routerLinkActive="active-submenu">
+            Property
+          </a>
+
+          <a routerLink="/mastertables/tblStateMaster" routerLinkActive="active-submenu">State Master</a>
+          <a routerLink="/mastertables/tblMenuMaster" routerLinkActive="active-submenu">Menu Master</a>
+          <a routerLink="/mastertables/tblHSNMaster" routerLinkActive="active-submenu">HSN Master</a>
+          <a routerLink="/mastertables/tblAreaMaster" routerLinkActive="active-submenu">Area Master</a>
+
+          <a routerLink="/settings/company" routerLinkActive="active-submenu">
+            Company
+          </a>
+
+          <a routerLink="/settings/users" routerLinkActive="active-submenu">
+            Users
+          </a>
+
+          <a routerLink="/settings/roles" routerLinkActive="active-submenu">
+            Roles & Access
+          </a>
+
+        </div>
+
+      </div>
+
+    </nav>
+
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <router-outlet></router-outlet>
+
+  </main>
+
+</div>
