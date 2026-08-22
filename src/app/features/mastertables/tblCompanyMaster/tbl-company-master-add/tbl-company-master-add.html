@@ -1,0 +1,183 @@
+<div class="container grid-page-shell">
+
+	<!-- ============================================
+		 Section 1: Caption
+		 ============================================ -->
+	<div class="page-header-bar-simple">
+		<h1 class="page-caption">Add Company Masters</h1>
+	</div>
+
+	<form #form="ngForm" novalidate>
+
+		<!-- ============================================
+			 Section 2: Input fields
+			 ============================================ -->
+		<div class="page-card">
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldFKUnitType">F K Unit Type</label>
+					<select id="fldFKUnitType" class="form-select" name="fldFKUnitType" [(ngModel)]="model.fldFKUnitType" required>
+						<option value="">-- Select --</option>
+						<option *ngFor="let tblPropertyUnitType of tblPropertyUnitType$ | async" [value]="tblPropertyUnitType.fldId">{{ tblPropertyUnitType.fldDescription }}</option>
+					</select>
+					<div class="text-danger" *ngIf="form.controls['fldFKUnitType']?.touched && form.controls['fldFKUnitType']?.invalid">
+						F K Unit Type is required and should be greater than 0.
+					</div>
+
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldCode">Code</label>
+					<input type="text" id="fldCode" class="form-control" name="fldCode" [(ngModel)]="model.fldCode" maxlength="5" required>
+					<div class="text-danger" *ngIf="form.controls['fldCode']?.touched && form.controls['fldCode']?.invalid">
+						Code is required.
+					</div>
+
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldName">Name</label>
+					<input type="text" id="fldName" class="form-control" name="fldName" [(ngModel)]="model.fldName" maxlength="100" required>
+					<div class="text-danger" *ngIf="form.controls['fldName']?.touched && form.controls['fldName']?.invalid">
+						Name is required.
+					</div>
+
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldShortName">Short Name</label>
+					<input type="text" id="fldShortName" class="form-control" name="fldShortName" [(ngModel)]="model.fldShortName" maxlength="10">
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldAddress1">Address1</label>
+					<input type="text" id="fldAddress1" class="form-control" name="fldAddress1" [(ngModel)]="model.fldAddress1" maxlength="100" required>
+					<div class="text-danger" *ngIf="form.controls['fldAddress1']?.touched && form.controls['fldAddress1']?.invalid">
+						Address1 is required.
+					</div>
+
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldAddress2">Address2</label>
+					<input type="text" id="fldAddress2" class="form-control" name="fldAddress2" [(ngModel)]="model.fldAddress2" maxlength="100">
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldFKArea">F K Area</label>
+					<select id="fldFKArea" class="form-select" name="fldFKArea" [(ngModel)]="model.fldFKArea" required>
+						<option value="">-- Select --</option>
+						<option *ngFor="let tblAreaMaster of tblAreaMaster$ | async" [value]="tblAreaMaster.fldId">{{ tblAreaMaster.fldArea }}</option>
+					</select>
+					<div class="text-danger" *ngIf="form.controls['fldFKArea']?.touched && form.controls['fldFKArea']?.invalid">
+						F K Area is required and should be greater than 0.
+					</div>
+
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldState">State</label>
+					<input type="text" id="fldState" class="form-control" name="fldState" [(ngModel)]="model.fldState" maxlength="50">
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldCity">City</label>
+					<input type="text" id="fldCity" class="form-control" name="fldCity" [(ngModel)]="model.fldCity" maxlength="50">
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldArea">Area</label>
+					<input type="text" id="fldArea" class="form-control" name="fldArea" [(ngModel)]="model.fldArea" maxlength="50">
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldPincode">Pincode</label>
+					<input type="text" id="fldPincode" class="form-control" name="fldPincode" [(ngModel)]="model.fldPincode" maxlength="50">
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldStateCode">State Code</label>
+					<input type="text" id="fldStateCode" class="form-control" name="fldStateCode" [(ngModel)]="model.fldStateCode" maxlength="50">
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldPANNo">P A N No</label>
+					<input type="text" id="fldPANNo" class="form-control" name="fldPANNo" [(ngModel)]="model.fldPANNo" maxlength="10">
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldGSTNo">G S T No</label>
+					<input type="text" id="fldGSTNo" class="form-control" name="fldGSTNo" [(ngModel)]="model.fldGSTNo" maxlength="15">
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldContactPersonName">Contact Person Name</label>
+					<input type="text" id="fldContactPersonName" class="form-control" name="fldContactPersonName" [(ngModel)]="model.fldContactPersonName" maxlength="50">
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldFKDesignation">F K Designation</label>
+					<select id="fldFKDesignation" class="form-select" name="fldFKDesignation" [(ngModel)]="model.fldFKDesignation" required>
+						<option value="">-- Select --</option>
+						<option *ngFor="let tblPropertyDesignation of tblPropertyDesignation$ | async" [value]="tblPropertyDesignation.fldId">{{ tblPropertyDesignation.fldDescription }}</option>
+					</select>
+					<div class="text-danger" *ngIf="form.controls['fldFKDesignation']?.touched && form.controls['fldFKDesignation']?.invalid">
+						F K Designation is required and should be greater than 0.
+					</div>
+
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldMobileNo">Mobile No</label>
+					<input type="text" id="fldMobileNo" class="form-control" name="fldMobileNo" [(ngModel)]="model.fldMobileNo" maxlength="30" required>
+					<div class="text-danger" *ngIf="form.controls['fldMobileNo']?.touched && form.controls['fldMobileNo']?.invalid">
+						Mobile No is required.
+					</div>
+
+				</div>
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldMailId">Mail Id</label>
+					<input type="text" id="fldMailId" class="form-control" name="fldMailId" [(ngModel)]="model.fldMailId" maxlength="30">
+				</div>
+			</div>
+
+			<div class="d-flex flex-row form-row">
+				<div class="col-3 field-group">
+					<label class="form-label" for="fldImagePath">Image Path</label>
+					<input type="text" id="fldImagePath" class="form-control" name="fldImagePath" [(ngModel)]="model.fldImagePath" maxlength="50">
+				</div>
+			</div>
+
+		</div>
+
+		<!-- ============================================
+			 Section 3: Command buttons
+			 ============================================ -->
+		<div class="page-actions-bar">
+			<button type="button" (click)="OnFormSubmit(form, 'SaveAndAddNew')" class="btn-app btn-save" [disabled]="isSaving">
+				<i class="bi bi-floppy"></i>
+				Save &amp; Add New
+			</button>
+			<button type="button" (click)="OnFormSubmit(form, 'SaveAndClose')" class="btn-app btn-new" [disabled]="isSaving">
+				<i class="bi bi-check2-circle"></i>
+				Save &amp; Close
+			</button>
+			<button type="button" (click)="backToHome()" class="btn-app btn-dark">
+				<i class="bi bi-arrow-left"></i>
+				Back
+			</button>
+		</div>
+
+	</form>
+
+</div>
+

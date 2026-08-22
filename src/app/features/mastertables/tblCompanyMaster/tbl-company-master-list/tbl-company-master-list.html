@@ -1,0 +1,146 @@
+<div class="container grid-page-shell">
+
+    <!-- ============================================
+		 Page header: caption + record toggle + New Record
+		 ============================================ -->
+    <div class="page-header-bar">
+
+        <h1 class="page-caption">TblCompanyMastersList</h1>
+
+        <div class="page-header-center">
+            <button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Load All'"
+                (click)="OnFormSubmit('Load All')"
+                [attr.title]="actionType !== 'Load All' ? 'Loading All Records' : 'All Records'">
+                <i class="bi bi-list-ul"></i>
+                All Records
+            </button>
+
+            <button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Active Only'"
+                (click)="OnFormSubmit('Active Only')"
+                [attr.title]="actionType !== 'Active Only' ? 'Loading Active Records' : 'Active Records'">
+                <i class="bi bi-check-circle"></i>
+                Active Records
+            </button>
+        </div>
+
+        <div class="page-header-right">
+            <a [routerLink]="['add']" class="btn-app btn-new">
+                <i class="bi bi-plus-lg"></i>
+                New Record
+            </a>
+        </div>
+
+    </div>
+
+    <div class="page-card">
+
+        <div class="page-header-bar-secondary">
+
+            <div class="page-header-left">
+                <button type="button" class="btn-app btn-outline">
+                    <i class="bi bi-funnel"></i>
+                    Filter
+                </button>
+
+                <button type="button" class="btn-app btn-outline">
+                    <i class="bi bi-download"></i>
+                    Export CSV
+                </button>
+            </div>
+
+            <div class="page-header-right">
+                <ng-container *ngIf="tblCompanyMaster$ | async as tblcompanymasters">
+                    <span class="pagination-info">
+                        Showing {{ tblcompanymasters.length }} of {{ tblcompanymasters.length }} Records
+                    </span>
+                </ng-container>
+
+                <button type="button" class="pager-btn" disabled>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                <button type="button" class="pager-btn" disabled>
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <ng-container *ngIf="tblCompanyMaster$ | async as tblcompanymasters">
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>F K Unit Type</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Short Name</th>
+                        <th>Address1</th>
+                        <th>Address2</th>
+                        <th>F K Area</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Area</th>
+                        <th>Pincode</th>
+                        <th>State Code</th>
+                        <th>P A N No</th>
+                        <th>G S T No</th>
+                        <th>Contact Person Name</th>
+                        <th>F K Designation</th>
+                        <th>Mobile No</th>
+                        <th>Mail Id</th>
+                        <th>Image Path</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let tblcompanymaster of tblcompanymasters">
+                        <td class="cell-code">{{tblcompanymaster.fldId}}</td>
+                        <td>{{tblcompanymaster.fldFKUnitType}}</td>
+                        <td class="cell-primary">{{tblcompanymaster.fldCode}}</td>
+                        <td>{{tblcompanymaster.fldName}}</td>
+                        <td class="cell-mono">{{tblcompanymaster.fldShortName}}</td>
+                        <td>{{tblcompanymaster.fldAddress1}}</td>
+                        <td>{{tblcompanymaster.fldAddress2}}</td>
+                        <td>{{tblcompanymaster.fldFKArea}}</td>
+                        <td>{{tblcompanymaster.fldState}}</td>
+                        <td>{{tblcompanymaster.fldCity}}</td>
+                        <td>{{tblcompanymaster.fldArea}}</td>
+                        <td>{{tblcompanymaster.fldPincode}}</td>
+                        <td>{{tblcompanymaster.fldStateCode}}</td>
+                        <td class="cell-mono">{{tblcompanymaster.fldPANNo}}</td>
+                        <td class="cell-mono">{{tblcompanymaster.fldGSTNo}}</td>
+                        <td>{{tblcompanymaster.fldContactPersonName}}</td>
+                        <td>{{tblcompanymaster.fldFKDesignation}}</td>
+                        <td>{{tblcompanymaster.fldMobileNo}}</td>
+                        <td>{{tblcompanymaster.fldMailId}}</td>
+                        <td>{{tblcompanymaster.fldImagePath}}</td>
+                        <td>
+                            <div class="row-actions">
+                                <a class="icon-btn edit" title="Edit"
+                                    [routerLink]="['/mastertables/tblCompanyMaster/Edit', tblcompanymaster.fldId]"
+                                    [queryParams]="{ action: 'Edit' }">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a class="icon-btn delete" title="Delete"
+                                    [routerLink]="['/mastertables/tblCompanyMaster/Edit', tblcompanymaster.fldId]"
+                                    [queryParams]="{ action: 'Delete' }">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <p class="grid-footnote" *ngIf="tblcompanymasters.length === 0">
+                No records found.
+            </p>
+
+        </ng-container>
+
+    </div>
+
+</div>

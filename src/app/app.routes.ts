@@ -18,6 +18,12 @@ import { TblHSNMasterUpdateComponent } from './features/mastertables/tblHSNMaste
 import { TblAreaMasterListComponent } from './features/mastertables/tblAreaMaster/tbl-area-master-list/tbl-area-master-list';
 import { TblAreaMasterAddComponent } from './features/mastertables/tblAreaMaster/tbl-area-master-add/tbl-area-master-add';
 import { TblAreaMasterUpdateComponent } from './features/mastertables/tblAreaMaster/tbl-area-master-update/tbl-area-master-update';
+import { TblCompanyMasterListComponent } from './features/mastertables/tblCompanyMaster/tbl-company-master-list/tbl-company-master-list';
+import { TblCompanyMasterAddComponent } from './features/mastertables/tblCompanyMaster/tbl-company-master-add/tbl-company-master-add';
+import { TblCompanyMasterUpdateComponent } from './features/mastertables/tblCompanyMaster/tbl-company-master-update/tbl-company-master-update';
+import { TblPartyMasterListComponent } from './features/mastertables/tblPartyMaster/tbl-party-master-list/tbl-party-master-list';
+import { TblPartyMasterAddComponent } from './features/mastertables/tblPartyMaster/tbl-party-master-add/tbl-party-master-add';
+import { TblPartyMasterUpdateComponent } from './features/mastertables/tblPartyMaster/tbl-party-master-update/tbl-party-master-update';
 
 export const routes: Routes = [
   {
@@ -95,7 +101,37 @@ export const routes: Routes = [
       {
         path: 'mastertables/tblAreaMaster/Edit/:id',
         component: TblAreaMasterUpdateComponent,
+      },
+      {
+        path: 'mastertables/tblCompanyMaster',
+        component: TblCompanyMasterListComponent,
+      },
+      {
+        path: 'mastertables/tblCompanyMaster/add',
+        component: TblCompanyMasterAddComponent,
+      },
+      {
+        path: 'mastertables/tblCompanyMaster/Edit/:id',
+        component: TblCompanyMasterUpdateComponent,
+      },
+      {
+        path: 'mastertables/tblPartyMaster',
+        component: TblPartyMasterListComponent,
+      },
+      {
+        path: 'mastertables/tblPartyMaster/add',
+        component: TblPartyMasterAddComponent,
+      },
+      {
+        path: 'mastertables/tblPartyMaster/Edit/:id',
+        component: TblPartyMasterUpdateComponent,
       }
+
+
+
+
+
+
 
       // Add other menu routes here later
     ]

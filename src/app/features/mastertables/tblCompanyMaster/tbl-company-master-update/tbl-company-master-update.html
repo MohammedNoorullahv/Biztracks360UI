@@ -1,0 +1,225 @@
+"[IN : TblCompanyMaster-Update.component.html ]"
+
+<div class="container grid-page-shell">
+    <!-- ============================================
+		 Section 1: Caption
+		 ============================================ -->
+    <div class="page-header-bar-simple">
+        <h1 class="page-caption">{{ actionType }} Company Masters</h1>
+    </div>
+
+    <ng-container *ngIf="tblCompanyMaster; else notFound">
+
+        <form #form="ngForm" novalidate>
+
+            <!-- ============================================
+				 Section 2: Input fields
+				 ============================================ -->
+            <div class="page-card">
+
+                <div class="d-flex flex-row form-row">
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldFKUnitType">F K Unit Type</label>
+                        <select id="fldFKUnitType" class="form-select" name="fldFKUnitType"
+                            [(ngModel)]="tblCompanyMaster.fldFKUnitType" required>
+                            <option value="">-- Select --</option>
+                            <option *ngFor="let tblPropertyUnitType of tblPropertyUnitType$ | async"
+                                [value]="tblPropertyUnitType.fldId"> {{ tblPropertyUnitType.fldDescription }}</option>
+                        </select>
+                        <div class="text-danger"
+                            *ngIf="form.controls['fldFKUnitType']?.touched && form.controls['fldFKUnitType']?.invalid">
+                            F K Unit Type is required and should be greater than 0.
+                        </div>
+                    </div>
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldCode">Code</label>
+                        <input type="text" id="fldCode" class="form-control" name="fldCode"
+                            [(ngModel)]="tblCompanyMaster.fldCode" maxlength="5" required>
+                        <div class="text-danger"
+                            *ngIf="form.controls['fldCode']?.touched && form.controls['fldCode']?.invalid">
+                            Code is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row form-row">
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldName">Name</label>
+                        <input type="text" id="fldName" class="form-control" name="fldName"
+                            [(ngModel)]="tblCompanyMaster.fldName" maxlength="100" required>
+                        <div class="text-danger"
+                            *ngIf="form.controls['fldName']?.touched && form.controls['fldName']?.invalid">
+                            Name is required.
+                        </div>
+                    </div>
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldShortName">Short Name</label>
+                        <input type="text" id="fldShortName" class="form-control" name="fldShortName"
+                            [(ngModel)]="tblCompanyMaster.fldShortName" maxlength="10">
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row form-row">
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldAddress1">Address1</label>
+                        <input type="text" id="fldAddress1" class="form-control" name="fldAddress1"
+                            [(ngModel)]="tblCompanyMaster.fldAddress1" maxlength="100" required>
+                        <div class="text-danger"
+                            *ngIf="form.controls['fldAddress1']?.touched && form.controls['fldAddress1']?.invalid">
+                            Address1 is required.
+                        </div>
+                    </div>
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldAddress2">Address2</label>
+                        <input type="text" id="fldAddress2" class="form-control" name="fldAddress2"
+                            [(ngModel)]="tblCompanyMaster.fldAddress2" maxlength="100">
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row form-row">
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldFKArea">F K Area</label>
+                        <select id="fldFKArea" class="form-select" name="fldFKArea"
+                            [(ngModel)]="tblCompanyMaster.fldFKArea" required>
+                            <option value="">-- Select --</option>
+                            <option *ngFor="let tblAreaMaster of tblAreaMaster$ | async" [value]="tblAreaMaster.fldId">
+                                {{ tblAreaMaster.fldArea }}</option>
+                        </select>
+                        <div class="text-danger"
+                            *ngIf="form.controls['fldFKArea']?.touched && form.controls['fldFKArea']?.invalid">
+                            F K Area is required and should be greater than 0.
+                        </div>
+                    </div>
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldState">State</label>
+                        <input type="text" id="fldState" class="form-control" name="fldState"
+                            [(ngModel)]="tblCompanyMaster.fldState" maxlength="50">
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row form-row">
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldCity">City</label>
+                        <input type="text" id="fldCity" class="form-control" name="fldCity"
+                            [(ngModel)]="tblCompanyMaster.fldCity" maxlength="50">
+                    </div>
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldArea">Area</label>
+                        <input type="text" id="fldArea" class="form-control" name="fldArea"
+                            [(ngModel)]="tblCompanyMaster.fldArea" maxlength="50">
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row form-row">
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldPincode">Pincode</label>
+                        <input type="text" id="fldPincode" class="form-control" name="fldPincode"
+                            [(ngModel)]="tblCompanyMaster.fldPincode" maxlength="50">
+                    </div>
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldStateCode">State Code</label>
+                        <input type="text" id="fldStateCode" class="form-control" name="fldStateCode"
+                            [(ngModel)]="tblCompanyMaster.fldStateCode" maxlength="50">
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row form-row">
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldPANNo">P A N No</label>
+                        <input type="text" id="fldPANNo" class="form-control" name="fldPANNo"
+                            [(ngModel)]="tblCompanyMaster.fldPANNo" maxlength="10">
+                    </div>
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldGSTNo">G S T No</label>
+                        <input type="text" id="fldGSTNo" class="form-control" name="fldGSTNo"
+                            [(ngModel)]="tblCompanyMaster.fldGSTNo" maxlength="15">
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row form-row">
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldContactPersonName">Contact Person Name</label>
+                        <input type="text" id="fldContactPersonName" class="form-control" name="fldContactPersonName"
+                            [(ngModel)]="tblCompanyMaster.fldContactPersonName" maxlength="50">
+                    </div>
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldFKDesignation">F K Designation</label>
+                        <select id="fldFKDesignation" class="form-select" name="fldFKDesignation"
+                            [(ngModel)]="tblCompanyMaster.fldFKDesignation" required>
+                            <option value="">-- Select --</option>
+                            <option *ngFor="let tblPropertyDesignation of tblPropertyDesignation$ | async"
+                                [value]="tblPropertyDesignation.fldId"> {{ tblPropertyDesignation.fldDescription }}
+                            </option>
+                        </select>
+                        <div class="text-danger"
+                            *ngIf="form.controls['fldFKDesignation']?.touched && form.controls['fldFKDesignation']?.invalid">
+                            F K Designation is required and should be greater than 0.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row form-row">
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldMobileNo">Mobile No</label>
+                        <input type="text" id="fldMobileNo" class="form-control" name="fldMobileNo"
+                            [(ngModel)]="tblCompanyMaster.fldMobileNo" maxlength="30" required>
+                        <div class="text-danger"
+                            *ngIf="form.controls['fldMobileNo']?.touched && form.controls['fldMobileNo']?.invalid">
+                            Mobile No is required.
+                        </div>
+                    </div>
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldMailId">Mail Id</label>
+                        <input type="text" id="fldMailId" class="form-control" name="fldMailId"
+                            [(ngModel)]="tblCompanyMaster.fldMailId" maxlength="30">
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row form-row">
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldImagePath">Image Path</label>
+                        <input type="text" id="fldImagePath" class="form-control" name="fldImagePath"
+                            [(ngModel)]="tblCompanyMaster.fldImagePath" maxlength="50">
+                    </div>
+                </div>
+
+                <input id="fldId" name="fldId" [(ngModel)]="tblCompanyMaster.fldId" hidden>
+                <input id="fldIsActive" name="fldIsActive" [(ngModel)]="tblCompanyMaster.fldIsActive" hidden>
+                <input id="fldCreatedBy" name="fldCreatedBy" [(ngModel)]="tblCompanyMaster.fldCreatedBy" hidden>
+                <input id="fldCreatedDt" name="fldCreatedDt" [(ngModel)]="tblCompanyMaster.fldCreatedDt" hidden>
+
+            </div>
+
+            <!-- ============================================
+				 Section 3: Command buttons
+				 ============================================ -->
+            <div class="page-actions-bar">
+                <button type="button" (click)="submitAction = 'Edit'; OnFormSubmit(form)" class="btn-app btn-save"
+                    [disabled]="actionType !== 'Edit'">
+                    <i class="bi bi-floppy"></i>
+                    Save
+                </button>
+                <button type="button" (click)="submitAction = 'Delete'; OnFormSubmit(form)" class="btn-app btn-delete"
+                    [disabled]="actionType !== 'Delete'">
+                    <i class="bi bi-trash3"></i>
+                    Delete
+                </button>
+                <button type="button" (click)="backToHome()" class="btn-app btn-dark">
+                    <i class="bi bi-arrow-left"></i>
+                    Back
+                </button>
+            </div>
+
+        </form>
+
+    </ng-container>
+
+    <ng-template #notFound>
+        <div class="page-card">
+            <div class="alert alert-warning mb-0" role="alert">
+                TblCompanyMaster Not Found
+            </div>
+        </div>
+    </ng-template>
+
+</div>

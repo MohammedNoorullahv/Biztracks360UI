@@ -19,7 +19,33 @@
         <span>Dashboard</span>
       </a>
 
+      <!-- Company Profile -->
+      <a class="nav-item" routerLink="/mastertables/tblCompanyMaster" routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">
+        <!-- <a routerLink="/mastertables/tblCompanyMaster" routerLinkActive="active-submenu">Company Master</a> -->
+        <!-- <i class="bi bi-building-fill nav-icon"></i> -->
+        <i class="bi bi-person-vcard-fill nav-icon"></i>
+        <span>Company Profile</span>
+      </a>
 
+      <!-- Commerce -->
+      <div class="menu-group">
+
+        <div class="nav-item" (click)="toggleMenu('commerce')">
+          <i class="bi bi-person-lines-fill nav-icon"></i>
+          <span>Commerce</span>
+
+          <i class="bi" [ngClass]="isMenuOpen('commerce')
+             ? 'bi-chevron-down menu-arrow'
+             : 'bi-chevron-right menu-arrow'">
+          </i>
+        </div>
+
+        <div class="submenu" *ngIf="isMenuOpen('commerce')">
+          <a routerLink="/mastertables/tblPartyMaster" routerLinkActive="active-submenu">Party Master</a>
+        </div>
+
+      </div>
       <!-- Invoicing -->
       <div class="menu-group">
 
