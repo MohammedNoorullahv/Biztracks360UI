@@ -1,123 +1,75 @@
 <div class="container grid-page-shell">
 
-	<!-- ============================================
-		 Page header: caption + record toggle + New Record
-		 ============================================ -->
 	<div class="page-header-bar">
-
 		<h1 class="page-caption">TblPropertiesList</h1>
 
 		<div class="page-header-center">
 			<button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Load All'"
-				(click)="OnFormSubmit('Load All')"
-				[attr.title]="actionType !== 'Load All' ? 'Loading All Records' : 'All Records'">
-				<i class="bi bi-list-ul"></i>
-				All Records
+				(click)="OnFormSubmit('Load All')">
+				<i class="bi bi-list-ul"></i> All Records
 			</button>
 
 			<button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Active Only'"
-				(click)="OnFormSubmit('Active Only')"
-				[attr.title]="actionType !== 'Active Only' ? 'Loading Active Records' : 'Active Records'">
-				<i class="bi bi-check-circle"></i>
-				Active Records
+				(click)="OnFormSubmit('Active Only')">
+				<i class="bi bi-check-circle"></i> Active Records
 			</button>
 		</div>
 
 		<div class="page-header-right">
 			<a [routerLink]="['add']" class="btn-app btn-new">
-				<i class="bi bi-plus-lg"></i>
-				New Record
+				<i class="bi bi-plus-lg"></i> New Record
 			</a>
 		</div>
-
 	</div>
 
 	<div class="page-card">
-
 		<div class="page-header-bar-secondary">
+			<div class="page-header-left" style="display: flex; gap: 10px; align-items: center; width: 100%;">
+				
+				<!-- Global Text Search Box -->
+				<div class="search-box-wrapper" style="position: relative; flex-grow: 1; max-width: 300px;">
+					<input 
+						type="text" 
+						class="btn-app" 
+						placeholder="Search overall table..." 
+						style="width: 100%; text-align: left; padding-left: 30px;"
+						(input)="onGlobalSearch($event)">
+					<i class="bi bi-search" style="position: absolute; left: 10px; top: 8px; color: #888;"></i>
+				</div>
 
-			<div class="page-header-left">
-				<button type="button" class="btn-app btn-outline">
-					<i class="bi bi-funnel"></i>
-					Filter
-				</button>
-
-				<button type="button" class="btn-app btn-outline">
-					<i class="bi bi-download"></i>
-					Export CSV
+				<!-- CSV Download Operation -->
+				<button type="button" class="btn-app btn-outline" (click)="exportToCsv('TblProperties_List')">
+					<i class="bi bi-download"></i> Export CSV
 				</button>
 			</div>
 
+			<!-- Dynamic Filter Count Display -->
 			<div class="page-header-right">
-				<!-- <ng-container *ngIf="tblProperty$ | async as tblpropertys">
-					<span class="pagination-info">
-						Showing {{ tblpropertys.length }} of {{ tblpropertys.length }} Records
-					</span>
-				</ng-container>
-
-				<button type="button" class="pager-btn" disabled>
-					<i class="bi bi-chevron-left"></i>
-				</button>
-				<button type="button" class="pager-btn" disabled>
-					<i class="bi bi-chevron-right"></i>
-				</button> -->
+				<span class="pagination-info" style="font-weight: 500;">
+					Total Records Found: {{ totalRecordsCount }}
+				</span>
 			</div>
-
 		</div>
 
 		<ng-container *ngIf="tblProperty$ | async as tblpropertys">
-
-			<table class="data-table">
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th>Property Master</th>
-						<th>Sl No</th>
-						<th>Description</th>
-						<th>Short Name</th>
-						<th>Set As Default</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-
-				<tbody>
-					<tr *ngFor="let tblproperty of tblpropertys">
-						<td class="cell-code">{{tblproperty.fldId}}</td>
-						<td>{{tblproperty.tblPropertyMasterId.fldDescription}}</td>
-						<td>{{tblproperty.fldSlNo}}</td>
-						<td class="cell-primary">{{tblproperty.fldDescription}}</td>
-						<td>{{tblproperty.fldShortName}}</td>
-						<td>
-							<span class="badge-pill" [ngClass]="tblproperty.fldSetAsDefault ? 'badge-success' : 'badge-muted'">
-								{{tblproperty.fldSetAsDefault ? 'Yes' : 'No'}}
-							</span>
-						</td>
-						<td>
-							<div class="row-actions">
-								<a class="icon-btn edit" title="Edit"
-									[routerLink]="['/mastertables/tblProperty/Edit', tblproperty.fldId]"
-									[queryParams]="{ action: 'Edit' }">
-									<i class="bi bi-pencil-square"></i>
-								</a>
-								<a class="icon-btn delete" title="Delete"
-									[routerLink]="['/mastertables/tblProperty/Edit', tblproperty.fldId]"
-									[queryParams]="{ action: 'Delete' }">
-									<i class="bi bi-trash3"></i>
-								</a>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-
-			</table>
+			<!-- AG Grid Instance Tag -->
+			<ag-grid-angular
+				style="width: 100%; height: 530px;"
+				class="ag-theme-alpine"
+				    [rowData]="tblpropertys"
+    [columnDefs]="colDefs"
+    [defaultColDef]="defaultColDef"
+    [pagination]="true"
+    [paginationPageSize]="10"
+	[paginationPageSizeSelector]="[]"
+    (filterChanged)="onFilterChanged()"
+    (gridReady)="onGridReady($event)"
+    (rowClicked)="onRowClicked($event)">
+			</ag-grid-angular>
 
 			<p class="grid-footnote" *ngIf="tblpropertys.length === 0">
 				No records found.
 			</p>
-
 		</ng-container>
-
 	</div>
-
 </div>
-

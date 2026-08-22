@@ -549,7 +549,8 @@
 }
 
 .form-control {
-  border: 2px solid #b6bdd4; /* Thicker width and a more defined grey-blue color */
+  border: 2px solid #b6bdd4;
+  /* Thicker width and a more defined grey-blue color */
   border-radius: 6px;
   padding: 8px 12px;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -632,3 +633,146 @@
 .page-actions-bar {
   margin-top: 1px;
 }
+
+/* #region AG GRID STYLES */
+
+/* ==========================================================================
+   CLEAN LIGHT-THEME BLUE MATCHED GRID LAYOUT (src/styles.css)
+   ========================================================================== */
+
+/* 1. Global Header Customisation (Matched to your exact button hex code) */
+.ag-theme-alpine {
+  /* Base header color matching your exact "+ New Record" primary button */
+  --ag-header-background-color: #004e92 !important;
+
+  /* Slightly lighter blue shade when hovering over structural column layouts */
+  --ag-header-cell-hover-background-color: #005cb3 !important;
+}
+
+/* 2. Crisp Header Typography & Text Contrast Design */
+.ag-theme-alpine .ag-header-cell-label {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+}
+
+/* Sets active sorting direction indicators to white so they contrast cleanly against blue */
+.ag-theme-alpine .ag-header-cell-label .ag-sort-indicator-icon {
+  color: #ffffff !important;
+  opacity: 0.95;
+}
+
+/* 3. Floating Filter Inputs Box Structure (Now styled white to match your overall design look) */
+.ag-theme-alpine .ag-floating-filter-button {
+  display: none !important;
+  /* Removes clunky default icon layout drops */
+}
+
+.ag-theme-alpine .ag-floating-filter-input input {
+  background-color: #ffffff !important;
+  /* Pure white background like your text boxes */
+  color: #222222 !important;
+  /* Dark text inside white input boxes */
+  border: 1px solid #cccccc !important;
+  /* Clean light gray outline border frames */
+  border-radius: 4px;
+  padding-left: 8px !important;
+}
+
+/* Adds a subtle blue outline focus highlight when typing inside a filter column text field */
+.ag-theme-alpine .ag-floating-filter-input input:focus {
+  border-color: #004e92 !important;
+  outline: none;
+}
+
+/* ==========================================================================
+   PAGINATION FOOTER ROW AND TOTALS SUMMARY DECORATOR (src/styles.css)
+   ========================================================================== */
+
+/* 1. Aligns pagination controls directly below the table as a clean single row */
+.ag-theme-alpine .ag-paging-panel {
+  background-color: #f8f9fa !important;
+  color: #495057 !important;
+  border-top: 1px solid #dee2e6 !important;
+  font-size: 13px !important;
+  height: 45px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  padding-right: 15px !important;
+}
+
+/* Styles custom page action toggle items matching your light look */
+.ag-theme-alpine .ag-paging-button {
+  color: #004e92 !important;
+  background-color: #ffffff !important;
+  border: 1px solid #cccccc !important;
+  border-radius: 4px !important;
+  padding: 3px 10px !important;
+  font-weight: 600 !important;
+}
+
+.ag-theme-alpine .ag-paging-button:hover:not(.ag-disabled) {
+  background-color: #004e92 !important;
+  color: #ffffff !important;
+  border-color: #004e92 !important;
+}
+
+/* 2. Light Theme Grid Multi-Footer Row Calculations Design */
+.ag-theme-alpine .ag-row-pinned {
+  background-color: #ecf0f3 !important;
+  /* Premium unified slate background shade */
+  font-weight: 700 !important;
+  border-top: 2px solid #004e92 !important;
+  /* Bold primary boundary line top accent */
+  border-bottom: 2px solid #dee2e6 !important;
+}
+
+/* Specific text coloring for sum, min, max calculation rows */
+.ag-theme-alpine .ag-row-pinned .ag-cell {
+  color: #004e92 !important;
+  /* Highlights metrics clearly in primary button blue tint */
+  font-size: 13px !important;
+  display: flex !important;
+  align-items: center !important;
+
+}
+
+/* Gray header style specifically for label row titles */
+.ag-theme-alpine .ag-row-pinned .ag-cell[col-id="fldId"] {
+  color: #004e92 !important;
+  font-weight: 700 !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+  padding-left: 16px !important;
+}
+
+.ag-theme-alpine .ag-row-pinned[row-index="0"] .ag-cell {
+  color: #212529 !important;
+  font-weight: 800 !important;
+}
+
+/* ==========================================================================
+   LIGHT SYSTEM DATA TEXT OVERRIDE (src/styles.css)
+   ========================================================================== */
+
+/* Forces normal grid content parameters to contrast clearly against light row backgrounds */
+.ag-theme-alpine .ag-cell {
+  color: #2c3e50 !important;
+  /* Explicit deep charcoal body text color */
+  font-size: 13px !important;
+}
+
+/* Keeps your specific page actions centered nicely */
+.ag-theme-alpine .row-actions i {
+  color: #004e92 !important;
+}
+
+.ag-theme-alpine .row-actions .delete i {
+  color: #dc3545 !important;
+  /* Keeps trash bin red */
+}
+
+
+/* #endregion */
