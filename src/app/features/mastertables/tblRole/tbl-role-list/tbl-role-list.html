@@ -1,0 +1,164 @@
+<div class="container grid-page-shell">
+
+	<!-- ============================================
+		 Page header: caption + record toggle + New Record
+		 ============================================ -->
+	<div class="page-header-bar">
+
+		<h1 class="page-caption">TblRolesList</h1>
+
+		<div class="page-header-center">
+			<button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Load All'"
+				(click)="OnFormSubmit('Load All')"
+				[attr.title]="actionType !== 'Load All' ? 'Loading All Records' : 'All Records'">
+				<i class="bi bi-list-ul"></i>
+				All Records
+			</button>
+
+			<button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Active Only'"
+				(click)="OnFormSubmit('Active Only')"
+				[attr.title]="actionType !== 'Active Only' ? 'Loading Active Records' : 'Active Records'">
+				<i class="bi bi-check-circle"></i>
+				Active Records
+			</button>
+		</div>
+
+		<div class="page-header-right">
+			<a [routerLink]="['add']" class="btn-app btn-new">
+				<i class="bi bi-plus-lg"></i>
+				New Record
+			</a>
+		</div>
+
+	</div>
+
+	<div class="page-card">
+
+		<div class="page-header-bar-secondary">
+
+			<div class="page-header-left">
+				<button type="button" class="btn-app btn-outline">
+					<i class="bi bi-funnel"></i>
+					Filter
+				</button>
+
+				<button type="button" class="btn-app btn-outline">
+					<i class="bi bi-download"></i>
+					Export CSV
+				</button>
+			</div>
+
+			<div class="page-header-right">
+				<ng-container *ngIf="tblRole$ | async as tblroles">
+					<span class="pagination-info">
+						Showing {{ tblroles.length }} of {{ tblroles.length }} Records
+					</span>
+				</ng-container>
+
+				<button type="button" class="pager-btn" disabled>
+					<i class="bi bi-chevron-left"></i>
+				</button>
+				<button type="button" class="pager-btn" disabled>
+					<i class="bi bi-chevron-right"></i>
+				</button>
+			</div>
+
+		</div>
+
+		<ng-container *ngIf="tblRole$ | async as tblroles">
+
+			<table class="data-table">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>F K Company</th>
+						<th>F K Unit</th>
+						<th>Is Super Admin</th>
+						<th>Is Admin</th>
+						<th>Role Name</th>
+						<th>Role</th>
+						<th>View Only</th>
+						<th>Create Or Pepare</th>
+						<th>Edit</th>
+						<th>Verify</th>
+						<th>Authorize</th>
+						<th>Delete</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr *ngFor="let tblrole of tblroles">
+						<td class="cell-code">{{tblrole.fldId}}</td>
+						<td>{{tblrole.fldFKCompany}}</td>
+						<td>{{tblrole.fldFKUnit}}</td>
+						<td>
+							<span class="badge-pill" [ngClass]="tblrole.fldIsSuperAdmin ? 'badge-success' : 'badge-muted'">
+								{{tblrole.fldIsSuperAdmin ? 'Yes' : 'No'}}
+							</span>
+						</td>
+						<td>
+							<span class="badge-pill" [ngClass]="tblrole.fldIsAdmin ? 'badge-success' : 'badge-muted'">
+								{{tblrole.fldIsAdmin ? 'Yes' : 'No'}}
+							</span>
+						</td>
+						<td class="cell-primary">{{tblrole.fldRoleName}}</td>
+						<td>{{tblrole.fldRole}}</td>
+						<td>
+							<span class="badge-pill" [ngClass]="tblrole.fldViewOnly ? 'badge-success' : 'badge-muted'">
+								{{tblrole.fldViewOnly ? 'Yes' : 'No'}}
+							</span>
+						</td>
+						<td>
+							<span class="badge-pill" [ngClass]="tblrole.fldCreateOrPepare ? 'badge-success' : 'badge-muted'">
+								{{tblrole.fldCreateOrPepare ? 'Yes' : 'No'}}
+							</span>
+						</td>
+						<td>
+							<span class="badge-pill" [ngClass]="tblrole.fldEdit ? 'badge-success' : 'badge-muted'">
+								{{tblrole.fldEdit ? 'Yes' : 'No'}}
+							</span>
+						</td>
+						<td>
+							<span class="badge-pill" [ngClass]="tblrole.fldVerify ? 'badge-success' : 'badge-muted'">
+								{{tblrole.fldVerify ? 'Yes' : 'No'}}
+							</span>
+						</td>
+						<td>
+							<span class="badge-pill" [ngClass]="tblrole.fldAuthorize ? 'badge-success' : 'badge-muted'">
+								{{tblrole.fldAuthorize ? 'Yes' : 'No'}}
+							</span>
+						</td>
+						<td>
+							<span class="badge-pill" [ngClass]="tblrole.fldDelete ? 'badge-success' : 'badge-muted'">
+								{{tblrole.fldDelete ? 'Yes' : 'No'}}
+							</span>
+						</td>
+						<td>
+							<div class="row-actions">
+								<!-- <a class="icon-btn edit" title="Edit"
+									[routerLink]="['/mastertables/tblRole/Edit', tblrole.fldId]"
+									[queryParams]="{ action: 'Edit' }">
+									<i class="bi bi-pencil-square"></i>
+								</a> -->
+								<a class="icon-btn delete" title="Delete"
+									[routerLink]="['/mastertables/tblRole/Edit', tblrole.fldId]"
+									[queryParams]="{ action: 'Delete' }">
+									<i class="bi bi-trash3"></i>
+								</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+
+			</table>
+
+			<p class="grid-footnote" *ngIf="tblroles.length === 0">
+				No records found.
+			</p>
+
+		</ng-container>
+
+	</div>
+
+</div>

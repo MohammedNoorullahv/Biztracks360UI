@@ -8,7 +8,7 @@ export interface TblAreaMaster {
 	fldArea: string;
 	fldFKPincode: number;
 	fldPincode: string;
-	fldStateCode: number;
+	fldStateCode: string;
 	fldStateShortCode: string;
 	fldIsActive: boolean;
 	fldCreatedBy: number;

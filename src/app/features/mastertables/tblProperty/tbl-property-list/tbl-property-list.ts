@@ -22,50 +22,58 @@ export class TblPropertyListComponent extends BaseGridComponent implements OnIni
   actionType: string = '';
   submitAction: 'Load All' | 'Active Only' = 'Load All';
 
-  public colDefs: ColDef[] = [
-    {
+    public colDefs: ColDef[] = [
+    { 
       field: 'fldId',
-      headerName: 'Id',
-      maxWidth: 100,
+      headerName: 'Id', 
+      maxWidth: 100, 
       cellClass: 'cell-code',
       cellRenderer: (params: any) => {
-        if (params.node.isPinned()) {
+        if (params.node && params.node.isPinned && params.node.isPinned()) {
           return `<strong>Summary Metrics:</strong>`;
         }
-        return params.value;
+        // Explicit lookup from params.data to fix empty content bug
+        return params.data ? params.data.fldId : '';
       }
     },
-    {
-      headerName: 'Property Master',
-      valueGetter: params => params.data?.tblPropertyMasterId?.fldDescription || ''
+    { 
+      headerName: 'Property Master', 
+      valueGetter: params => params.data?.tblPropertyMasterId?.fldDescription || '' 
     },
-    {
-      field: 'fldSlNo',
-      headerName: 'Sl No',
+    { 
+      field: 'fldSlNo', 
+      headerName: 'Sl No', 
       maxWidth: 100,
       cellRenderer: (params: any) => {
-        if (params.node.isPinned()) {
+        if (params.node && params.node.isPinned && params.node.isPinned()) {
           return `Avg: ${params.value || 0}`;
         }
-        return params.value;
+        // Explicit lookup from params.data to fix empty content bug
+        return params.data ? params.data.fldSlNo : '';
       }
     },
-    {
-      field: 'fldDescription',
-      headerName: 'Description',
-      cellClass: 'cell-primary'
+    { 
+      field: 'fldDescription', 
+      headerName: 'Description', 
+      cellClass: 'cell-primary' 
     },
-    {
-      field: 'fldShortName',
-      headerName: 'Short Name'
+    { 
+      field: 'fldShortName', 
+      headerName: 'Short Name' 
     },
-    {
-      field: 'fldSetAsDefault',
+    { 
+      field: 'fldSetAsDefault', 
       headerName: 'Set As Default',
       maxWidth: 150,
       cellRenderer: (params: any) => {
-        if (params.node.isPinned()) return '';
-        return `<span class="badge-pill ${params.value ? 'badge-success' : 'badge-muted'}">${params.value ? 'Yes' : 'No'}</span>`;
+        if (params.node && params.node.isPinned && params.node.isPinned()) return ''; 
+        
+        // Target value via params.data explicitly
+        const isDefault = params.data ? params.data.fldSetAsDefault : false;
+        const badgeClass = isDefault ? 'badge-success' : 'badge-muted';
+        const text = isDefault ? 'Yes' : 'No';
+        
+        return `<span class="badge-pill ${badgeClass}">${text}</span>`;
       }
     },
     {
@@ -74,8 +82,12 @@ export class TblPropertyListComponent extends BaseGridComponent implements OnIni
       filter: false,
       sortable: false,
       cellRenderer: (params: any) => {
-        if (params.node.isPinned()) return '';
-        const id = params.data?.fldId;
+        if (params.node && params.node.isPinned && params.node.isPinned()) return ''; 
+        
+        // Safe extraction of key ID from row record data context
+        const id = params.data ? params.data.fldId : null;
+        if (!id) return '';
+        
         return `
           <div class="row-actions">
             <a class="icon-btn edit" title="Edit" data-action="edit" data-id="${id}"><i class="bi bi-pencil-square"></i></a>
@@ -115,6 +127,13 @@ export class TblPropertyListComponent extends BaseGridComponent implements OnIni
       }
     });
   }
+
+  // 1. Change the first letter to a CAPITAL 'O'
+  OnFormSubmit(action: string): void {
+    this.actionType = action;
+    this.fetchData();
+  }
+
 
   override onGridReady(params: GridReadyEvent): void {
     super.onGridReady(params);

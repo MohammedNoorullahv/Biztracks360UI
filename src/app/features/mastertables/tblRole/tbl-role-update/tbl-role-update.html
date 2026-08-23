@@ -1,0 +1,155 @@
+<div class="container grid-page-shell">
+	<!-- ============================================
+		 Section 1: Caption
+		 ============================================ -->
+	<div class="page-header-bar-simple">
+		<h1 class="page-caption">{{ actionType }} Roles</h1>
+	</div>
+
+	<ng-container *ngIf="tblRole; else notFound">
+
+		<form #form="ngForm" novalidate>
+
+			<!-- ============================================
+				 Section 2: Input fields
+				 ============================================ -->
+			<div class="page-card">
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldFKCompany">F K Company</label>
+						<select id="fldFKCompany" class="form-select" name="fldFKCompany" [(ngModel)]="tblRole.fldFKCompany" required>
+							<option value="">-- Select --</option>
+							<option *ngFor="let tblCompanyMaster of tblCompanyMaster$ | async" [value]="tblCompanyMaster.fldId"> {{ tblCompanyMaster.fldName }}</option>
+						</select>
+						<div class="text-danger" *ngIf="form.controls['fldFKCompany']?.touched && form.controls['fldFKCompany']?.invalid">
+							F K Company is required and should be greater than 0.
+						</div>
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldFKUnit">F K Unit</label>
+						<select id="fldFKUnit" class="form-select" name="fldFKUnit" [(ngModel)]="tblRole.fldFKUnit" required>
+							<option value="">-- Select --</option>
+							<option *ngFor="let tblUnitMaster of tblUnitMaster$ | async" [value]="tblUnitMaster.fldId"> {{ tblUnitMaster.fldName }}</option>
+						</select>
+						<div class="text-danger" *ngIf="form.controls['fldFKUnit']?.touched && form.controls['fldFKUnit']?.invalid">
+							F K Unit is required and should be greater than 0.
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group field-group-switch">
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" id="fldIsSuperAdmin" name="fldIsSuperAdmin" [(ngModel)]="tblRole.fldIsSuperAdmin">
+							<label class="form-check-label" for="fldIsSuperAdmin">Is Super Admin</label>
+						</div>
+					</div>
+					<div class="col-3 field-group field-group-switch">
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" id="fldIsAdmin" name="fldIsAdmin" [(ngModel)]="tblRole.fldIsAdmin">
+							<label class="form-check-label" for="fldIsAdmin">Is Admin</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldRoleName">Role Name</label>
+						<input type="text" id="fldRoleName" class="form-control" name="fldRoleName" [(ngModel)]="tblRole.fldRoleName" maxlength="70" required>
+						<div class="text-danger" *ngIf="form.controls['fldRoleName']?.touched && form.controls['fldRoleName']?.invalid">
+							Role Name is required.
+						</div>
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldRole">Role</label>
+						<input type="text" id="fldRole" class="form-control" name="fldRole" [(ngModel)]="tblRole.fldRole" maxlength="50" required>
+						<div class="text-danger" *ngIf="form.controls['fldRole']?.touched && form.controls['fldRole']?.invalid">
+							Role is required.
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group field-group-switch">
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" id="fldViewOnly" name="fldViewOnly" [(ngModel)]="tblRole.fldViewOnly">
+							<label class="form-check-label" for="fldViewOnly">View Only</label>
+						</div>
+					</div>
+					<div class="col-3 field-group field-group-switch">
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" id="fldCreateOrPepare" name="fldCreateOrPepare" [(ngModel)]="tblRole.fldCreateOrPepare">
+							<label class="form-check-label" for="fldCreateOrPepare">Create Or Pepare</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group field-group-switch">
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" id="fldEdit" name="fldEdit" [(ngModel)]="tblRole.fldEdit">
+							<label class="form-check-label" for="fldEdit">Edit</label>
+						</div>
+					</div>
+					<div class="col-3 field-group field-group-switch">
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" id="fldVerify" name="fldVerify" [(ngModel)]="tblRole.fldVerify">
+							<label class="form-check-label" for="fldVerify">Verify</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group field-group-switch">
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" id="fldAuthorize" name="fldAuthorize" [(ngModel)]="tblRole.fldAuthorize">
+							<label class="form-check-label" for="fldAuthorize">Authorize</label>
+						</div>
+					</div>
+					<div class="col-3 field-group field-group-switch">
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" id="fldDelete" name="fldDelete" [(ngModel)]="tblRole.fldDelete">
+							<label class="form-check-label" for="fldDelete">Delete</label>
+						</div>
+					</div>
+				</div>
+
+				<input id="fldId" name="fldId" [(ngModel)]="tblRole.fldId" hidden>
+				<input id="fldIsActive" name="fldIsActive" [(ngModel)]="tblRole.fldIsActive" hidden>
+				<input id="fldCreatedBy" name="fldCreatedBy" [(ngModel)]="tblRole.fldCreatedBy" hidden>
+				<input id="fldCreatedDt" name="fldCreatedDt" [(ngModel)]="tblRole.fldCreatedDt" hidden>
+
+			</div>
+
+			<!-- ============================================
+				 Section 3: Command buttons
+				 ============================================ -->
+			<div class="page-actions-bar">
+				<button type="button" (click)="submitAction = 'Edit'; OnFormSubmit(form)" class="btn-app btn-save" [disabled]="actionType !== 'Edit'">
+					<i class="bi bi-floppy"></i>
+					Save
+				</button>
+				<button type="button" (click)="submitAction = 'Delete'; OnFormSubmit(form)" class="btn-app btn-delete" [disabled]="actionType !== 'Delete'">
+					<i class="bi bi-trash3"></i>
+					Delete
+				</button>
+				<button type="button" (click)="backToHome()" class="btn-app btn-dark">
+					<i class="bi bi-arrow-left"></i>
+					Back
+				</button>
+			</div>
+
+		</form>
+
+	</ng-container>
+
+	<ng-template #notFound>
+		<div class="page-card">
+			<div class="alert alert-warning mb-0" role="alert">
+				TblRole Not Found
+			</div>
+		</div>
+	</ng-template>
+
+</div>

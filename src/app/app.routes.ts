@@ -24,6 +24,10 @@ import { TblCompanyMasterUpdateComponent } from './features/mastertables/tblComp
 import { TblPartyMasterListComponent } from './features/mastertables/tblPartyMaster/tbl-party-master-list/tbl-party-master-list';
 import { TblPartyMasterAddComponent } from './features/mastertables/tblPartyMaster/tbl-party-master-add/tbl-party-master-add';
 import { TblPartyMasterUpdateComponent } from './features/mastertables/tblPartyMaster/tbl-party-master-update/tbl-party-master-update';
+import { TblRoleListComponent } from './features/mastertables/tblRole/tbl-role-list/tbl-role-list';
+import { TblRoleAddComponent } from './features/mastertables/tblRole/tbl-role-add/tbl-role-add';
+import { TblUnitMasterListComponent } from './features/mastertables/tblUnitMaster/tbl-unit-master-list/tbl-unit-master-list';
+import { TblRoleUpdateComponent } from './features/mastertables/tblRole/tbl-role-update/tbl-role-update';
 
 export const routes: Routes = [
   {
@@ -125,7 +129,27 @@ export const routes: Routes = [
       {
         path: 'mastertables/tblPartyMaster/Edit/:id',
         component: TblPartyMasterUpdateComponent,
+      },
+      {
+        path: 'mastertables/tblRole',
+        component: TblRoleListComponent,
+      },
+      {
+        path: 'mastertables/tblRole/add',
+        component: TblRoleAddComponent,
+      },
+      {
+        path: 'mastertables/tblUnitMaster',
+        component: TblUnitMasterListComponent,
+      },
+      {
+        path: 'mastertables/tblRole/Edit/:id',
+        component: TblRoleUpdateComponent,
       }
+
+
+
+
 
 
 

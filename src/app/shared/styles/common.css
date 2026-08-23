@@ -739,14 +739,17 @@
 
 }
 
-/* Gray header style specifically for label row titles */
+/* Gray header style specifically for label row titles - FIXED ALIGNMENT */
 .ag-theme-alpine .ag-row-pinned .ag-cell[col-id="fldId"] {
   color: #004e92 !important;
   font-weight: 700 !important;
   text-align: left !important;
   justify-content: flex-start !important;
-  padding-left: 16px !important;
+  padding-left: 14px !important;
+  white-space: nowrap !important; /* Prevents text wrap layout bugs */
+  overflow: visible !important;   /* Let label text breathe cleanly */
 }
+
 
 .ag-theme-alpine .ag-row-pinned[row-index="0"] .ag-cell {
   color: #212529 !important;
