@@ -28,6 +28,15 @@ import { TblRoleListComponent } from './features/mastertables/tblRole/tbl-role-l
 import { TblRoleAddComponent } from './features/mastertables/tblRole/tbl-role-add/tbl-role-add';
 import { TblUnitMasterListComponent } from './features/mastertables/tblUnitMaster/tbl-unit-master-list/tbl-unit-master-list';
 import { TblRoleUpdateComponent } from './features/mastertables/tblRole/tbl-role-update/tbl-role-update';
+import { TblUserHeaderListComponent } from './features/mastertables/tblUserHeader/tbl-user-header-list/tbl-user-header-list';
+import { TblUserHeaderAddComponent } from './features/mastertables/tblUserHeader/tbl-user-header-add/tbl-user-header-add';
+import { TblUserHeaderUpdateComponent } from './features/mastertables/tblUserHeader/tbl-user-header-update/tbl-user-header-update';
+import { TblUserDetailListComponent } from './features/mastertables/tblUserDetail/tbl-user-detail-list/tbl-user-detail-list';
+import { TblUserDetailAddComponent } from './features/mastertables/tblUserDetail/tbl-user-detail-add/tbl-user-detail-add';
+import { TblUserDetailUpdateComponent } from './features/mastertables/tblUserDetail/tbl-user-detail-update/tbl-user-detail-update';
+import { TblItemMasterListComponent } from './features/mastertables/tblItemMaster/tbl-item-master-list/tbl-item-master-list';
+import { TblItemMasterAddComponent } from './features/mastertables/tblItemMaster/tbl-item-master-add/tbl-item-master-add';
+import { TblItemMasterUpdateComponent } from './features/mastertables/tblItemMaster/tbl-item-master-update/tbl-item-master-update';
 
 export const routes: Routes = [
   {
@@ -145,7 +154,52 @@ export const routes: Routes = [
       {
         path: 'mastertables/tblRole/Edit/:id',
         component: TblRoleUpdateComponent,
+      },
+      {
+        path: 'mastertables/tblUserHeader',
+        component: TblUserHeaderListComponent,
+      },
+      {
+        path: 'mastertables/tblUserHeader/add',
+        component: TblUserHeaderAddComponent,
+      },
+      {
+        path: 'mastertables/tblUserHeader/Edit/:id',
+        component: TblUserHeaderUpdateComponent,
+      },
+      {
+        path: 'mastertables/tblUserDetail/:fldFKUser',
+        component: TblUserDetailListComponent,
+      },
+      {
+        path: 'mastertables/tblUserDetail/:fldFKUser/add',
+        component: TblUserDetailAddComponent,
+      },
+      {
+        path: 'mastertables/tblUserDetail/:fldFKUser/Edit/:id',
+        component: TblUserDetailUpdateComponent,
+      },
+      {
+        path: 'mastertables/tblItemMaster',
+        component: TblItemMasterListComponent,
+      },
+      {
+        path: 'mastertables/tblItemMaster/add',
+        component: TblItemMasterAddComponent,
+      },
+      {
+        path: 'mastertables/tblItemMaster/Edit/:id',
+        component: TblItemMasterUpdateComponent,
       }
+
+
+
+
+
+
+
+
+
 
 
 

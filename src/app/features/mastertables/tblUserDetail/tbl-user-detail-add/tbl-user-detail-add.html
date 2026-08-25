@@ -1,0 +1,121 @@
+<div class="container grid-page-shell">
+
+    <!-- ============================================
+		 Section 1: Caption
+		 ============================================ -->
+    <div class="page-header-bar-simple">
+        <h1 class="page-caption">Add User Details</h1>
+    </div>
+
+    <form #form="ngForm" novalidate>
+
+        <!-- ============================================
+			 Section 2: Input fields
+			 ============================================ -->
+        <div class="page-card">
+
+            <div class="d-flex flex-row form-row">
+                <!-- <div class="col-3 field-group"> -->
+                    <label class="form-label" for="fldFKUser" hidden>F K User</label>
+                    <input type="number" id="fldFKUser" class="form-control" name="fldFKUser"
+                        [(ngModel)]="model.fldFKUser" readonly required hidden>
+                    <!-- <select id="fldFKUser" class="form-select" name="fldFKUser" [(ngModel)]="model.fldFKUser" required>
+                        <option value="">-- Select --</option>
+                        <option *ngFor="let tblUserHeader of tblUserHeader$ | async" [value]="tblUserHeader.fldId">{{
+                            tblUserHeader.fldDescription }}</option>
+                    </select> -->
+                    
+
+                <!-- </div> -->
+                <div class="col-3 field-group">
+                    <label class="form-label" for="fldFKMenuMaster">F K Menu Master</label>
+                    <select id="fldFKMenuMaster" class="form-select" name="fldFKMenuMaster"
+                        [(ngModel)]="model.fldFKMenuMaster" required>
+                        <option value="">-- Select --</option>
+                        <option *ngFor="let tblMenuMaster of tblMenuMaster$ | async" [value]="tblMenuMaster.fldId">{{
+                            tblMenuMaster.fldMenuName }}</option>
+                    </select>
+                    <div class="text-danger"
+                        *ngIf="form.controls['fldFKMenuMaster']?.touched && form.controls['fldFKMenuMaster']?.invalid">
+                        F K Menu Master is required and should be greater than 0.
+                    </div>
+
+                </div>
+            <!-- </div>
+
+            <div class="d-flex flex-row form-row"> -->
+                <div class="col-3 field-group">
+                    <label class="form-label" for="fldCondition">Condition</label>
+                    <input type="text" id="fldCondition" class="form-control" name="fldCondition"
+                        [(ngModel)]="model.fldCondition" maxlength="100">
+                </div>
+                <div class="col-3 field-group">
+                    <label class="form-label" for="fldFKMenuCategory" hidden>F K Menu Category</label>
+                     <input type="number" id="fldFKMenuCategory" class="form-control" name="fldFKMenuCategory"
+                        [(ngModel)]="model.fldFKMenuCategory" hidden>
+
+                    <!-- <select id="fldFKMenuCategory" class="form-select" name="fldFKMenuCategory"
+                        [(ngModel)]="model.fldFKMenuCategory" required>
+                        <option value="">-- Select --</option>
+                        <option *ngFor="let tblPropertyMenuCategory of tblPropertyMenuCategory$ | async"
+                            [value]="tblPropertyMenuCategory.fldId">{{ tblPropertyMenuCategory.fldDescription }}
+                        </option>
+                    </select> -->
+                    
+
+                </div>
+            </div>
+
+            <div class="d-flex flex-row form-row">
+                <div class="col-3 field-group">
+                    <label class="form-label" for="fldFKRole" hidden>F K Role</label>
+                    <input type="number" id="fldFKRole" class="form-control" name="fldFKRole"
+                        [(ngModel)]="model.fldFKRole" step="1" min="0" hidden>
+                    
+
+                </div>
+                <div class="col-3 field-group">
+                    <label class="form-label" for="fldRoleName" hidden>Role Name</label>
+                    <input type="text" id="fldRoleName" class="form-control" name="fldRoleName"
+                        [(ngModel)]="model.fldRoleName" maxlength="70" hidden>
+                </div>
+            </div>
+
+            <div class="d-flex flex-row form-row">
+                <div class="col-3 field-group">
+                    <label class="form-label" for="fldRole" hidden>Role</label>
+                    <input type="text" id="fldRole" class="form-control" name="fldRole" [(ngModel)]="model.fldRole"
+                        maxlength="50" hidden>
+                </div>
+                <div class="col-3 field-group">
+                    <label class="form-label" for="fldMenuRoleCode" hidden>Menu Role Code</label>
+                    <input type="text" id="fldMenuRoleCode" class="form-control" name="fldMenuRoleCode"
+                        [(ngModel)]="model.fldMenuRoleCode" maxlength="8" hidden>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ============================================
+			 Section 3: Command buttons
+			 ============================================ -->
+        <div class="page-actions-bar">
+            <button type="button" (click)="OnFormSubmit(form, 'SaveAndAddNew')" class="btn-app btn-save"
+                [disabled]="isSaving">
+                <i class="bi bi-floppy"></i>
+                Save &amp; Add New
+            </button>
+            <button type="button" (click)="OnFormSubmit(form, 'SaveAndClose')" class="btn-app btn-new"
+                [disabled]="isSaving">
+                <i class="bi bi-check2-circle"></i>
+                Save &amp; Close
+            </button>
+            <button type="button" (click)="backToHome()" class="btn-app btn-dark">
+                <i class="bi bi-arrow-left"></i>
+                Back
+            </button>
+        </div>
+
+    </form>
+
+</div>

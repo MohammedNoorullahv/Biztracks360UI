@@ -1,0 +1,163 @@
+<div class="container grid-page-shell">
+
+	<!-- ============================================
+		 Page header: caption + record toggle + New Record
+		 ============================================ -->
+	<div class="page-header-bar">
+
+		<h1 class="page-caption">TblUserHeadersList</h1>
+
+		<div class="page-header-center">
+			<button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Load All'"
+				(click)="OnFormSubmit('Load All')"
+				[attr.title]="actionType !== 'Load All' ? 'Loading All Records' : 'All Records'">
+				<i class="bi bi-list-ul"></i>
+				All Records
+			</button>
+
+			<button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Active Only'"
+				(click)="OnFormSubmit('Active Only')"
+				[attr.title]="actionType !== 'Active Only' ? 'Loading Active Records' : 'Active Records'">
+				<i class="bi bi-check-circle"></i>
+				Active Records
+			</button>
+		</div>
+
+		<div class="page-header-right">
+			<a [routerLink]="['add']" class="btn-app btn-new">
+				<i class="bi bi-plus-lg"></i>
+				New Record
+			</a>
+		</div>
+
+	</div>
+
+	<div class="page-card">
+
+		<div class="page-header-bar-secondary">
+
+			<div class="page-header-left">
+				<button type="button" class="btn-app btn-outline">
+					<i class="bi bi-funnel"></i>
+					Filter
+				</button>
+
+				<button type="button" class="btn-app btn-outline">
+					<i class="bi bi-download"></i>
+					Export CSV
+				</button>
+			</div>
+
+			<div class="page-header-right">
+				<ng-container *ngIf="tblUserHeader$ | async as tbluserheaders">
+					<span class="pagination-info">
+						Showing {{ tbluserheaders.length }} of {{ tbluserheaders.length }} Records
+					</span>
+				</ng-container>
+
+				<button type="button" class="pager-btn" disabled>
+					<i class="bi bi-chevron-left"></i>
+				</button>
+				<button type="button" class="pager-btn" disabled>
+					<i class="bi bi-chevron-right"></i>
+				</button>
+			</div>
+
+		</div>
+
+		<ng-container *ngIf="tblUserHeader$ | async as tbluserheaders">
+
+			<table class="data-table">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>F K Company</th>
+						<th>F K Unit</th>
+						<th>Username</th>
+						<th>Login Mail Id</th>
+						<th>Password</th>
+						<th>F K Usertype</th>
+						<th>F K Designation</th>
+						<th>F K Role</th>
+						<th>Asp Net User Id</th>
+						<th>Contact No</th>
+						<th>Signature</th>
+						<th>Receive Login Alert</th>
+						<th>Check Login I P</th>
+						<th>User Mac I D</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr *ngFor="let tbluserheader of tbluserheaders">
+						<td class="cell-code">{{tbluserheader.fldId}}</td>
+						<td>{{tbluserheader.fldFKCompany}}</td>
+						<td>{{tbluserheader.fldFKUnit}}</td>
+						<td class="cell-primary">{{tbluserheader.fldUsername}}</td>
+						<td>{{tbluserheader.fldLoginMailId}}</td>
+						<td>{{tbluserheader.fldPassword}}</td>
+						<td>{{tbluserheader.fldFKUsertype}}</td>
+						<td>{{tbluserheader.fldFKDesignation}}</td>
+						<td>{{tbluserheader.fldFKRole}}</td>
+						<td>{{tbluserheader.fldAspNetUserId}}</td>
+						<td>{{tbluserheader.fldContactNo}}</td>
+						<td>{{tbluserheader.fldSignature}}</td>
+						<td>
+							<span class="badge-pill"
+								[ngClass]="tbluserheader.fldReceiveLoginAlert ? 'badge-success' : 'badge-muted'">
+								{{tbluserheader.fldReceiveLoginAlert ? 'Yes' : 'No'}}
+							</span>
+						</td>
+						<td>
+							<span class="badge-pill"
+								[ngClass]="tbluserheader.fldCheckLoginIP ? 'badge-success' : 'badge-muted'">
+								{{tbluserheader.fldCheckLoginIP ? 'Yes' : 'No'}}
+							</span>
+						</td>
+						<td>{{tbluserheader.fldUserMacID}}</td>
+						<td>
+							<div class="row-actions">
+								<!-- <a class="icon-btn Detail" title="Detail"
+									[routerLink]="['/mastertables/tblUserHeader/Edit', tbluserheader.fldId]"
+									[queryParams]="{ action: 'Detail' }">
+									<i class="bi bi-pencil-square"></i>
+									Detail
+								</a> -->
+
+								<a [routerLink]="['/mastertables/tblUserDetail', tbluserheader.fldId]" class="btn-app btn-new">
+									<i class="bi bi-plus-lg"></i>
+									Details
+								</a>
+
+							</div>
+						</td>
+						<td>
+
+							<div class="row-actions">
+								<a class="icon-btn edit" title="Edit"
+									[routerLink]="['/mastertables/tblUserHeader/Edit', tbluserheader.fldId]"
+									[queryParams]="{ action: 'Edit' }">
+									<i class="bi bi-pencil-square"></i>
+								</a>
+								<a class="icon-btn delete" title="Delete"
+									[routerLink]="['/mastertables/tblUserHeader/Edit', tbluserheader.fldId]"
+									[queryParams]="{ action: 'Delete' }">
+									<i class="bi bi-trash3"></i>
+								</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+
+			</table>
+
+			<p class="grid-footnote" *ngIf="tbluserheaders.length === 0">
+				No records found.
+			</p>
+
+		</ng-container>
+
+	</div>
+
+</div>

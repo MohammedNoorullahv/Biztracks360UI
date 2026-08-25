@@ -1,0 +1,90 @@
+<div class="container grid-page-shell">
+    <!-- ============================================
+		 Section 1: Caption
+		 ============================================ -->
+    <div class="page-header-bar-simple">
+        <h1 class="page-caption">{{ actionType }} User Details</h1>
+    </div>
+
+    <ng-container *ngIf="tblUserDetail; else notFound">
+
+        <form #form="ngForm" novalidate>
+
+            <!-- ============================================
+				 Section 2: Input fields
+				 ============================================ -->
+            <div class="page-card">
+
+                <div class="d-flex flex-row form-row">
+                        
+                        <input type="number" id="fldFKUser" class="form-control" name="fldFKUser"
+                        [(ngModel)]="tblUserDetail.fldFKUser" readonly required hidden>
+
+                        
+                   
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldFKMenuMaster">F K Menu Master</label>
+                        <select id="fldFKMenuMaster" class="form-select" name="fldFKMenuMaster"
+                            [(ngModel)]="tblUserDetail.fldFKMenuMaster" required>
+                            <option value="">-- Select --</option>
+                            <option *ngFor="let tblMenuMaster of tblMenuMaster$ | async" [value]="tblMenuMaster.fldId">
+                                {{ tblMenuMaster.fldMenuName }}</option>
+                        </select>
+                        <div class="text-danger"
+                            *ngIf="form.controls['fldFKMenuMaster']?.touched && form.controls['fldFKMenuMaster']?.invalid">
+                            F K Menu Master is required and should be greater than 0.
+                        </div>
+                    </div>
+                
+                    <div class="col-3 field-group">
+                        <label class="form-label" for="fldCondition">Condition</label>
+                        <input type="text" id="fldCondition" class="form-control" name="fldCondition"
+                            [(ngModel)]="tblUserDetail.fldCondition" maxlength="100">
+                    </div>
+                </div>
+                
+                <input id="fldFKMenuCategory" name="fldFKMenuCategory" [(ngModel)]="tblUserDetail.fldFKMenuCategory" hidden>
+                <input id="fldFKRole" name="fldFKRole" [(ngModel)]="tblUserDetail.fldFKRole" hidden>
+                <input id="fldRoleName" name="fldRoleName" [(ngModel)]="tblUserDetail.fldRoleName" hidden>
+                <input id="fldRole" name="fldRole" [(ngModel)]="tblUserDetail.fldRole" hidden>
+                <input id="fldMenuRoleCode" name="fldMenuRoleCode" [(ngModel)]="tblUserDetail.fldMenuRoleCode" hidden>
+                <input id="fldId" name="fldId" [(ngModel)]="tblUserDetail.fldId" hidden>
+                <input id="fldIsActive" name="fldIsActive" [(ngModel)]="tblUserDetail.fldIsActive" hidden>
+                <input id="fldCreatedBy" name="fldCreatedBy" [(ngModel)]="tblUserDetail.fldCreatedBy" hidden>
+                <input id="fldCreatedDt" name="fldCreatedDt" [(ngModel)]="tblUserDetail.fldCreatedDt" hidden>
+
+            </div>
+
+            <!-- ============================================
+				 Section 3: Command buttons
+				 ============================================ -->
+            <div class="page-actions-bar">
+                <button type="button" (click)="submitAction = 'Edit'; OnFormSubmit(form)" class="btn-app btn-save"
+                    [disabled]="actionType !== 'Edit'">
+                    <i class="bi bi-floppy"></i>
+                    Save
+                </button>
+                <button type="button" (click)="submitAction = 'Delete'; OnFormSubmit(form)" class="btn-app btn-delete"
+                    [disabled]="actionType !== 'Delete'">
+                    <i class="bi bi-trash3"></i>
+                    Delete
+                </button>
+                <button type="button" (click)="backToHome()" class="btn-app btn-dark">
+                    <i class="bi bi-arrow-left"></i>
+                    Back
+                </button>
+            </div>
+
+        </form>
+
+    </ng-container>
+
+    <ng-template #notFound>
+        <div class="page-card">
+            <div class="alert alert-warning mb-0" role="alert">
+                TblUserDetail Not Found
+            </div>
+        </div>
+    </ng-template>
+
+</div>

@@ -1,0 +1,175 @@
+<div class="container grid-page-shell">
+	<!-- ============================================
+		 Section 1: Caption
+		 ============================================ -->
+	<div class="page-header-bar-simple">
+		<h1 class="page-caption">{{ actionType }} User Headers</h1>
+	</div>
+
+	<ng-container *ngIf="tblUserHeader; else notFound">
+
+		<form #form="ngForm" novalidate>
+
+			<!-- ============================================
+				 Section 2: Input fields
+				 ============================================ -->
+			<div class="page-card">
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldFKCompany">F K Company</label>
+						<select id="fldFKCompany" class="form-select" name="fldFKCompany" [(ngModel)]="tblUserHeader.fldFKCompany" required>
+							<option value="">-- Select --</option>
+							<option *ngFor="let tblCompanyMaster of tblCompanyMaster$ | async" [value]="tblCompanyMaster.fldId"> {{ tblCompanyMaster.fldName }}</option>
+						</select>
+						<div class="text-danger" *ngIf="form.controls['fldFKCompany']?.touched && form.controls['fldFKCompany']?.invalid">
+							F K Company is required and should be greater than 0.
+						</div>
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldFKUnit">F K Unit</label>
+						<select id="fldFKUnit" class="form-select" name="fldFKUnit" [(ngModel)]="tblUserHeader.fldFKUnit" required>
+							<option value="">-- Select --</option>
+							<option *ngFor="let tblUnitMaster of tblUnitMaster$ | async" [value]="tblUnitMaster.fldId"> {{ tblUnitMaster.fldName }}</option>
+						</select>
+						<div class="text-danger" *ngIf="form.controls['fldFKUnit']?.touched && form.controls['fldFKUnit']?.invalid">
+							F K Unit is required and should be greater than 0.
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldUsername">Username</label>
+						<input type="text" id="fldUsername" class="form-control" name="fldUsername" [(ngModel)]="tblUserHeader.fldUsername" maxlength="30" required>
+						<div class="text-danger" *ngIf="form.controls['fldUsername']?.touched && form.controls['fldUsername']?.invalid">
+							Username is required.
+						</div>
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldLoginMailId">Login Mail Id</label>
+						<input type="text" id="fldLoginMailId" class="form-control" name="fldLoginMailId" [(ngModel)]="tblUserHeader.fldLoginMailId" maxlength="50" required>
+						<div class="text-danger" *ngIf="form.controls['fldLoginMailId']?.touched && form.controls['fldLoginMailId']?.invalid">
+							Login Mail Id is required.
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldPassword">Password</label>
+						<input type="text" id="fldPassword" class="form-control" name="fldPassword" [(ngModel)]="tblUserHeader.fldPassword" maxlength="50" required>
+						<div class="text-danger" *ngIf="form.controls['fldPassword']?.touched && form.controls['fldPassword']?.invalid">
+							Password is required.
+						</div>
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldFKUsertype">F K Usertype</label>
+						<select id="fldFKUsertype" class="form-select" name="fldFKUsertype" [(ngModel)]="tblUserHeader.fldFKUsertype" required>
+							<option value="">-- Select --</option>
+							<option *ngFor="let tblPropertyUsertype of tblPropertyUsertype$ | async" [value]="tblPropertyUsertype.fldId"> {{ tblPropertyUsertype.fldDescription }}</option>
+						</select>
+						<div class="text-danger" *ngIf="form.controls['fldFKUsertype']?.touched && form.controls['fldFKUsertype']?.invalid">
+							F K Usertype is required and should be greater than 0.
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldFKDesignation">F K Designation</label>
+						<select id="fldFKDesignation" class="form-select" name="fldFKDesignation" [(ngModel)]="tblUserHeader.fldFKDesignation" required>
+							<option value="">-- Select --</option>
+							<option *ngFor="let tblPropertyDesignation of tblPropertyDesignation$ | async" [value]="tblPropertyDesignation.fldId"> {{ tblPropertyDesignation.fldDescription }}</option>
+						</select>
+						<div class="text-danger" *ngIf="form.controls['fldFKDesignation']?.touched && form.controls['fldFKDesignation']?.invalid">
+							F K Designation is required and should be greater than 0.
+						</div>
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldFKRole">F K Role</label>
+						<select id="fldFKRole" class="form-select" name="fldFKRole" [(ngModel)]="tblUserHeader.fldFKRole" required>
+							<option value="">-- Select --</option>
+							<option *ngFor="let tblRole of tblRole$ | async" [value]="tblRole.fldId"> {{ tblRole.fldRole }}</option>
+						</select>
+						<div class="text-danger" *ngIf="form.controls['fldFKRole']?.touched && form.controls['fldFKRole']?.invalid">
+							F K Role is required and should be greater than 0.
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldAspNetUserId">Asp Net User Id</label>
+						<input type="text" id="fldAspNetUserId" class="form-control" name="fldAspNetUserId" [(ngModel)]="tblUserHeader.fldAspNetUserId" maxlength="200">
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldContactNo">Contact No</label>
+						<input type="text" id="fldContactNo" class="form-control" name="fldContactNo" [(ngModel)]="tblUserHeader.fldContactNo" maxlength="20">
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldSignature">Signature</label>
+						<input type="text" id="fldSignature" class="form-control" name="fldSignature" [(ngModel)]="tblUserHeader.fldSignature" maxlength="30">
+					</div>
+					<div class="col-3 field-group field-group-switch">
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" id="fldReceiveLoginAlert" name="fldReceiveLoginAlert" [(ngModel)]="tblUserHeader.fldReceiveLoginAlert">
+							<label class="form-check-label" for="fldReceiveLoginAlert">Receive Login Alert</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group field-group-switch">
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" id="fldCheckLoginIP" name="fldCheckLoginIP" [(ngModel)]="tblUserHeader.fldCheckLoginIP">
+							<label class="form-check-label" for="fldCheckLoginIP">Check Login I P</label>
+						</div>
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldUserMacID">User Mac I D</label>
+						<input type="text" id="fldUserMacID" class="form-control" name="fldUserMacID" [(ngModel)]="tblUserHeader.fldUserMacID" maxlength="50">
+					</div>
+				</div>
+
+				<input id="fldId" name="fldId" [(ngModel)]="tblUserHeader.fldId" hidden>
+				<input id="fldIsActive" name="fldIsActive" [(ngModel)]="tblUserHeader.fldIsActive" hidden>
+				<input id="fldCreatedBy" name="fldCreatedBy" [(ngModel)]="tblUserHeader.fldCreatedBy" hidden>
+				<input id="fldCreatedDt" name="fldCreatedDt" [(ngModel)]="tblUserHeader.fldCreatedDt" hidden>
+
+			</div>
+
+			<!-- ============================================
+				 Section 3: Command buttons
+				 ============================================ -->
+			<div class="page-actions-bar">
+				<button type="button" (click)="submitAction = 'Edit'; OnFormSubmit(form)" class="btn-app btn-save" [disabled]="actionType !== 'Edit'">
+					<i class="bi bi-floppy"></i>
+					Save
+				</button>
+				<button type="button" (click)="submitAction = 'Delete'; OnFormSubmit(form)" class="btn-app btn-delete" [disabled]="actionType !== 'Delete'">
+					<i class="bi bi-trash3"></i>
+					Delete
+				</button>
+				<button type="button" (click)="backToHome()" class="btn-app btn-dark">
+					<i class="bi bi-arrow-left"></i>
+					Back
+				</button>
+			</div>
+
+		</form>
+
+	</ng-container>
+
+	<ng-template #notFound>
+		<div class="page-card">
+			<div class="alert alert-warning mb-0" role="alert">
+				TblUserHeader Not Found
+			</div>
+		</div>
+	</ng-template>
+
+</div>

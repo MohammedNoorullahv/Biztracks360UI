@@ -1,0 +1,146 @@
+<div class="container grid-page-shell">
+
+    <!-- ============================================
+		 Page header: caption + record toggle + New Record
+		 ============================================ -->
+    <div class="page-header-bar">
+
+        <h1 class="page-caption">TblItemMastersList</h1>
+
+        <div class="page-header-center">
+            <button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Load All'"
+                (click)="OnFormSubmit('Load All')"
+                [attr.title]="actionType !== 'Load All' ? 'Loading All Records' : 'All Records'">
+                <i class="bi bi-list-ul"></i>
+                All Records
+            </button>
+
+            <button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Active Only'"
+                (click)="OnFormSubmit('Active Only')"
+                [attr.title]="actionType !== 'Active Only' ? 'Loading Active Records' : 'Active Records'">
+                <i class="bi bi-check-circle"></i>
+                Active Records
+            </button>
+        </div>
+
+        <div class="page-header-right">
+            <a [routerLink]="['add']" class="btn-app btn-new">
+                <i class="bi bi-plus-lg"></i>
+                New Record
+            </a>
+        </div>
+
+    </div>
+
+    <div class="page-card">
+
+        <div class="page-header-bar-secondary">
+
+            <div class="page-header-left">
+                <button type="button" class="btn-app btn-outline">
+                    <i class="bi bi-funnel"></i>
+                    Filter
+                </button>
+
+                <button type="button" class="btn-app btn-outline">
+                    <i class="bi bi-download"></i>
+                    Export CSV
+                </button>
+            </div>
+
+            <div class="page-header-right">
+                <ng-container *ngIf="tblItemMaster$ | async as tblitemmasters">
+                    <span class="pagination-info">
+                        Showing {{ tblitemmasters.length }} of {{ tblitemmasters.length }} Records
+                    </span>
+                </ng-container>
+
+                <button type="button" class="pager-btn" disabled>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                <button type="button" class="pager-btn" disabled>
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <ng-container *ngIf="tblItemMaster$ | async as tblitemmasters">
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>F K Company</th>
+                        <th>F K Type</th>
+                        <th>F K Category</th>
+                        <th>F K Subcategory</th>
+                        <th>F K Brand</th>
+                        <th>F K Source</th>
+                        <th>Code</th>
+                        <th>Desc</th>
+                        <th>Name</th>
+                        <th>F K Color</th>
+                        <th>F K Purchase U O M</th>
+                        <th>F K Usage U O M</th>
+                        <th>Purchaseto Usage Conversion Rate</th>
+                        <th>Usageto Purchase Conversion Rate</th>
+                        <th>F K H S N Code</th>
+                        <th>F K Size</th>
+                        <th>Purchase Price</th>
+                        <th>Jobwork Price</th>
+                        <th>Sales Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let tblitemmaster of tblitemmasters">
+                        <td class="cell-code">{{tblitemmaster.fldId}}</td>
+                        <td>{{tblitemmaster.fldFKCompany}}</td>
+                        <td>{{tblitemmaster.fldFKType}}</td>
+                        <td>{{tblitemmaster.fldFKCategory}}</td>
+                        <td>{{tblitemmaster.fldFKSubcategory}}</td>
+                        <td>{{tblitemmaster.fldFKBrand}}</td>
+                        <td>{{tblitemmaster.fldFKSource}}</td>
+                        <td class="cell-primary">{{tblitemmaster.fldCode}}</td>
+                        <td>{{tblitemmaster.fldDesc}}</td>
+                        <td>{{tblitemmaster.fldName}}</td>
+                        <td>{{tblitemmaster.fldFKColor}}</td>
+                        <td>{{tblitemmaster.fldFKPurchaseUOM}}</td>
+                        <td>{{tblitemmaster.fldFKUsageUOM}}</td>
+                        <td>{{tblitemmaster.fldPurchasetoUsageConversionRate}}</td>
+                        <td>{{tblitemmaster.fldUsagetoPurchaseConversionRate}}</td>
+                        <td>{{tblitemmaster.fldFKHSNCode}}</td>
+                        <td>{{tblitemmaster.fldFKSize}}</td>
+                        <td>{{tblitemmaster.fldPurchasePrice}}</td>
+                        <td>{{tblitemmaster.fldJobworkPrice}}</td>
+                        <td>{{tblitemmaster.fldSalesPrice}}</td>
+                        <td>
+                            <div class="row-actions">
+                                <a class="icon-btn edit" title="Edit"
+                                    [routerLink]="['/mastertables/tblItemMaster/Edit', tblitemmaster.fldId]"
+                                    [queryParams]="{ action: 'Edit' }">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a class="icon-btn delete" title="Delete"
+                                    [routerLink]="['/mastertables/tblItemMaster/Edit', tblitemmaster.fldId]"
+                                    [queryParams]="{ action: 'Delete' }">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <p class="grid-footnote" *ngIf="tblitemmasters.length === 0">
+                No records found.
+            </p>
+
+        </ng-container>
+
+    </div>
+
+</div>
