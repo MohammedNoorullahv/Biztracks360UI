@@ -47,6 +47,47 @@
 
       </div>
 
+      <!-- Purchasing -->
+      <div class="menu-group">
+
+        <div class="nav-item" (click)="toggleMenu('purchasing')">
+          <i class="bi bi-cart-check-fill nav-icon"></i>
+          <span>Purchasing</span>
+
+          <i class="bi" [ngClass]="isMenuOpen('purchasing')
+        ? 'bi-chevron-down menu-arrow'
+        : 'bi-chevron-right menu-arrow'">
+          </i>
+        </div>
+
+        <div class="submenu" *ngIf="isMenuOpen('purchasing')">
+        
+          <a routerLink="/transactiontables/tblPurchaseOrder" routerLinkActive="active-submenu">Purchase Order</a>
+        </div>
+
+      </div>
+
+      <!-- Inventory -->
+      <div class="menu-group">
+
+        <div class="nav-item" (click)="toggleMenu('inventory')">
+          <i class="bi bi-box-seam-fill nav-icon"></i>
+          <span>Inventory</span>
+
+          <i class="bi" [ngClass]="isMenuOpen('inventory')
+        ? 'bi-chevron-down menu-arrow'
+        : 'bi-chevron-right menu-arrow'">
+          </i>
+        </div>
+
+        <div class="submenu" *ngIf="isMenuOpen('inventory')">
+
+          <a routerLink="/mastertables/tblItemMaster" routerLinkActive="active-submenu">Item Master</a>
+
+        </div>
+
+      </div>
+
       <!-- Invoicing -->
       <div class="menu-group">
 
@@ -206,10 +247,6 @@
           <a routerLink="/mastertables/tblAreaMaster" routerLinkActive="active-submenu">Area Master</a>
           <a routerLink="/mastertables/tblRole" routerLinkActive="active-submenu">Role</a>
           <a routerLink="/mastertables/tblUserHeader" routerLinkActive="active-submenu">User Header</a>
-          <a routerLink="/mastertables/tblItemMaster" routerLinkActive="active-submenu">Item Master</a>
-
-
-          
 
         </div>
 

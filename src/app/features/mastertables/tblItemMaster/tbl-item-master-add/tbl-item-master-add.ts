@@ -33,6 +33,8 @@ export class TblItemMasterAddComponent implements OnDestroy {
   private addTblItemMasterSubscription?: Subscription;
   @ViewChild('form') form!: NgForm;
   isSaving: boolean = false;
+  activeConversionField: 'purchaseToUsage' | 'usageToPurchase' | null = null;
+
 
   tblPropertyAll$?: Observable<TblProperty[]>;
 
@@ -63,7 +65,7 @@ export class TblItemMasterAddComponent implements OnDestroy {
       fldFKSubcategory: 0,
       fldFKBrand: 0,
       fldFKSource: 0,
-      fldCode: '',
+      fldCode: '{ Auto Generated }',
       fldDesc: '',
       fldName: '',
       fldFKColor: 0,
@@ -104,6 +106,69 @@ export class TblItemMasterAddComponent implements OnDestroy {
         this.form.controls['fldDescription'].markAsTouched();
       }
     });
+  }
+
+
+  generateDescription(): void {
+    const propertyIds = [
+      this.model.fldFKCategory,
+      this.model.fldFKSubcategory,
+      this.model.fldFKBrand,
+      this.model.fldFKSource,
+      this.model.fldFKColor,
+      this.model.fldFKSize
+    ].map(Number);
+
+    const selectedDescriptions = Array.from(
+      document.querySelectorAll<HTMLSelectElement>('.item-description-part')
+    )
+      .map(select => select.options[select.selectedIndex]?.text?.trim() ?? '')
+      .filter((description, index) =>
+        propertyIds[index] > 0 &&
+        description.length > 0 &&
+        description.toUpperCase() !== 'NA'
+      );
+
+    this.model.fldDesc = selectedDescriptions.join(' ');
+  }
+
+  onUomChange(): void {
+    this.activeConversionField = null;
+
+    if (Number(this.model.fldFKPurchaseUOM) === Number(this.model.fldFKUsageUOM) &&
+      Number(this.model.fldFKPurchaseUOM) > 0) {
+      this.model.fldPurchasetoUsageConversionRate = 1;
+      this.model.fldUsagetoPurchaseConversionRate = 1;
+      return;
+    }
+
+    this.model.fldPurchasetoUsageConversionRate = 0;
+    this.model.fldUsagetoPurchaseConversionRate = 0;
+  }
+
+  onPurchaseToUsageRateChange(value: number): void {
+    if (Number(value) > 0) {
+      this.activeConversionField = 'purchaseToUsage';
+      this.model.fldUsagetoPurchaseConversionRate = 1;
+    } else {
+      this.activeConversionField = null;
+      this.model.fldUsagetoPurchaseConversionRate = 0;
+    }
+  }
+
+  onUsageToPurchaseRateChange(value: number): void {
+    if (Number(value) > 0) {
+      this.activeConversionField = 'usageToPurchase';
+      this.model.fldPurchasetoUsageConversionRate = 1;
+    } else {
+      this.activeConversionField = null;
+      this.model.fldPurchasetoUsageConversionRate = 0;
+    }
+  }
+
+  get areUomsSame(): boolean {
+    return Number(this.model.fldFKPurchaseUOM) > 0 &&
+      Number(this.model.fldFKPurchaseUOM) === Number(this.model.fldFKUsageUOM);
   }
 
   OnFormSubmit(form: NgForm, action: 'SaveAndAddNew' | 'SaveAndClose'): void {
@@ -236,7 +301,7 @@ export class TblItemMasterAddComponent implements OnDestroy {
       fldFKSubcategory: 0,
       fldFKBrand: 0,
       fldFKSource: 0,
-      fldCode: '',
+      fldCode: '{ Auto Generated }',
       fldDesc: '',
       fldName: '',
       fldFKColor: 0,

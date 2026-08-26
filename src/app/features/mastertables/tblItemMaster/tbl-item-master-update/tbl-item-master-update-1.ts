@@ -1,14 +1,18 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Observable, Subscription, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { TblItemMasterService } from '../services/tbl-item-master';
+import { TblItemMaster } from '../models/tblItemMaster.model';
 import { TblItemMasterUpdate } from '../models/tblItemMaster-Update.model';
 
+import { TblPropertyMasterService } from '../../tblPropertyMaster/services/tbl-property-master';
 import { TblProperty } from '../../tblProperty/models/tblProperty.model';
+import { TblPropertyService } from '../../tblProperty/services/tbl-property';
 import { TblPropertySharedservice } from '../../../../shared/services/tbl-property-shared';
 
 import { TblCompanyMaster } from '../../tblCompanyMaster/models/tblCompanyMaster.model';
@@ -29,12 +33,14 @@ export class TblItemMasterUpdateComponent implements OnInit, OnDestroy {
   paramSubscription?: Subscription;
   private editTblItemMasterSubscription?: Subscription;
   private deleteTblItemMasterSubscription?: Subscription;
-  private loadTblItemMasterSubscription?: Subscription;
   tblItemMaster?: TblItemMasterUpdate;
   actionType: string = '';
   submitAction: 'Edit' | 'Delete' = 'Edit'; // default to Edit
   activeConversionField: 'purchaseToUsage' | 'usageToPurchase' | null = null;
-  isSaving: boolean = false;
+
+  @ViewChild('form') form!: NgForm;
+
+  tblPropertyAll$?: Observable<TblProperty[]>;
 
   tblCompanyMaster$?: Observable<TblCompanyMaster[]>
   tblPropertyType$?: Observable<TblProperty[]>;
@@ -49,6 +55,8 @@ export class TblItemMasterUpdateComponent implements OnInit, OnDestroy {
   tblPropertySize$?: Observable<TblProperty[]>;
 
   constructor(private tblItemMasterService: TblItemMasterService,
+    private tblPropertyMasterService: TblPropertyMasterService,
+    private tblPropertyService: TblPropertyService,
     private tblPropertySharedService: TblPropertySharedservice,
     private tblCompanyMasterService: TblCompanyMasterService,
     private tblHSNMasterService: TblHSNMasterService,
@@ -73,6 +81,11 @@ export class TblItemMasterUpdateComponent implements OnInit, OnDestroy {
     this.tblPropertySize$ = this.tblPropertySharedService.getPropertiesByType('Item Size');
 
 
+    setTimeout(() => {
+      if (this.form && this.form.controls['fldDescription']) {
+        this.form.controls['fldDescription'].markAsTouched();
+      }
+    });
     this.paramSubscription = combineLatest([
       this.route.paramMap,
       this.route.queryParams
@@ -80,52 +93,18 @@ export class TblItemMasterUpdateComponent implements OnInit, OnDestroy {
       .subscribe(([params, queryParams]) => {
         const idParam = params.get('id');
         this.id = idParam ? parseInt(idParam, 10) : null;
-        this.actionType = queryParams['action'] ?? 'Edit';
+        this.actionType = queryParams['action'];
 
         if (this.id) {
-          this.loadTblItemMasterSubscription = this.tblItemMasterService.getTblItemMasterById(this.id)
+          this.tblItemMasterService.getTblItemMasterById(this.id)
             .subscribe({
               next: (response) => {
                 this.tblItemMaster = response;
-                this.initializeConversionState();
                 this.cdr.detectChanges();
-              },
-              error: (err) => {
-                const errorMsg = err?.error?.message || err?.error || 'Unable to load the selected item';
-                this.toastr.error(errorMsg, 'Error', {
-                  toastClass: 'ngx-toastr custom-toast error-toast'
-                });
-                console.error('API Error:', err);
               }
             });
         }
       });
-  }
-
-  private initializeConversionState(): void {
-    if (!this.tblItemMaster) {
-      return;
-    }
-
-    const purchaseUomId = Number(this.tblItemMaster.fldFKPurchaseUOM);
-    const usageUomId = Number(this.tblItemMaster.fldFKUsageUOM);
-    const purchaseToUsage = Number(this.tblItemMaster.fldPurchasetoUsageConversionRate);
-    const usageToPurchase = Number(this.tblItemMaster.fldUsagetoPurchaseConversionRate);
-
-    if (purchaseUomId > 0 && purchaseUomId === usageUomId) {
-      this.tblItemMaster.fldPurchasetoUsageConversionRate = 1;
-      this.tblItemMaster.fldUsagetoPurchaseConversionRate = 1;
-      this.activeConversionField = null;
-      return;
-    }
-
-    if (purchaseToUsage === 1 && usageToPurchase > 0) {
-      this.activeConversionField = 'usageToPurchase';
-    } else if (usageToPurchase === 1 && purchaseToUsage > 0) {
-      this.activeConversionField = 'purchaseToUsage';
-    } else {
-      this.activeConversionField = null;
-    }
   }
 
 
@@ -169,10 +148,8 @@ export class TblItemMasterUpdateComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const purchaseUomId = Number(this.tblItemMaster.fldFKPurchaseUOM);
-    const usageUomId = Number(this.tblItemMaster.fldFKUsageUOM);
-
-    if (purchaseUomId > 0 && purchaseUomId === usageUomId) {
+    if (Number(this.tblItemMaster?.fldFKPurchaseUOM) === Number(this.tblItemMaster?.fldFKUsageUOM) &&
+      Number(this.tblItemMaster?.fldFKPurchaseUOM) > 0) {
       this.tblItemMaster.fldPurchasetoUsageConversionRate = 1;
       this.tblItemMaster.fldUsagetoPurchaseConversionRate = 1;
       return;
@@ -216,15 +193,6 @@ export class TblItemMasterUpdateComponent implements OnInit, OnDestroy {
   }
 
   OnFormSubmit(form: NgForm): void {
-
-    if (this.isSaving || !this.tblItemMaster || !this.id) {
-      return;
-    }
-
-    if (this.submitAction === 'Delete') {
-      this.deleteRecord();
-      return;
-    }
 
     if (form.invalid) {
       form.control.markAllAsTouched();
@@ -332,15 +300,14 @@ export class TblItemMasterUpdateComponent implements OnInit, OnDestroy {
       fldCreatedBy: this.tblItemMaster?.fldCreatedBy ?? 0,
       fldCreatedDt: this.tblItemMaster?.fldCreatedDt ?? new Date(),
       fldModifiedBy: this.tblItemMaster?.fldModifiedBy ?? 0,
-      fldModifiedDt: new Date(),
+      fldModifiedDt: this.tblItemMaster?.fldModifiedDt ?? new Date(),
     };
 
-    this.isSaving = true;
-
-    this.editTblItemMasterSubscription = this.tblItemMasterService.updateTblItemMaster(TblItemMasterUpdateRequest)
+    if (this.id) {
+      if (this.submitAction === 'Edit') {
+        this.editTblItemMasterSubscription = this.tblItemMasterService.updateTblItemMaster(TblItemMasterUpdateRequest)
           .subscribe({
             next: (response) => {
-              this.isSaving = false;
               this.toastr.success('Record updated successfully!', 'Success', {
                 toastClass: 'ngx-toastr custom-toast'
               });
@@ -348,7 +315,6 @@ export class TblItemMasterUpdateComponent implements OnInit, OnDestroy {
               this.router.navigateByUrl('mastertables/tblItemMaster');
             },
             error: (err) => {
-              this.isSaving = false;
               const errorMsg = err?.error?.message || err?.error || 'An unexpected error occurred';
 
               this.toastr.error(errorMsg, 'Error', {
@@ -358,52 +324,35 @@ export class TblItemMasterUpdateComponent implements OnInit, OnDestroy {
               console.error('API Error:', err);
             }
           });
-  }
+      } else {
 
-  private deleteRecord(): void {
-    if (!this.tblItemMaster || !this.id) {
-      return;
-    }
+        const proceed = confirm('R U Sure, U Want to Delete the selected Record?');
 
-    const proceed = confirm('Are you sure you want to delete the selected record?');
-    if (!proceed) {
-      return;
-    }
+        if (proceed) {
+          this.deleteTblItemMasterSubscription = this.tblItemMasterService.deleteTblItemMaster(TblItemMasterUpdateRequest)
+            .subscribe({
+              next: (response) => {
+                if (response.status === 200) {
+                  this.toastr.success('Record deleted successfully!', 'Success', {
+                    toastClass: 'ngx-toastr custom-toast'
+                  });
 
-    this.isSaving = true;
+                  this.router.navigateByUrl('mastertables/tblItemMaster');
+                }
+              },
+              error: (err) => {
+                const errorMsg = err?.error?.message || err?.error || 'An unexpected error occurred';
 
-    this.deleteTblItemMasterSubscription = this.tblItemMasterService
-      .deleteTblItemMaster(this.createUpdateRequest())
-      .subscribe({
-        next: () => {
-          this.isSaving = false;
-          this.toastr.success('Record deleted successfully!', 'Success', {
-            toastClass: 'ngx-toastr custom-toast'
-          });
-          this.router.navigateByUrl('mastertables/tblItemMaster');
-        },
-        error: (err) => {
-          this.isSaving = false;
-          const errorMsg = err?.error?.message || err?.error || 'An unexpected error occurred';
-          this.toastr.error(errorMsg, 'Error', {
-            toastClass: 'ngx-toastr custom-toast error-toast'
-          });
-          console.error('API Error:', err);
+                this.toastr.error(errorMsg, 'Error', {
+                  toastClass: 'ngx-toastr custom-toast error-toast'
+                });
+
+                console.error('API Error:', err);
+              }
+            });
         }
-      });
-  }
-
-  private createUpdateRequest(): TblItemMasterUpdate {
-    if (!this.tblItemMaster) {
-      throw new Error('Item master has not been loaded.');
+      }
     }
-
-    return {
-      ...this.tblItemMaster,
-      fldId: this.tblItemMaster.fldId ?? 0,
-      fldModifiedBy: this.tblItemMaster.fldModifiedBy ?? 0,
-      fldModifiedDt: new Date()
-    };
   }
 
   backToHome(): void {
@@ -414,7 +363,6 @@ export class TblItemMasterUpdateComponent implements OnInit, OnDestroy {
     this.paramSubscription?.unsubscribe();
     this.editTblItemMasterSubscription?.unsubscribe();
     this.deleteTblItemMasterSubscription?.unsubscribe();
-    this.loadTblItemMasterSubscription?.unsubscribe();
   }
 
   isFormValid(form: any): boolean {

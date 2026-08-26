@@ -1,0 +1,158 @@
+<div class="container grid-page-shell">
+
+	<!-- ============================================
+		 Page header: caption + record toggle + New Record
+		 ============================================ -->
+	<div class="page-header-bar">
+
+		<h1 class="page-caption">TblPurchaseOrdersList</h1>
+
+		<div class="page-header-center">
+			<button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Load All'"
+				(click)="OnFormSubmit('Load All')"
+				[attr.title]="actionType !== 'Load All' ? 'Loading All Records' : 'All Records'">
+				<i class="bi bi-list-ul"></i>
+				All Records
+			</button>
+
+			<button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Active Only'"
+				(click)="OnFormSubmit('Active Only')"
+				[attr.title]="actionType !== 'Active Only' ? 'Loading Active Records' : 'Active Records'">
+				<i class="bi bi-check-circle"></i>
+				Active Records
+			</button>
+		</div>
+
+		<div class="page-header-right">
+			<a [routerLink]="['add']" class="btn-app btn-new">
+				<i class="bi bi-plus-lg"></i>
+				New Record
+			</a>
+		</div>
+
+	</div>
+
+	<div class="page-card">
+
+		<div class="page-header-bar-secondary">
+
+			<div class="page-header-left">
+				<button type="button" class="btn-app btn-outline">
+					<i class="bi bi-funnel"></i>
+					Filter
+				</button>
+
+				<button type="button" class="btn-app btn-outline">
+					<i class="bi bi-download"></i>
+					Export CSV
+				</button>
+			</div>
+
+			<div class="page-header-right">
+				<ng-container *ngIf="tblPurchaseOrder$ | async as tblpurchaseorders">
+					<span class="pagination-info">
+						Showing {{ tblpurchaseorders.length }} of {{ tblpurchaseorders.length }} Records
+					</span>
+				</ng-container>
+
+				<button type="button" class="pager-btn" disabled>
+					<i class="bi bi-chevron-left"></i>
+				</button>
+				<button type="button" class="pager-btn" disabled>
+					<i class="bi bi-chevron-right"></i>
+				</button>
+			</div>
+
+		</div>
+
+		<ng-container *ngIf="tblPurchaseOrder$ | async as tblpurchaseorders">
+
+			<table class="data-table">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>F K Unit Id</th>
+						<th>P O No</th>
+						<th>P O Date</th>
+						<th>F K Supplier I D</th>
+						<th>Delivery Start Date</th>
+						<th>Delivery End Date</th>
+						<th>Total Qty</th>
+						<th>Inward Qty</th>
+						<th>Cancel Qty</th>
+						<th>Balance Qty</th>
+						<th>Remarks</th>
+						<th>F K Status</th>
+						<th>Items Gross Value</th>
+						<th>Items Taxable Value</th>
+						<th>Items G S T Value</th>
+						<th>Items Total Value</th>
+						<th>Discount Percentage</th>
+						<th>Discount Value</th>
+						<th>Grand Gross Value</th>
+						<th>Other Plus Value</th>
+						<th>Other Minus Value</th>
+						<th>Roundoff</th>
+						<th>Grand Total Value</th>
+						<th>Paid Amount</th>
+						<th>F K Payment Status</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr *ngFor="let tblpurchaseorder of tblpurchaseorders">
+						<td class="cell-code">{{tblpurchaseorder.fldId}}</td>
+						<td>{{tblpurchaseorder.fldFKUnitId}}</td>
+						<td class="cell-primary">{{tblpurchaseorder.fldPONo}}</td>
+						<td>{{tblpurchaseorder.fldPODate}}</td>
+						<td>{{tblpurchaseorder.fldFKSupplierID}}</td>
+						<td>{{tblpurchaseorder.fldDeliveryStartDate}}</td>
+						<td>{{tblpurchaseorder.fldDeliveryEndDate}}</td>
+						<td>{{tblpurchaseorder.fldTotalQty}}</td>
+						<td>{{tblpurchaseorder.fldInwardQty}}</td>
+						<td>{{tblpurchaseorder.fldCancelQty}}</td>
+						<td>{{tblpurchaseorder.fldBalanceQty}}</td>
+						<td>{{tblpurchaseorder.fldRemarks}}</td>
+						<td>{{tblpurchaseorder.fldFKStatus}}</td>
+						<td>{{tblpurchaseorder.fldItemsGrossValue}}</td>
+						<td>{{tblpurchaseorder.fldItemsTaxableValue}}</td>
+						<td>{{tblpurchaseorder.fldItemsGSTValue}}</td>
+						<td>{{tblpurchaseorder.fldItemsTotalValue}}</td>
+						<td>{{tblpurchaseorder.fldDiscountPercentage}}</td>
+						<td>{{tblpurchaseorder.fldDiscountValue}}</td>
+						<td>{{tblpurchaseorder.fldGrandGrossValue}}</td>
+						<td>{{tblpurchaseorder.fldOtherPlusValue}}</td>
+						<td>{{tblpurchaseorder.fldOtherMinusValue}}</td>
+						<td>{{tblpurchaseorder.fldRoundoff}}</td>
+						<td>{{tblpurchaseorder.fldGrandTotalValue}}</td>
+						<td>{{tblpurchaseorder.fldPaidAmount}}</td>
+						<td>{{tblpurchaseorder.fldFKPaymentStatus}}</td>
+						<td>
+							<div class="row-actions">
+								<a class="icon-btn edit" title="Edit"
+									[routerLink]="['/transactiontables/tblPurchaseOrder/Edit', tblpurchaseorder.fldId]"
+									[queryParams]="{ action: 'Edit' }">
+									<i class="bi bi-pencil-square"></i>
+								</a>
+								<a class="icon-btn delete" title="Delete"
+									[routerLink]="['/transactiontables/tblPurchaseOrder/Edit', tblpurchaseorder.fldId]"
+									[queryParams]="{ action: 'Delete' }">
+									<i class="bi bi-trash3"></i>
+								</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+
+			</table>
+
+			<p class="grid-footnote" *ngIf="tblpurchaseorders.length === 0">
+				No records found.
+			</p>
+
+		</ng-container>
+
+	</div>
+
+</div>

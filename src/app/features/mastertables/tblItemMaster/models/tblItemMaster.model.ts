@@ -6,42 +6,42 @@ export interface TblItemMaster {
     fldId: number;
     fldFKCompany: number;
    
-    TblCompanyMasterId: TblCompanyMaster;
+    tblCompanyMasterId: TblCompanyMaster;
     fldFKType: number;
    
-    TblPropertyTypeId: TblProperty;
+    tblPropertyTypeId: TblProperty;
     fldFKCategory: number;
     
-    TblPropertyCategoryId: TblProperty;
+    tblPropertyCategoryId: TblProperty;
     fldFKSubcategory: number;
     
-    TblPropertySubcategoryId: TblProperty;
+    tblPropertySubcategoryId: TblProperty;
     fldFKBrand: number;
     
-    TblPropertyBrandId: TblProperty;
+    tblPropertyBrandId: TblProperty;
     fldFKSource: number;
     
-    TblPropertySourceId: TblProperty;
+    tblPropertySourceId: TblProperty;
     fldCode: string;
     fldDesc: string;
     fldName: string;
     fldFKColor: number;
     
-    TblPropertyColorId: TblProperty;
+    tblPropertyColorId: TblProperty;
     fldFKPurchaseUOM: number;
     
-    TblPropertyPurchaseUOMId: TblProperty;
+    tblPropertyPurchaseUOMId: TblProperty;
     fldFKUsageUOM: number;
    
-    TblPropertyUsageUOMId: TblProperty;
+    tblPropertyUsageUOMId: TblProperty;
     fldPurchasetoUsageConversionRate: number;
     fldUsagetoPurchaseConversionRate: number;
     fldFKHSNCode: number;
    
-    TblHSNMasterId: TblHSNMaster;
+    tblHSNMasterId: TblHSNMaster;
     fldFKSize: number;
   
-    TblPropertySizeId: TblProperty;
+    tblPropertySizeId: TblProperty;
     fldPurchasePrice: number;
     fldJobworkPrice: number;
     fldSalesPrice: number;

@@ -37,6 +37,9 @@ import { TblUserDetailUpdateComponent } from './features/mastertables/tblUserDet
 import { TblItemMasterListComponent } from './features/mastertables/tblItemMaster/tbl-item-master-list/tbl-item-master-list';
 import { TblItemMasterAddComponent } from './features/mastertables/tblItemMaster/tbl-item-master-add/tbl-item-master-add';
 import { TblItemMasterUpdateComponent } from './features/mastertables/tblItemMaster/tbl-item-master-update/tbl-item-master-update';
+import { TblPurchaseOrderListComponent } from './features/transactiontable/tblPurchaseOrder/tbl-purchase-order-list/tbl-purchase-order-list';
+import { TblPurchaseOrderAddComponent } from './features/transactiontable/tblPurchaseOrder/tbl-purchase-order-add/tbl-purchase-order-add';
+import { TblPartyDetailListComponent } from './features/mastertables/tblPartyDetail/tbl-party-detail-list/tbl-party-detail-list';
 
 export const routes: Routes = [
   {
@@ -140,6 +143,11 @@ export const routes: Routes = [
         component: TblPartyMasterUpdateComponent,
       },
       {
+        path: 'mastertables/tblPartyDetail',
+        component: TblPartyDetailListComponent,
+      }
+      ,
+      {
         path: 'mastertables/tblRole',
         component: TblRoleListComponent,
       },
@@ -190,7 +198,17 @@ export const routes: Routes = [
       {
         path: 'mastertables/tblItemMaster/Edit/:id',
         component: TblItemMasterUpdateComponent,
+      },
+      {
+        path: 'transactiontables/tblPurchaseOrder',
+        component: TblPurchaseOrderListComponent,
+      },
+      {
+        path: 'transactiontables/tblPurchaseOrder/add',
+        component: TblPurchaseOrderAddComponent,
       }
+
+
 
 
 

@@ -15,112 +15,150 @@
         <div class="page-card">
 
             <div class="d-flex flex-row form-row">
+
                 <div class="col-3 field-group">
-                    <label class="form-label" for="fldFKCompany">F K Company</label>
+                    <label class="form-label" for="fldFKCompany">Company</label>
                     <select id="fldFKCompany" class="form-select" name="fldFKCompany" [(ngModel)]="model.fldFKCompany"
                         required>
-                        <option value="">-- Select --</option>
+                        
                         <option *ngFor="let tblCompanyMaster of tblCompanyMaster$ | async"
                             [value]="tblCompanyMaster.fldId">{{ tblCompanyMaster.fldName }}</option>
                     </select>
                     <div class="text-danger"
                         *ngIf="form.controls['fldFKCompany']?.touched && form.controls['fldFKCompany']?.invalid">
-                        F K Company is required and should be greater than 0.
+                        Company is required and should be greater than 0.
                     </div>
 
                 </div>
+
                 <div class="col-3 field-group">
-                    <label class="form-label" for="fldFKType">F K Type</label>
+                    <label class="form-label" for="fldFKType">Type</label>
                     <select id="fldFKType" class="form-select" name="fldFKType" [(ngModel)]="model.fldFKType" required>
-                        <option value="">-- Select --</option>
+                        
                         <option *ngFor="let tblPropertyType of tblPropertyType$ | async"
                             [value]="tblPropertyType.fldId">{{ tblPropertyType.fldDescription }}</option>
                     </select>
                     <div class="text-danger"
                         *ngIf="form.controls['fldFKType']?.touched && form.controls['fldFKType']?.invalid">
-                        F K Type is required and should be greater than 0.
+                        Type is required and should be greater than 0.
                     </div>
 
                 </div>
-            </div>
 
-            <div class="d-flex flex-row form-row">
                 <div class="col-3 field-group">
-                    <label class="form-label" for="fldFKCategory">F K Category</label>
-                    <select id="fldFKCategory" class="form-select" name="fldFKCategory"
-                        [(ngModel)]="model.fldFKCategory" required>
-                        <option value="">-- Select --</option>
+                    <label class="form-label" for="fldFKCategory">Category</label>
+                    <select id="fldFKCategory" class="form-select item-description-part" name="fldFKCategory"
+                        [(ngModel)]="model.fldFKCategory" (ngModelChange)="generateDescription()" required>
+                        
                         <option *ngFor="let tblPropertyCategory of tblPropertyCategory$ | async"
                             [value]="tblPropertyCategory.fldId">{{ tblPropertyCategory.fldDescription }}</option>
                     </select>
                     <div class="text-danger"
                         *ngIf="form.controls['fldFKCategory']?.touched && form.controls['fldFKCategory']?.invalid">
-                        F K Category is required and should be greater than 0.
+                        Category is required and should be greater than 0.
                     </div>
 
                 </div>
+            </div>
+
+            <div class="d-flex flex-row form-row">
+
                 <div class="col-3 field-group">
-                    <label class="form-label" for="fldFKSubcategory">F K Subcategory</label>
-                    <select id="fldFKSubcategory" class="form-select" name="fldFKSubcategory"
-                        [(ngModel)]="model.fldFKSubcategory" required>
-                        <option value="">-- Select --</option>
+                    <label class="form-label" for="fldFKSubcategory">Sub Category</label>
+                    <select id="fldFKSubcategory" class="form-select item-description-part" name="fldFKSubcategory"
+                        [(ngModel)]="model.fldFKSubcategory" (ngModelChange)="generateDescription()" required>
+                        
                         <option *ngFor="let tblPropertySubcategory of tblPropertySubcategory$ | async"
                             [value]="tblPropertySubcategory.fldId">{{ tblPropertySubcategory.fldDescription }}</option>
                     </select>
                     <div class="text-danger"
                         *ngIf="form.controls['fldFKSubcategory']?.touched && form.controls['fldFKSubcategory']?.invalid">
-                        F K Subcategory is required and should be greater than 0.
+                        Sub Category is required and should be greater than 0.
                     </div>
 
                 </div>
-            </div>
 
-            <div class="d-flex flex-row form-row">
                 <div class="col-3 field-group">
-                    <label class="form-label" for="fldFKBrand">F K Brand</label>
-                    <select id="fldFKBrand" class="form-select" name="fldFKBrand" [(ngModel)]="model.fldFKBrand"
-                        required>
-                        <option value="">-- Select --</option>
+                    <label class="form-label" for="fldFKBrand">Brand</label>
+                    <select id="fldFKBrand" class="form-select item-description-part" name="fldFKBrand" [(ngModel)]="model.fldFKBrand"
+                        (ngModelChange)="generateDescription()" required>
+                        
                         <option *ngFor="let tblPropertyBrand of tblPropertyBrand$ | async"
                             [value]="tblPropertyBrand.fldId">{{ tblPropertyBrand.fldDescription }}</option>
                     </select>
                     <div class="text-danger"
                         *ngIf="form.controls['fldFKBrand']?.touched && form.controls['fldFKBrand']?.invalid">
-                        F K Brand is required and should be greater than 0.
+                        Brand is required and should be greater than 0.
                     </div>
 
                 </div>
                 <div class="col-3 field-group">
-                    <label class="form-label" for="fldFKSource">F K Source</label>
-                    <select id="fldFKSource" class="form-select" name="fldFKSource" [(ngModel)]="model.fldFKSource"
-                        required>
-                        <option value="">-- Select --</option>
+                    <label class="form-label" for="fldFKSource">Source</label>
+                    <select id="fldFKSource" class="form-select item-description-part" name="fldFKSource" [(ngModel)]="model.fldFKSource"
+                        (ngModelChange)="generateDescription()" required>
+                        
                         <option *ngFor="let tblPropertySource of tblPropertySource$ | async"
                             [value]="tblPropertySource.fldId">{{ tblPropertySource.fldDescription }}</option>
                     </select>
                     <div class="text-danger"
                         *ngIf="form.controls['fldFKSource']?.touched && form.controls['fldFKSource']?.invalid">
-                        F K Source is required and should be greater than 0.
+                        Source is required and should be greater than 0.
                     </div>
 
                 </div>
             </div>
 
             <div class="d-flex flex-row form-row">
+
+                <div class="col-3 field-group">
+                    <label class="form-label" for="fldFKColor">Color</label>
+                    <select id="fldFKColor" class="form-select item-description-part" name="fldFKColor" [(ngModel)]="model.fldFKColor"
+                        (ngModelChange)="generateDescription()" required>
+                        
+                        <option *ngFor="let tblPropertyColor of tblPropertyColor$ | async"
+                            [value]="tblPropertyColor.fldId">{{ tblPropertyColor.fldDescription }}</option>
+                    </select>
+                    <div class="text-danger"
+                        *ngIf="form.controls['fldFKColor']?.touched && form.controls['fldFKColor']?.invalid">
+                        Color is required and should be greater than 0.
+                    </div>
+
+                </div>
+
+                <div class="col-3 field-group">
+                    <label class="form-label" for="fldFKSize">Size</label>
+                    <select id="fldFKSize" class="form-select item-description-part" name="fldFKSize" [(ngModel)]="model.fldFKSize"
+                        (ngModelChange)="generateDescription()" required>
+                        
+                        <option *ngFor="let tblPropertySize of tblPropertySize$ | async"
+                            [value]="tblPropertySize.fldId">{{ tblPropertySize.fldDescription }}</option>
+                    </select>
+                    <div class="text-danger"
+                        *ngIf="form.controls['fldFKSize']?.touched && form.controls['fldFKSize']?.invalid">
+                        Size is required and should be greater than 0.
+                    </div>
+
+                </div>
+
                 <div class="col-3 field-group">
                     <label class="form-label" for="fldCode">Code</label>
                     <input type="text" id="fldCode" class="form-control" name="fldCode" [(ngModel)]="model.fldCode"
-                        maxlength="50" required>
+                        maxlength="50" required readonly>
                     <div class="text-danger"
                         *ngIf="form.controls['fldCode']?.touched && form.controls['fldCode']?.invalid">
                         Code is required.
                     </div>
 
                 </div>
-                <div class="col-3 field-group">
-                    <label class="form-label" for="fldDesc">Desc</label>
+
+            </div>
+
+            <div class="d-flex flex-row form-row">
+
+                <div class="col-9 field-group">
+                    <label class="form-label" for="fldDesc">Description</label>
                     <input type="text" id="fldDesc" class="form-control" name="fldDesc" [(ngModel)]="model.fldDesc"
-                        maxlength="300" required>
+                        maxlength="300" required readonly>
                     <div class="text-danger"
                         *ngIf="form.controls['fldDesc']?.touched && form.controls['fldDesc']?.invalid">
                         Desc is required.
@@ -130,8 +168,8 @@
             </div>
 
             <div class="d-flex flex-row form-row">
-                <div class="col-3 field-group">
-                    <label class="form-label" for="fldName">Name</label>
+                <div class="col-9 field-group">
+                    <label class="form-label" for="fldName">Name [ You can define your own name ]</label>
                     <input type="text" id="fldName" class="form-control" name="fldName" [(ngModel)]="model.fldName"
                         maxlength="50" required>
                     <div class="text-danger"
@@ -140,72 +178,60 @@
                     </div>
 
                 </div>
-                <div class="col-3 field-group">
-                    <label class="form-label" for="fldFKColor">F K Color</label>
-                    <select id="fldFKColor" class="form-select" name="fldFKColor" [(ngModel)]="model.fldFKColor"
-                        required>
-                        <option value="">-- Select --</option>
-                        <option *ngFor="let tblPropertyColor of tblPropertyColor$ | async"
-                            [value]="tblPropertyColor.fldId">{{ tblPropertyColor.fldDescription }}</option>
-                    </select>
-                    <div class="text-danger"
-                        *ngIf="form.controls['fldFKColor']?.touched && form.controls['fldFKColor']?.invalid">
-                        F K Color is required and should be greater than 0.
-                    </div>
 
-                </div>
             </div>
 
             <div class="d-flex flex-row form-row">
-                <div class="col-3 field-group">
-                    <label class="form-label" for="fldFKPurchaseUOM">F K Purchase U O M</label>
+                <div class="col-2 field-group">
+                    <label class="form-label" for="fldFKPurchaseUOM">[P] Purchase UOM</label>
                     <select id="fldFKPurchaseUOM" class="form-select" name="fldFKPurchaseUOM"
-                        [(ngModel)]="model.fldFKPurchaseUOM" required>
-                        <option value="">-- Select --</option>
+                        [(ngModel)]="model.fldFKPurchaseUOM" (ngModelChange)="onUomChange()" required>
+                        
                         <option *ngFor="let tblPropertyPurchaseUOM of tblPropertyPurchaseUOM$ | async"
                             [value]="tblPropertyPurchaseUOM.fldId">{{ tblPropertyPurchaseUOM.fldDescription }}</option>
                     </select>
                     <div class="text-danger"
                         *ngIf="form.controls['fldFKPurchaseUOM']?.touched && form.controls['fldFKPurchaseUOM']?.invalid">
-                        F K Purchase U O M is required and should be greater than 0.
+                        Purchase UOM is required and should be greater than 0.
                     </div>
 
                 </div>
-                <div class="col-3 field-group">
-                    <label class="form-label" for="fldFKUsageUOM">F K Usage U O M</label>
+                <div class="col-2 field-group">
+                    <label class="form-label" for="fldFKUsageUOM">[U] Usage UOM</label>
                     <select id="fldFKUsageUOM" class="form-select" name="fldFKUsageUOM"
-                        [(ngModel)]="model.fldFKUsageUOM" required>
-                        <option value="">-- Select --</option>
+                        [(ngModel)]="model.fldFKUsageUOM" (ngModelChange)="onUomChange()" required>
+                        
                         <option *ngFor="let tblPropertyUsageUOM of tblPropertyUsageUOM$ | async"
                             [value]="tblPropertyUsageUOM.fldId">{{ tblPropertyUsageUOM.fldDescription }}</option>
                     </select>
                     <div class="text-danger"
                         *ngIf="form.controls['fldFKUsageUOM']?.touched && form.controls['fldFKUsageUOM']?.invalid">
-                        F K Usage U O M is required and should be greater than 0.
+                        Usage UOM is required and should be greater than 0.
                     </div>
 
                 </div>
-            </div>
 
-            <div class="d-flex flex-row form-row">
-                <div class="col-3 field-group">
-                    <label class="form-label" for="fldPurchasetoUsageConversionRate">Purchaseto Usage Conversion
-                        Rate</label>
+                <div class="col-2 field-group">
+                    <label class="form-label" for="fldPurchasetoUsageConversionRate">P 2 U Conversion Rate</label>
                     <input type="number" id="fldPurchasetoUsageConversionRate" class="form-control"
                         name="fldPurchasetoUsageConversionRate" [(ngModel)]="model.fldPurchasetoUsageConversionRate"
-                        step="0.01" min="0" required>
+                        (ngModelChange)="onPurchaseToUsageRateChange($event)"
+                        [readonly]="areUomsSame || activeConversionField === 'usageToPurchase'"
+                        step="0.000001" min="0.000001" required>
                     <div class="text-danger"
                         *ngIf="form.controls['fldPurchasetoUsageConversionRate']?.touched && form.controls['fldPurchasetoUsageConversionRate']?.invalid">
                         Purchaseto Usage Conversion Rate is required and should be greater than 0.
                     </div>
 
                 </div>
-                <div class="col-3 field-group">
-                    <label class="form-label" for="fldUsagetoPurchaseConversionRate">Usageto Purchase Conversion
-                        Rate</label>
+
+                <div class="col-2 field-group">
+                    <label class="form-label" for="fldUsagetoPurchaseConversionRate">U 2 P Conversion Rate</label>
                     <input type="number" id="fldUsagetoPurchaseConversionRate" class="form-control"
                         name="fldUsagetoPurchaseConversionRate" [(ngModel)]="model.fldUsagetoPurchaseConversionRate"
-                        step="0.01" min="0" required>
+                        (ngModelChange)="onUsageToPurchaseRateChange($event)"
+                        [readonly]="areUomsSame || activeConversionField === 'purchaseToUsage'"
+                        step="0.000001" min="0.000001" required>
                     <div class="text-danger"
                         *ngIf="form.controls['fldUsagetoPurchaseConversionRate']?.touched && form.controls['fldUsagetoPurchaseConversionRate']?.invalid">
                         Usageto Purchase Conversion Rate is required and should be greater than 0.
@@ -215,37 +241,22 @@
             </div>
 
             <div class="d-flex flex-row form-row">
-                <div class="col-3 field-group">
-                    <label class="form-label" for="fldFKHSNCode">F K H S N Code</label>
+                <div class="col-2 field-group">
+                    <label class="form-label" for="fldFKHSNCode">HSN Code</label>
                     <select id="fldFKHSNCode" class="form-select" name="fldFKHSNCode" [(ngModel)]="model.fldFKHSNCode"
                         required>
-                        <option value="">-- Select --</option>
+                        
                         <option *ngFor="let tblHSNMaster of tblHSNMaster$ | async" [value]="tblHSNMaster.fldId">{{
                             tblHSNMaster.fldItemNames }}</option>
                     </select>
                     <div class="text-danger"
                         *ngIf="form.controls['fldFKHSNCode']?.touched && form.controls['fldFKHSNCode']?.invalid">
-                        F K H S N Code is required and should be greater than 0.
+                        HSN Code is required and should be greater than 0.
                     </div>
 
                 </div>
-                <div class="col-3 field-group">
-                    <label class="form-label" for="fldFKSize">F K Size</label>
-                    <select id="fldFKSize" class="form-select" name="fldFKSize" [(ngModel)]="model.fldFKSize" required>
-                        <option value="">-- Select --</option>
-                        <option *ngFor="let tblPropertySize of tblPropertySize$ | async"
-                            [value]="tblPropertySize.fldId">{{ tblPropertySize.fldDescription }}</option>
-                    </select>
-                    <div class="text-danger"
-                        *ngIf="form.controls['fldFKSize']?.touched && form.controls['fldFKSize']?.invalid">
-                        F K Size is required and should be greater than 0.
-                    </div>
 
-                </div>
-            </div>
-
-            <div class="d-flex flex-row form-row">
-                <div class="col-3 field-group">
+                <div class="col-2 field-group">
                     <label class="form-label" for="fldPurchasePrice">Purchase Price</label>
                     <input type="number" id="fldPurchasePrice" class="form-control" name="fldPurchasePrice"
                         [(ngModel)]="model.fldPurchasePrice" step="0.01" min="0" required>
@@ -255,7 +266,7 @@
                     </div>
 
                 </div>
-                <div class="col-3 field-group">
+                <div class="col-2 field-group">
                     <label class="form-label" for="fldJobworkPrice">Jobwork Price</label>
                     <input type="number" id="fldJobworkPrice" class="form-control" name="fldJobworkPrice"
                         [(ngModel)]="model.fldJobworkPrice" step="0.01" min="0" required>
@@ -265,9 +276,7 @@
                     </div>
 
                 </div>
-            </div>
-
-            <div class="d-flex flex-row form-row">
+          
                 <div class="col-3 field-group">
                     <label class="form-label" for="fldSalesPrice">Sales Price</label>
                     <input type="number" id="fldSalesPrice" class="form-control" name="fldSalesPrice"

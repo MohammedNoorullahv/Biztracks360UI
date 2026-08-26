@@ -1,0 +1,41 @@
+import { TblProperty } from "../../../mastertables/tblProperty/models/tblProperty.model";
+import { TblUnitMaster } from "../../../mastertables/tblUnitMaster/models/tblUnitMaster.model";
+
+export interface TblPurchaseOrder {
+    fldId: number;
+    fldFKUnitId: number;
+    tblUnitMasterId: TblUnitMaster;
+    fldPONo: string;
+    fldPODate: Date;
+    fldFKSupplierID: number;
+    // tblPartyDetailId: TblPartyDetail;
+    fldDeliveryStartDate: Date;
+    fldDeliveryEndDate: Date;
+    fldTotalQty: number;
+    fldInwardQty: number;
+    fldCancelQty: number;
+    fldBalanceQty: number;
+    fldRemarks: string;
+    fldFKStatus: number;
+    tblPropertyStatusId: TblProperty;
+    fldItemsGrossValue: number;
+    fldItemsTaxableValue: number;
+    fldItemsGSTValue: number;
+    fldItemsTotalValue: number;
+    fldDiscountPercentage: number;
+    fldDiscountValue: number;
+    fldGrandGrossValue: number;
+    fldOtherPlusValue: number;
+    fldOtherMinusValue: number;
+    fldRoundoff: number;
+    fldGrandTotalValue: number;
+    fldPaidAmount: number;
+    fldFKPaymentStatus: number;
+    fldIsActive: boolean;
+    fldCreatedBy: number;
+    fldCreatedDt: Date;
+    fldModifiedBy: number;
+    fldModifiedDt: Date;
+    fldDeletedBy: number;
+    fldDeletedDt: Date;
+}

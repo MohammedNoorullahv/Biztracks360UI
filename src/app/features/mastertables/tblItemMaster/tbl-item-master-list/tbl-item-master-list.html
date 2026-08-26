@@ -70,23 +70,20 @@
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>F K Company</th>
-                        <th>F K Type</th>
-                        <th>F K Category</th>
-                        <th>F K Subcategory</th>
-                        <th>F K Brand</th>
-                        <th>F K Source</th>
+                        <th>Type</th>
+                        <th>Category</th>
+                        <th>Subcategory</th>
+                        <th>Brand</th>
+                        <th>Source</th>
                         <th>Code</th>
-                        <th>Desc</th>
                         <th>Name</th>
-                        <th>F K Color</th>
-                        <th>F K Purchase U O M</th>
-                        <th>F K Usage U O M</th>
-                        <th>Purchaseto Usage Conversion Rate</th>
-                        <th>Usageto Purchase Conversion Rate</th>
-                        <th>F K H S N Code</th>
-                        <th>F K Size</th>
+                        <th>Color</th>
+                        <th>Purchase UOM</th>
+                        <th>Usage UOM</th>
+                        <th>P 2 U CR</th>
+                        <th>U 2 P CR</th>
+                        <th>HSN Code</th>
+                        <th>Size</th>
                         <th>Purchase Price</th>
                         <th>Jobwork Price</th>
                         <th>Sales Price</th>
@@ -96,23 +93,21 @@
 
                 <tbody>
                     <tr *ngFor="let tblitemmaster of tblitemmasters">
-                        <td class="cell-code">{{tblitemmaster.fldId}}</td>
-                        <td>{{tblitemmaster.fldFKCompany}}</td>
-                        <td>{{tblitemmaster.fldFKType}}</td>
-                        <td>{{tblitemmaster.fldFKCategory}}</td>
-                        <td>{{tblitemmaster.fldFKSubcategory}}</td>
-                        <td>{{tblitemmaster.fldFKBrand}}</td>
-                        <td>{{tblitemmaster.fldFKSource}}</td>
+                       
+                        <td>{{tblitemmaster.tblPropertyTypeId.fldDescription}}</td>
+                        <td>{{tblitemmaster.tblPropertyCategoryId.fldDescription}}</td>
+                        <td>{{tblitemmaster.tblPropertySubcategoryId.fldDescription}}</td>
+                        <td>{{tblitemmaster.tblPropertyBrandId.fldDescription}}</td>
+                        <td>{{tblitemmaster.tblPropertySourceId.fldDescription}}</td>
                         <td class="cell-primary">{{tblitemmaster.fldCode}}</td>
-                        <td>{{tblitemmaster.fldDesc}}</td>
                         <td>{{tblitemmaster.fldName}}</td>
-                        <td>{{tblitemmaster.fldFKColor}}</td>
-                        <td>{{tblitemmaster.fldFKPurchaseUOM}}</td>
-                        <td>{{tblitemmaster.fldFKUsageUOM}}</td>
+                        <td>{{tblitemmaster.tblPropertyColorId.fldDescription}}</td>
+                        <td>{{tblitemmaster.tblPropertyPurchaseUOMId.fldDescription}}</td>
+                        <td>{{tblitemmaster.tblPropertyUsageUOMId.fldDescription}}</td>
                         <td>{{tblitemmaster.fldPurchasetoUsageConversionRate}}</td>
                         <td>{{tblitemmaster.fldUsagetoPurchaseConversionRate}}</td>
-                        <td>{{tblitemmaster.fldFKHSNCode}}</td>
-                        <td>{{tblitemmaster.fldFKSize}}</td>
+                        <td>{{tblitemmaster.tblHSNMasterId.fldItemNames}}</td>
+                        <td>{{tblitemmaster.tblPropertySizeId.fldDescription}}</td>
                         <td>{{tblitemmaster.fldPurchasePrice}}</td>
                         <td>{{tblitemmaster.fldJobworkPrice}}</td>
                         <td>{{tblitemmaster.fldSalesPrice}}</td>
