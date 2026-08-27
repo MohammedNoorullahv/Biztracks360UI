@@ -8,7 +8,7 @@ import { TblPartyDetailService } from '../services/tbl-party-detail';
 
 @Component({
   selector: 'app-tbl-party-detail-list',
-  imports: [AsyncPipe, CommonModule, RouterLink],
+  imports: [ CommonModule],
   templateUrl: './tbl-party-detail-list.html',
   styleUrl: './tbl-party-detail-list.css',
 })

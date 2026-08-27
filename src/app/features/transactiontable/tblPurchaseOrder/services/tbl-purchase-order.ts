@@ -40,6 +40,11 @@ export class TblPurchaseOrderService {
     return this.http.get<TblPurchaseOrder>(`${environment.apiBaseUrl}/api/TblPurchaseOrder/GetTblPurchaseOrderById/${id}`);
   };
 
+  //GET LAST PO
+  getLastTblPurchaeOrder(fldFKUnit: number): Observable<TblPurchaseOrder>{
+    return this.http.get<TblPurchaseOrder>(`${environment.apiBaseUrl}/api/TblPurchaseOrder/GetLastTblPurchaseOrder/${fldFKUnit}`);
+  };
+
   //UPDATE
   updateTblPurchaseOrder(tblPurchaseOrderupdate: TblPurchaseOrderUpdate): Observable<TblPurchaseOrder> {
     return this.http.patch<TblPurchaseOrder>(`${environment.apiBaseUrl}/api/TblPurchaseOrder/updateTblPurchaseOrder`, tblPurchaseOrderupdate);
