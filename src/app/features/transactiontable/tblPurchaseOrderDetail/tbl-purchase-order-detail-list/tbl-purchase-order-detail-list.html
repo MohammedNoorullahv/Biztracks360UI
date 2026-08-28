@@ -1,0 +1,164 @@
+<div class="container grid-page-shell">
+
+    <!-- ============================================
+		 Page header: caption + record toggle + New Record
+		 ============================================ -->
+    <div class="page-header-bar">
+
+        <h1 class="page-caption">TblPurchaseOrderDetailsList</h1>
+
+        <div class="page-header-center">
+            <!-- <button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Load All'"
+                (click)="OnFormSubmit('Load All')"
+                [attr.title]="actionType !== 'Load All' ? 'Loading All Records' : 'All Records'">
+                <i class="bi bi-list-ul"></i>
+                All Records
+            </button>
+
+            <button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Active Only'"
+                (click)="OnFormSubmit('Active Only')"
+                [attr.title]="actionType !== 'Active Only' ? 'Loading Active Records' : 'Active Records'">
+                <i class="bi bi-check-circle"></i>
+                Active Records
+            </button> -->
+        </div>
+
+        <div class="page-header-right">
+            <a [routerLink]="['add']" class="btn-app btn-new">
+                <i class="bi bi-plus-lg"></i>
+                New Record
+            </a>
+        </div>
+
+    </div>
+
+    <div class="page-card">
+
+        <div class="page-header-bar-secondary">
+
+            <div class="page-header-left">
+                <button type="button" class="btn-app btn-outline">
+                    <i class="bi bi-funnel"></i>
+                    Filter
+                </button>
+
+                <button type="button" class="btn-app btn-outline">
+                    <i class="bi bi-download"></i>
+                    Export CSV
+                </button>
+            </div>
+
+            <div class="page-header-right">
+                <ng-container *ngIf="tblPurchaseOrderDetail$ | async as tblpurchaseorderdetails">
+                    <span class="pagination-info">
+                        Showing {{ tblpurchaseorderdetails.length }} of {{ tblpurchaseorderdetails.length }} Records
+                    </span>
+                </ng-container>
+
+                <button type="button" class="pager-btn" disabled>
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                <button type="button" class="pager-btn" disabled>
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <ng-container *ngIf="tblPurchaseOrderDetail$ | async as tblpurchaseorderdetails">
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>F K Po</th>
+                        <th>F K Item</th>
+                        <th>Item Description</th>
+                        <th>Item Size</th>
+                        <th>Item Colour</th>
+                        <th>F K Purchase U O M</th>
+                        <th>F K Usage U O M</th>
+                        <th>F K H S N Code</th>
+                        <th>Quantity</th>
+                        <th>Rate</th>
+                        <th>Gross Value</th>
+                        <th>Discount Percentage</th>
+                        <th>Discount Value</th>
+                        <th>Taxable Value</th>
+                        <th>I G S T Percentage</th>
+                        <th>I G S T Value</th>
+                        <th>S G S T Percentage</th>
+                        <th>S G S T Value</th>
+                        <th>C G S T Percentage</th>
+                        <th>C G S T Value</th>
+                        <th>G S T Value</th>
+                        <th>Total Value</th>
+                        <th>Delivery Date</th>
+                        <th>Remarks</th>
+                        <th>F K Status</th>
+                        <th>Inward Quantity</th>
+                        <th>Cancel Quantity</th>
+                        <th>Balance Quantity</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let tblpurchaseorderdetail of tblpurchaseorderdetails">
+                        <td class="cell-code">{{tblpurchaseorderdetail.fldId}}</td>
+                        <td>{{tblpurchaseorderdetail.fldFKPo}}</td>
+                        <td>{{tblpurchaseorderdetail.fldFKItem}}</td>
+                        <td class="cell-primary">{{tblpurchaseorderdetail.fldItemDescription}}</td>
+                        <td>{{tblpurchaseorderdetail.fldItemSize}}</td>
+                        <td>{{tblpurchaseorderdetail.fldItemColour}}</td>
+                        <td>{{tblpurchaseorderdetail.fldFKPurchaseUOM}}</td>
+                        <td>{{tblpurchaseorderdetail.fldFKUsageUOM}}</td>
+                        <td>{{tblpurchaseorderdetail.fldFKHSNCode}}</td>
+                        <td>{{tblpurchaseorderdetail.fldQuantity}}</td>
+                        <td>{{tblpurchaseorderdetail.fldRate}}</td>
+                        <td>{{tblpurchaseorderdetail.fldGrossValue}}</td>
+                        <td>{{tblpurchaseorderdetail.fldDiscountPercentage}}</td>
+                        <td>{{tblpurchaseorderdetail.fldDiscountValue}}</td>
+                        <td>{{tblpurchaseorderdetail.fldTaxableValue}}</td>
+                        <td>{{tblpurchaseorderdetail.fldIGSTPercentage}}</td>
+                        <td>{{tblpurchaseorderdetail.fldIGSTValue}}</td>
+                        <td>{{tblpurchaseorderdetail.fldSGSTPercentage}}</td>
+                        <td>{{tblpurchaseorderdetail.fldSGSTValue}}</td>
+                        <td>{{tblpurchaseorderdetail.fldCGSTPercentage}}</td>
+                        <td>{{tblpurchaseorderdetail.fldCGSTValue}}</td>
+                        <td>{{tblpurchaseorderdetail.fldGSTValue}}</td>
+                        <td>{{tblpurchaseorderdetail.fldTotalValue}}</td>
+                        <td>{{tblpurchaseorderdetail.fldDeliveryDate}}</td>
+                        <td>{{tblpurchaseorderdetail.fldRemarks}}</td>
+                        <td>{{tblpurchaseorderdetail.fldFKStatus}}</td>
+                        <td>{{tblpurchaseorderdetail.fldInwardQuantity}}</td>
+                        <td>{{tblpurchaseorderdetail.fldCancelQuantity}}</td>
+                        <td>{{tblpurchaseorderdetail.fldBalanceQuantity}}</td>
+                        <td>
+                            <div class="row-actions">
+                                <a class="icon-btn edit" title="Edit"
+                                    [routerLink]="['/transactiontables/tblPurchaseOrderDetail/Edit', tblpurchaseorderdetail.fldId]"
+                                    [queryParams]="{ action: 'Edit' }">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a class="icon-btn delete" title="Delete"
+                                    [routerLink]="['/transactiontables/tblPurchaseOrderDetail/Edit', tblpurchaseorderdetail.fldId]"
+                                    [queryParams]="{ action: 'Delete' }">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <p class="grid-footnote" *ngIf="tblpurchaseorderdetails.length === 0">
+                No records found.
+            </p>
+
+        </ng-container>
+
+    </div>
+
+</div>

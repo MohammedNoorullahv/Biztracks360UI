@@ -117,6 +117,54 @@
   margin: 0 2px;
 }
 
+/* ---------------------------------------------------------
+   Transaction Pages ( List  ) Page Positioning
+   --------------------------------------------------------- */
+
+/* Container override for transaction pages */
+.transaction-header {
+  display: flex;
+  align-items: center;
+  /* Centers title and new button vertically */
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* Flex wrapper for the center row */
+.transaction-header .page-header-center {
+  flex-grow: 1;
+  max-width: 650px;
+  /* Prevents inputs from stretching too wide */
+}
+
+/* Aligns dates and refresh button perfectly along the bottom baseline */
+.tx-filter-group {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Ensures both date inputs share equal available space */
+.tx-field {
+  flex: 1;
+}
+
+/* Overrides any global vertical margins on the form labels */
+.tx-field .form-label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* Explicitly locks the height to match standard bootstrap inputs */
+.tx-action .btn-app {
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
 
 /* ---------------------------------------------------------
    Toolbar (filter / export / pagination / New Record)
@@ -257,6 +305,14 @@
   background-color: #06457d;
   color: #ffffff;
 }
+
+.btn-refresh {
+  background-color: #e6f0fa;
+  color: #06457d;
+  border: 1px solid #b3d1f0;
+  /* Optional: adds subtle definition */
+}
+
 
 .btn-new:hover:not(:disabled) {
   background-color: #04365f;
@@ -746,8 +802,10 @@
   text-align: left !important;
   justify-content: flex-start !important;
   padding-left: 14px !important;
-  white-space: nowrap !important; /* Prevents text wrap layout bugs */
-  overflow: visible !important;   /* Let label text breathe cleanly */
+  white-space: nowrap !important;
+  /* Prevents text wrap layout bugs */
+  overflow: visible !important;
+  /* Let label text breathe cleanly */
 }
 
 
@@ -779,3 +837,36 @@
 
 
 /* #endregion */
+
+.purchase-order-toolbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.toolbar-title {
+  align-self: center;
+  margin: 0 12px 0 0;
+}
+
+.date-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-field label {
+  margin-bottom: 6px;
+}
+
+.toolbar-button {
+  display: flex;
+  align-items: center;
+}
+
+.toolbar-button .btn {
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}

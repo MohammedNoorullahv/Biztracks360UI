@@ -3,34 +3,47 @@
 	<!-- ============================================
 		 Page header: caption + record toggle + New Record
 		 ============================================ -->
-	<div class="page-header-bar">
+	<div class="page-header-bar transaction-header">
 
-		<h1 class="page-caption">TblPurchaseOrdersList</h1>
+		<!-- Left: Title -->
+		<h1 class="page-caption">Purchase Orders</h1>
 
+		<!-- Center: Date Inputs & Refresh Button -->
 		<div class="page-header-center">
-			<button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Load All'"
-				(click)="OnFormSubmit('Load All')"
-				[attr.title]="actionType !== 'Load All' ? 'Loading All Records' : 'All Records'">
-				<i class="bi bi-list-ul"></i>
-				All Records
-			</button>
+			<div class="tx-filter-group">
 
-			<button type="submit" class="btn-app btn-toggle" [disabled]="actionType === 'Active Only'"
-				(click)="OnFormSubmit('Active Only')"
-				[attr.title]="actionType !== 'Active Only' ? 'Loading Active Records' : 'Active Records'">
-				<i class="bi bi-check-circle"></i>
-				Active Records
-			</button>
+				<div class="tx-field">
+					<label class="form-label" for="fldFromDate">From Date</label>
+					<input type="date" id="fldFromDate" class="form-control" name="fldFromDate"
+						 [max]="currentDate" (change)="onFromDateChange()"
+						 >
+				</div>
+
+				<div class="tx-field">
+					<label class="form-label" for="fldToDate">To Date</label>
+					<input type="date" id="fldToDate" class="form-control" name="fldToDate" 
+						[min]="fldFromDate" [max]="currentDate" (change)="onFromDateChange()">
+				</div>
+
+				<div class="tx-action">
+					<a [routerLink]="['Refresh']" class="btn-app btn-refresh">
+						<i class="bi bi-arrow-clockwise"></i> Refresh
+					</a>
+				</div>
+
+			</div>
 		</div>
 
+		<!-- Right: Action Button -->
 		<div class="page-header-right">
 			<a [routerLink]="['add']" class="btn-app btn-new">
-				<i class="bi bi-plus-lg"></i>
-				New Record
+				<i class="bi bi-plus-lg"></i> New Record
 			</a>
 		</div>
 
 	</div>
+
+
 
 	<div class="page-card">
 
@@ -70,20 +83,20 @@
 			<table class="data-table">
 				<thead>
 					<tr>
-						<th>Id</th>
-						<th>F K Unit Id</th>
-						<th>P O No</th>
-						<th>P O Date</th>
-						<th>F K Supplier I D</th>
-						<th>Delivery Start Date</th>
-						<th>Delivery End Date</th>
+						<!-- <th>Id</th> -->
+						<th>Unit Name</th>
+						<th>PO No</th>
+						<th>PO Date</th>
+						<th>Supplier Name</th>
+						<!-- <th>Delivery Start Date</th>
+						<th>Delivery End Date</th> -->
 						<th>Total Qty</th>
 						<th>Inward Qty</th>
 						<th>Cancel Qty</th>
 						<th>Balance Qty</th>
-						<th>Remarks</th>
-						<th>F K Status</th>
-						<th>Items Gross Value</th>
+						<!-- <th>Remarks</th> -->
+						<th>Status</th>
+						<!-- <th>Items Gross Value</th>
 						<th>Items Taxable Value</th>
 						<th>Items G S T Value</th>
 						<th>Items Total Value</th>
@@ -92,30 +105,31 @@
 						<th>Grand Gross Value</th>
 						<th>Other Plus Value</th>
 						<th>Other Minus Value</th>
-						<th>Roundoff</th>
+						<th>Roundoff</th> -->
 						<th>Grand Total Value</th>
-						<th>Paid Amount</th>
-						<th>F K Payment Status</th>
+						<!-- <th>Paid Amount</th>
+						<th>F K Payment Status</th> -->
 						<th>Actions</th>
 					</tr>
 				</thead>
 
 				<tbody>
 					<tr *ngFor="let tblpurchaseorder of tblpurchaseorders">
-						<td class="cell-code">{{tblpurchaseorder.fldId}}</td>
-						<td>{{tblpurchaseorder.fldFKUnitId}}</td>
+						<!-- <td class="cell-code">{{tblpurchaseorder.fldId}}</td> -->
+						<td>{{tblpurchaseorder.tblUnitMasterId.fldName}}</td>
 						<td class="cell-primary">{{tblpurchaseorder.fldPONo}}</td>
-						<td>{{tblpurchaseorder.fldPODate}}</td>
-						<td>{{tblpurchaseorder.fldFKSupplierID}}</td>
-						<td>{{tblpurchaseorder.fldDeliveryStartDate}}</td>
-						<td>{{tblpurchaseorder.fldDeliveryEndDate}}</td>
+						<td>{{tblpurchaseorder.fldPODate | date:'dd-MMM-yy' }}</td>
+						<!-- //{{ tblpurchaseorder.fldPODate | date:'dd-MMM-yy' }\ -->
+						<td>{{tblpurchaseorder.tblPartyDetailId.fldName}}</td>
+						<!-- <td>{{tblpurchaseorder.fldDeliveryStartDate}}</td>
+						<td>{{tblpurchaseorder.fldDeliveryEndDate}}</td> -->
 						<td>{{tblpurchaseorder.fldTotalQty}}</td>
 						<td>{{tblpurchaseorder.fldInwardQty}}</td>
 						<td>{{tblpurchaseorder.fldCancelQty}}</td>
 						<td>{{tblpurchaseorder.fldBalanceQty}}</td>
-						<td>{{tblpurchaseorder.fldRemarks}}</td>
+						<!-- <td>{{tblpurchaseorder.fldRemarks}}</td> -->
 						<td>{{tblpurchaseorder.fldFKStatus}}</td>
-						<td>{{tblpurchaseorder.fldItemsGrossValue}}</td>
+						<!-- <td>{{tblpurchaseorder.fldItemsGrossValue}}</td>
 						<td>{{tblpurchaseorder.fldItemsTaxableValue}}</td>
 						<td>{{tblpurchaseorder.fldItemsGSTValue}}</td>
 						<td>{{tblpurchaseorder.fldItemsTotalValue}}</td>
@@ -124,10 +138,24 @@
 						<td>{{tblpurchaseorder.fldGrandGrossValue}}</td>
 						<td>{{tblpurchaseorder.fldOtherPlusValue}}</td>
 						<td>{{tblpurchaseorder.fldOtherMinusValue}}</td>
-						<td>{{tblpurchaseorder.fldRoundoff}}</td>
+						<td>{{tblpurchaseorder.fldRoundoff}}</td> -->
 						<td>{{tblpurchaseorder.fldGrandTotalValue}}</td>
-						<td>{{tblpurchaseorder.fldPaidAmount}}</td>
-						<td>{{tblpurchaseorder.fldFKPaymentStatus}}</td>
+						<!-- <td>{{tblpurchaseorder.fldPaidAmount}}</td>
+						<td>{{tblpurchaseorder.fldFKPaymentStatus}}</td> -->
+
+						<td>
+							<div class="row-actions">
+
+
+								<a [routerLink]="['/transactiontables/tblPurchaseOrderDetail', tblpurchaseorder.fldId]"
+									class="btn-app btn-new">
+									<i class="bi bi-plus-lg"></i>
+									Details
+								</a>
+
+							</div>
+						</td>
+
 						<td>
 							<div class="row-actions">
 								<a class="icon-btn edit" title="Edit"

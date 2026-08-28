@@ -1,0 +1,47 @@
+import { TblHSNMaster } from "../../../mastertables/tblHSNMaster/models/tblHSNMaster.model";
+import { TblItemMaster } from "../../../mastertables/tblItemMaster/models/tblItemMaster.model";
+import { TblProperty } from "../../../mastertables/tblProperty/models/tblProperty.model";
+import { TblPurchaseOrder } from "../../tblPurchaseOrder/models/tblPurchaseOrder.model";
+
+export interface TblPurchaseOrderDetail {
+    fldId: number;
+    fldFKPo: number;
+    tblPurchaseOrderId: TblPurchaseOrder;
+    fldFKItem: number;
+    tblItemMasterId: TblItemMaster;
+    fldItemDescription: string;
+    fldItemSize: string;
+    fldItemColour: string;
+    fldFKPurchaseUOM: string;
+    fldFKUsageUOM: string;
+    fldFKHSNCode: number;
+    tblHSNMasterId: TblHSNMaster;
+    fldQuantity: number;
+    fldRate: number;
+    fldGrossValue: number;
+    fldDiscountPercentage: number;
+    fldDiscountValue: number;
+    fldTaxableValue: number;
+    fldIGSTPercentage: number;
+    fldIGSTValue: number;
+    fldSGSTPercentage: number;
+    fldSGSTValue: number;
+    fldCGSTPercentage: number;
+    fldCGSTValue: number;
+    fldGSTValue: number;
+    fldTotalValue: number;
+    fldDeliveryDate: Date;
+    fldRemarks: string;
+    fldFKStatus: number;
+    tblPropertyStatusId: TblProperty;
+    fldInwardQuantity: number;
+    fldCancelQuantity: number;
+    fldBalanceQuantity: number;
+    fldIsActive: boolean;
+    fldCreatedBy: number;
+    fldCreatedDt: Date;
+    fldModifiedBy: number;
+    fldModifiedDt: Date;
+    fldDeletedBy: number;
+    fldDeletedDt: Date;
+}

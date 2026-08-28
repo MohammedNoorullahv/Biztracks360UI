@@ -40,6 +40,8 @@ import { TblItemMasterUpdateComponent } from './features/mastertables/tblItemMas
 import { TblPurchaseOrderListComponent } from './features/transactiontable/tblPurchaseOrder/tbl-purchase-order-list/tbl-purchase-order-list';
 import { TblPurchaseOrderAddComponent } from './features/transactiontable/tblPurchaseOrder/tbl-purchase-order-add/tbl-purchase-order-add';
 import { TblPartyDetailListComponent } from './features/mastertables/tblPartyDetail/tbl-party-detail-list/tbl-party-detail-list';
+import { TblPurchaseOrderDetailListComponent } from './features/transactiontable/tblPurchaseOrderDetail/tbl-purchase-order-detail-list/tbl-purchase-order-detail-list';
+import { TblPurchaseOrderDetailAddComponent } from './features/transactiontable/tblPurchaseOrderDetail/tbl-purchase-order-detail-add/tbl-purchase-order-detail-add';
 
 export const routes: Routes = [
   {
@@ -206,7 +208,17 @@ export const routes: Routes = [
       {
         path: 'transactiontables/tblPurchaseOrder/add',
         component: TblPurchaseOrderAddComponent,
+      },
+      {
+        path: 'transactiontables/tblPurchaseOrderDetail/:fldFKPo',
+        component: TblPurchaseOrderDetailListComponent,
+      },
+      {
+        path: 'transactiontables/tblPurchaseOrderDetail/:fldFKPo/add',
+        component: TblPurchaseOrderDetailAddComponent,
       }
+
+
 
 
 

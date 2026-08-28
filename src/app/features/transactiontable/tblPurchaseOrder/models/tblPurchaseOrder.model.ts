@@ -1,3 +1,4 @@
+import { TblPartyDetail } from "../../../mastertables/tblPartyDetail/models/tblPartyDetail.model";
 import { TblProperty } from "../../../mastertables/tblProperty/models/tblProperty.model";
 import { TblUnitMaster } from "../../../mastertables/tblUnitMaster/models/tblUnitMaster.model";
 
@@ -8,7 +9,7 @@ export interface TblPurchaseOrder {
     fldPONo: string;
     fldPODate: Date;
     fldFKSupplierID: number;
-    // tblPartyDetailId: TblPartyDetail;
+    tblPartyDetailId: TblPartyDetail;
     fldDeliveryStartDate: Date;
     fldDeliveryEndDate: Date;
     fldTotalQty: number;
