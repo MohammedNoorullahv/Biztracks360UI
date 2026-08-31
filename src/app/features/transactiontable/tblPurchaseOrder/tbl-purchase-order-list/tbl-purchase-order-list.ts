@@ -1,32 +1,105 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { CommonModule, AsyncPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { Observable } from "rxjs";
+import { CommonModule, AsyncPipe } from "@angular/common";
+import { Router, RouterLink } from "@angular/router";
+import { FormsModule, NgForm } from "@angular/forms";
 
-import { TblPurchaseOrder } from '../models/tblPurchaseOrder.model';
-import { TblPurchaseOrderService } from '../services/tbl-purchase-order';
-
+import { TblPurchaseOrder } from "../models/tblPurchaseOrder.model";
+import { TblPurchaseOrderService } from "../services/tbl-purchase-order";
 
 @Component({
-  selector: 'app-tbl-purchase-order-list',
-  imports: [AsyncPipe, CommonModule, RouterLink],
-  templateUrl: './tbl-purchase-order-list.html',
-  styleUrl: './tbl-purchase-order-list.css',
+  selector: "app-tbl-purchase-order-list",
+  imports: [AsyncPipe, CommonModule, RouterLink, FormsModule],
+  templateUrl: "./tbl-purchase-order-list.html",
+  styleUrl: "./tbl-purchase-order-list.css",
 })
-
 export class TblPurchaseOrderListComponent implements OnInit {
   tblPurchaseOrder$?: Observable<TblPurchaseOrder[]>;
-  actionType: string = '';
-  submitAction: 'Load All' | 'Active Only' = 'Load All'; // default to Load All
-  fldFromDate = '';
-  fldToDate = '';
-  currentDate = '';
+  actionType: string = "";
+  submitAction: "Load All" | "Active Only" = "Load All"; // default to Load All
+  fldFromDate = "";
+  fldToDate = "";
+  currentDate = "";
+  @ViewChild("form") form!: NgForm;
 
-  constructor(private tblPurchaseOrderService: TblPurchaseOrderService) {
+  constructor(
+    private tblPurchaseOrderService: TblPurchaseOrderService,
+    private router: Router,
+  ) {}
+
+  isNewStatus(purchaseOrder: TblPurchaseOrder): boolean {
+    const status =
+      (purchaseOrder as any)?.tblPropertyStatusId?.fldDescription ??
+      (purchaseOrder as any)?.tblPropertyStatus?.fldDescription ??
+      "";
+    return status.toString().trim().toLowerCase() === "new";
+  }
+
+  getStatusDescription(purchaseOrder: TblPurchaseOrder): string {
+    return (
+      (purchaseOrder as any)?.tblPropertyStatusId?.fldDescription ??
+      (purchaseOrder as any)?.tblPropertyStatus?.fldDescription ??
+      (purchaseOrder as any)?.fldFKStatus ??
+      ""
+    );
+  }
+
+  requestDeleteOrCancel(
+    purchaseOrder: TblPurchaseOrder,
+    _allRows: TblPurchaseOrder[],
+  ): void {
+    const action: "Delete" | "Cancel" = this.isNewStatus(purchaseOrder)
+      ? "Delete"
+      : "Cancel";
+    const unitId =
+      Number((purchaseOrder as any).fldFKUnitId) ||
+      Number((purchaseOrder as any).tblUnitMasterId?.fldId);
+
+    this.tblPurchaseOrderService.getLastTblPurchaeOrder(unitId).subscribe({
+      next: (
+        response: TblPurchaseOrder | TblPurchaseOrder[] | null | undefined,
+      ) => {
+        const lastRecord = Array.isArray(response) ? response[0] : response;
+        const isLastRecord =
+          Number((purchaseOrder as any).fldId) ===
+          Number((lastRecord as any)?.fldId);
+        this.confirmDeleteOrCancel(purchaseOrder, action, isLastRecord);
+      },
+      error: () => this.confirmDeleteOrCancel(purchaseOrder, action, false),
+    });
+  }
+
+  private confirmDeleteOrCancel(
+    purchaseOrder: TblPurchaseOrder,
+    action: "Delete" | "Cancel",
+    isLastRecord: boolean,
+  ): void {
+    const effect = isLastRecord
+      ? "This is the last purchase order in the current sequence and will be permanently deleted."
+      : `This purchase order will not be removed; its status will be changed to ${action === "Delete" ? "Deleted" : "Cancelled"}.`;
+
+    if (!window.confirm(`${action} Purchase Order?\n\n${effect}`)) {
+      return;
+    }
+
+    if (
+      !window.confirm(
+        `Final acknowledgement: Do you want to continue with ${action.toLowerCase()}?`,
+      )
+    ) {
+      return;
+    }
+
+    this.router.navigate(
+      [
+        "/transactiontables/tblPurchaseOrder/Edit",
+        (purchaseOrder as any).fldId,
+      ],
+      { queryParams: { action, permanent: isLastRecord } },
+    );
   }
 
   ngOnInit(): void {
-
     const today = new Date();
 
     // Maximum selectable date
@@ -41,14 +114,23 @@ export class TblPurchaseOrderListComponent implements OnInit {
 
     this.fldFromDate = this.toInputDate(oneWeekEarlier);
 
-    this.actionType = 'Load All';
-    this.tblPurchaseOrder$ = this.tblPurchaseOrderService.getAllTblPurchaseOrders();
+    console.log(
+      "Init : FldFromDate, FldDtoDate",
+      this.fldFromDate,
+      this.fldToDate,
+    );
+    // this.actionType = 'Load All';
+    this.tblPurchaseOrder$ =
+      this.tblPurchaseOrderService.getAllTblPurchaseOrders(
+        this.fldFromDate,
+        this.fldToDate,
+      );
   }
 
   private toInputDate(date: Date): string {
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
   }
@@ -59,7 +141,7 @@ export class TblPurchaseOrderListComponent implements OnInit {
     //   this.fldToDate = this.fldFromDate;
     // }
 
-    if (this.fldToDate < this.fldFromDate){
+    if (this.fldToDate < this.fldFromDate) {
       this.fldToDate = this.fldFromDate;
     }
   }
@@ -68,15 +150,11 @@ export class TblPurchaseOrderListComponent implements OnInit {
   //   this.loadPurchaseOrders();
   // }
 
-
-  OnFormSubmit(action: string): void {
-    if (action === 'Load All') {
-      this.actionType = "Load All";
-      this.tblPurchaseOrder$ = this.tblPurchaseOrderService.getAllTblPurchaseOrders();
-    }
-    else {
-      this.actionType = "Active Only";
-      this.tblPurchaseOrder$ = this.tblPurchaseOrderService.getActiveTblPurchaseOrders();
-    }
+  OnFormSubmit(): void {
+    this.tblPurchaseOrder$ =
+      this.tblPurchaseOrderService.getAllTblPurchaseOrders(
+        this.fldFromDate,
+        this.fldToDate,
+      );
   }
 }

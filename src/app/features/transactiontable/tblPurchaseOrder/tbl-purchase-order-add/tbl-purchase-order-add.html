@@ -1,271 +1,499 @@
 <div class="container grid-page-shell">
-
-    <!-- ============================================
+  <!-- ============================================
 		 Section 1: Caption
 		 ============================================ -->
-    <div class="page-header-bar-simple">
-        <h1 class="page-caption">Add Purchase Orders</h1>
-    </div>
+  <div class="page-header-bar-simple">
+    <h1 class="page-caption">Add Purchase Orders</h1>
+  </div>
 
-    <form #form="ngForm" novalidate>
-
-        <!-- ============================================
+  <form #form="ngForm" novalidate>
+    <!-- ============================================
 			 Section 2: Input fields
 			 ============================================ -->
-        <div class="page-card">
+    <div class="page-card">
+      <div class="d-flex flex-row form-row">
+        <div class="col-3 field-group">
+          <label class="form-label" for="fldFKUnitId">F K Unit Id</label>
+          <select
+            id="fldFKUnitId"
+            class="form-select"
+            name="fldFKUnitId"
+            [(ngModel)]="model.fldFKUnitId"
+            (ngModelChange)="onUnitChange($event)"
+            required
+          >
+            <option
+              *ngFor="let tblUnitMaster of tblUnitMaster$ | async"
+              [ngValue]="tblUnitMaster.fldId"
+            >
+              {{ tblUnitMaster.fldName }}
+            </option>
+          </select>
+          <div
+            class="text-danger"
+            *ngIf="form.controls['fldFKUnitId']?.touched && form.controls['fldFKUnitId']?.invalid"
+          >
+            F K Unit Id is required and should be greater than 0.
+          </div>
+        </div>
 
-            <div class="d-flex flex-row form-row">
+        <div class="col-3 field-group">
+          <label class="form-label" for="fldPONo"
+            >PO #
+            <span class="text-danger"
+              >- This may change while saving</span
+            ></label
+          >
+          <input
+            type="text"
+            id="fldPONo"
+            class="form-control"
+            name="fldPONo"
+            [ngModel]="model.fldPONo"
+            maxlength="50"
+            required
+            readonly
+            tabindex="-1"
+          />
+        </div>
 
-                <div class="col-3 field-group">
-                    <label class="form-label" for="fldFKUnitId">F K Unit Id</label>
-                    <select id="fldFKUnitId" class="form-select" name="fldFKUnitId" [(ngModel)]="model.fldFKUnitId"
-                        (ngModelChange)="onUnitChange($event)" required>
-                        
-                        <option *ngFor="let tblUnitMaster of tblUnitMaster$ | async" [ngValue]="tblUnitMaster.fldId">{{
-                            tblUnitMaster.fldName }}</option>
-                    </select>
-                    <div class="text-danger"
-                        *ngIf="form.controls['fldFKUnitId']?.touched && form.controls['fldFKUnitId']?.invalid">
-                        F K Unit Id is required and should be greater than 0.
-                    </div>
+        <div class="col-3 field-group">
+          <label class="form-label" for="fldPODate">P O Date</label>
+          <input
+            type="date"
+            id="fldPODate"
+            class="form-control"
+            name="fldPODate"
+            [(ngModel)]="model.fldPODate"
+            [min]="minPODate"
+            (ngModelChange)="onPODateChange($event)"
+            required
+          />
+          <div
+            class="text-danger"
+            *ngIf="form.controls['fldPODate']?.touched && form.controls['fldPODate']?.invalid"
+          >
+            P O Date is required.
+          </div>
+        </div>
+      </div>
 
-                </div>
+      <div class="d-flex flex-row form-row">
+        <div class="col-3 field-group">
+          <label class="form-label" for="fldFKSupplierID"
+            >F K Supplier I D</label
+          >
+          <select
+            id="fldFKSupplierID"
+            class="form-select"
+            name="fldFKSupplierID"
+            [(ngModel)]="model.fldFKSupplierID"
+            required
+          >
+            <option value="">-- Select --</option>
+            <option
+              *ngFor="let tblPartyDetail of tblPartyDetail$ | async"
+              [value]="tblPartyDetail.fldId"
+            >
+              {{ tblPartyDetail.fldName }}
+            </option>
+          </select>
+          <div
+            class="text-danger"
+            *ngIf="form.controls['fldFKSupplierID']?.touched && form.controls['fldFKSupplierID']?.invalid"
+          >
+            F K Supplier I D is required and should be greater than 0.
+          </div>
+        </div>
 
-                <div class="col-3 field-group">
-                    <label class="form-label" for="fldPONo">PO # <span class="text-danger">- This may change while saving</span></label>
-                    <input type="text" id="fldPONo" class="form-control" name="fldPONo" [ngModel]="model.fldPONo"
-                        maxlength="50" required readonly tabindex="-1">
-                    
+        <div class="col-3 field-group">
+          <label class="form-label" for="fldDeliveryStartDate"
+            >Delivery Start Date</label
+          >
+          <input
+            type="date"
+            id="fldDeliveryStartDate"
+            class="form-control"
+            name="fldDeliveryStartDate"
+            [(ngModel)]="model.fldDeliveryStartDate"
+            [min]="minDeliveryStartDate"
+            (ngModelChange)="onDeliveryStartDateChange($event)"
+            required
+          />
+          <div
+            class="text-danger"
+            *ngIf="form.controls['fldDeliveryStartDate']?.touched && form.controls['fldDeliveryStartDate']?.invalid"
+          >
+            Delivery Start Date is required.
+          </div>
+        </div>
 
-                </div>
+        <div class="col-3 field-group">
+          <label class="form-label" for="fldDeliveryEndDate"
+            >Delivery End Date</label
+          >
+          <input
+            type="date"
+            id="fldDeliveryEndDate"
+            class="form-control"
+            name="fldDeliveryEndDate"
+            [(ngModel)]="model.fldDeliveryEndDate"
+            [min]="minDeliveryEndDate"
+            required
+          />
+          <div
+            class="text-danger"
+            *ngIf="form.controls['fldDeliveryEndDate']?.touched && form.controls['fldDeliveryEndDate']?.invalid"
+          >
+            Delivery End Date is required.
+          </div>
+        </div>
+      </div>
 
-                <div class="col-3 field-group">
-                    <label class="form-label" for="fldPODate">P O Date</label>
-                    <input type="date" id="fldPODate" class="form-control" name="fldPODate"
-                        [(ngModel)]="model.fldPODate" [min]="minPODate"
-                        (ngModelChange)="onPODateChange($event)" required>
-                    <div class="text-danger"
-                        *ngIf="form.controls['fldPODate']?.touched && form.controls['fldPODate']?.invalid">
-                        P O Date is required.
-                    </div>
+      <div class="d-flex flex-row form-row">
+        <div class="col-2 field-group">
+          <label class="form-label" for="fldTotalQty">Total Qty</label>
+          <input
+            type="number"
+            id="fldTotalQty"
+            class="form-control text-end"
+            name="fldTotalQty"
+            [(ngModel)]="model.fldTotalQty"
+            step="0.01"
+            min="0"
+            readonly
+            tabindex="-1"
+            style="pointer-events: none"
+          />
+        </div>
 
-                </div>
+        <div class="col-2 field-group">
+          <label class="form-label" for="fldInwardQty">Inward Qty</label>
+          <input
+            type="number"
+            id="fldInwardQty"
+            class="form-control text-end"
+            name="fldInwardQty"
+            [(ngModel)]="model.fldInwardQty"
+            step="0.01"
+            min="0"
+            readonly
+            tabindex="-1"
+            style="pointer-events: none"
+          />
+        </div>
 
-            </div>
+        <div class="col-2 field-group">
+          <label class="form-label" for="fldCancelQty">Cancel Qty</label>
+          <input
+            type="number"
+            id="fldCancelQty"
+            class="form-control text-end"
+            name="fldCancelQty"
+            [(ngModel)]="model.fldCancelQty"
+            step="0.01"
+            min="0"
+            readonly
+            tabindex="-1"
+            style="pointer-events: none"
+          />
+        </div>
 
-            <div class="d-flex flex-row form-row">
+        <div class="col-2 field-group">
+          <label class="form-label" for="fldBalanceQty">Balance Qty</label>
+          <input
+            type="number"
+            id="fldBalanceQty"
+            class="form-control text-end"
+            name="fldBalanceQty"
+            [(ngModel)]="model.fldBalanceQty"
+            step="0.01"
+            min="0"
+            readonly
+            tabindex="-1"
+            style="pointer-events: none"
+          />
+        </div>
+      </div>
 
-                <div class="col-3 field-group">
-                    <label class="form-label" for="fldFKSupplierID">F K Supplier I D</label>
-                    <select id="fldFKSupplierID" class="form-select" name="fldFKSupplierID"
-                        [(ngModel)]="model.fldFKSupplierID" required>
-                        <option value="">-- Select --</option>
-                        <option *ngFor="let tblPartyDetail of tblPartyDetail$ | async" [value]="tblPartyDetail.fldId">{{
-                            tblPartyDetail.fldName }}</option>
-                    </select>
-                    <div class="text-danger"
-                        *ngIf="form.controls['fldFKSupplierID']?.touched && form.controls['fldFKSupplierID']?.invalid">
-                        F K Supplier I D is required and should be greater than 0.
-                    </div>
+      <div class="d-flex flex-row form-row">
+        <div class="col-2 field-group">
+          <label class="form-label" for="fldItemsGrossValue"
+            >Items Gross Value</label
+          >
+          <input
+            type="number"
+            id="fldItemsGrossValue"
+            class="form-control text-end"
+            name="fldItemsGrossValue"
+            [(ngModel)]="model.fldItemsGrossValue"
+            (ngModelChange)="calculateGrandTotal()"
+            step="0.01"
+            min="0"
+          />
+        </div>
 
-                </div>
+        <div class="col-2 field-group">
+          <label class="form-label" for="fldItemsTaxableValue"
+            >Items Taxable Value</label
+          >
+          <input
+            type="number"
+            id="fldItemsTaxableValue"
+            class="form-control text-end"
+            name="fldItemsTaxableValue"
+            [(ngModel)]="model.fldItemsTaxableValue"
+            step="0.01"
+            min="0"
+            readonly
+            tabindex="-1"
+            style="pointer-events: none"
+          />
+        </div>
 
-                <div class="col-3 field-group">
-                    <label class="form-label" for="fldDeliveryStartDate">Delivery Start Date</label>
-                    <input type="date" id="fldDeliveryStartDate" class="form-control" name="fldDeliveryStartDate"
-                        [(ngModel)]="model.fldDeliveryStartDate" [min]="minDeliveryStartDate"
-                        (ngModelChange)="onDeliveryStartDateChange($event)" required>
-                    <div class="text-danger"
-                        *ngIf="form.controls['fldDeliveryStartDate']?.touched && form.controls['fldDeliveryStartDate']?.invalid">
-                        Delivery Start Date is required.
-                    </div>
+        <div class="col-2 field-group">
+          <label class="form-label" for="fldItemsGSTValue"
+            >Items GST Value</label
+          >
+          <input
+            type="number"
+            id="fldItemsGSTValue"
+            class="form-control text-end"
+            name="fldItemsGSTValue"
+            [(ngModel)]="model.fldItemsGSTValue"
+            step="0.01"
+            min="0"
+            readonly
+            tabindex="-1"
+            style="pointer-events: none"
+          />
+        </div>
 
-                </div>
+        <div class="col-2 field-group">
+          <label class="form-label" for="fldItemsTotalValue"
+            >Items Total Value</label
+          >
+          <input
+            type="number"
+            id="fldItemsTotalValue"
+            class="form-control text-end"
+            name="fldItemsTotalValue"
+            [(ngModel)]="model.fldItemsTotalValue"
+            step="0.01"
+            min="0"
+            readonly
+            tabindex="-1"
+            style="pointer-events: none"
+          />
+        </div>
+      </div>
 
-                <div class="col-3 field-group">
-                    <label class="form-label" for="fldDeliveryEndDate">Delivery End Date</label>
-                    <input type="date" id="fldDeliveryEndDate" class="form-control" name="fldDeliveryEndDate"
-                        [(ngModel)]="model.fldDeliveryEndDate" [min]="minDeliveryEndDate" required>
-                    <div class="text-danger"
-                        *ngIf="form.controls['fldDeliveryEndDate']?.touched && form.controls['fldDeliveryEndDate']?.invalid">
-                        Delivery End Date is required.
-                    </div>
+      <div class="d-flex flex-row form-row">
+        <div class="col-2 field-group">
+          <label class="form-label" for="fldDiscountPercentage"
+            >Discount Percentage</label
+          >
+          <input
+            type="number"
+            id="fldDiscountPercentage"
+            class="form-control text-end"
+            name="fldDiscountPercentage"
+            [(ngModel)]="model.fldDiscountPercentage"
+            step="0.01"
+            min="0"
+            max="100"
+          />
+        </div>
 
-                </div>
+        <div class="col-2 field-group">
+          <label class="form-label" for="fldDiscountValue"
+            >Discount Value</label
+          >
+          <input
+            type="number"
+            id="fldDiscountValue"
+            class="form-control text-end"
+            name="fldDiscountValue"
+            [(ngModel)]="model.fldDiscountValue"
+            (ngModelChange)="calculateGrandTotal()"
+            step="0.01"
+            min="0"
+          />
+        </div>
 
-            </div>
+        <div class="col-2 field-group"></div>
 
-            <div class="d-flex flex-row form-row">
+        <div class="col-2 field-group">
+          <label class="form-label" for="fldGrandGrossValue"
+            >Grand Gross Value</label
+          >
+          <input
+            type="number"
+            id="fldGrandGrossValue"
+            class="form-control text-end"
+            name="fldGrandGrossValue"
+            [(ngModel)]="model.fldGrandGrossValue"
+            step="0.01"
+            min="0"
+            readonly
+            tabindex="-1"
+            style="pointer-events: none"
+          />
+        </div>
+      </div>
 
-                <div class="col-2 field-group">
-                    <label class="form-label" for="fldTotalQty">Total Qty</label>
-                    <input type="number" id="fldTotalQty" class="form-control text-end" name="fldTotalQty"
-                        [(ngModel)]="model.fldTotalQty" step="0.01" min="0" readonly tabindex="-1" style="pointer-events: none">
-                </div>
+      <div class="d-flex flex-row form-row">
+        <div class="col-2 field-group">
+          <label class="form-label" for="fldOtherPlusValue"
+            >Other Plus Value</label
+          >
+          <input
+            type="number"
+            id="fldOtherPlusValue"
+            class="form-control text-end"
+            name="fldOtherPlusValue"
+            [(ngModel)]="model.fldOtherPlusValue"
+            (ngModelChange)="calculateGrandTotal()"
+            step="0.01"
+            min="0"
+          />
+        </div>
 
-                <div class=" col-2 field-group">
-                    <label class="form-label" for="fldInwardQty">Inward Qty</label>
-                    <input type="number" id="fldInwardQty" class="form-control text-end" name="fldInwardQty"
-                        [(ngModel)]="model.fldInwardQty" step="0.01" min="0" readonly tabindex="-1" style="pointer-events: none">
-                </div>
+        <div class="col-2 field-group">
+          <label class="form-label" for="fldOtherMinusValue"
+            >Other Minus Value</label
+          >
+          <input
+            type="number"
+            id="fldOtherMinusValue"
+            class="form-control text-end"
+            name="fldOtherMinusValue"
+            [(ngModel)]="model.fldOtherMinusValue"
+            (ngModelChange)="calculateGrandTotal()"
+            step="0.01"
+            min="0"
+          />
+        </div>
 
-                <div class="col-2 field-group">
-                    <label class="form-label" for="fldCancelQty">Cancel Qty</label>
-                    <input type="number" id="fldCancelQty" class="form-control text-end" name="fldCancelQty"
-                        [(ngModel)]="model.fldCancelQty" step="0.01" min="0" readonly tabindex="-1" style="pointer-events: none">
-                </div>
+        <div class="col-2 field-group">
+          <label class="form-label" for="fldRoundoff">Roundoff</label>
+          <input
+            type="number"
+            id="fldRoundoff"
+            class="form-control text-end"
+            name="fldRoundoff"
+            [(ngModel)]="model.fldRoundoff"
+            step="0.01"
+            readonly
+            tabindex="-1"
+            style="pointer-events: none"
+          />
+        </div>
 
-                <div class="col-2 field-group">
-                    <label class="form-label" for="fldBalanceQty">Balance Qty</label>
-                    <input type="number" id="fldBalanceQty" class="form-control text-end" name="fldBalanceQty"
-                        [(ngModel)]="model.fldBalanceQty" step="0.01" min="0" readonly tabindex="-1" style="pointer-events: none">
-                </div>
+        <div class="col-2 field-group">
+          <label class="form-label" for="fldGrandTotalValue"
+            >Grand Total Value</label
+          >
+          <input
+            type="number"
+            id="fldGrandTotalValue"
+            class="form-control text-end"
+            name="fldGrandTotalValue"
+            [(ngModel)]="model.fldGrandTotalValue"
+            step="0.01"
+            min="0"
+            readonly
+            tabindex="-1"
+            style="pointer-events: none"
+          />
+        </div>
+      </div>
 
-            </div>
-
-
-
-            <div class="d-flex flex-row form-row">
-
-                <div class="col-2 field-group">
-                    <label class="form-label" for="fldItemsGrossValue">Items Gross Value</label>
-                    <input type="number" id="fldItemsGrossValue" class="form-control text-end" name="fldItemsGrossValue"
-                        [(ngModel)]="model.fldItemsGrossValue" (ngModelChange)="calculateGrandTotal()"
-                        step="0.01" min="0">
-                </div>
-
-                <div class="col-2 field-group">
-                    <label class="form-label" for="fldItemsTaxableValue">Items Taxable Value</label>
-                    <input type="number" id="fldItemsTaxableValue" class="form-control text-end" name="fldItemsTaxableValue"
-                        [(ngModel)]="model.fldItemsTaxableValue" step="0.01" min="0" readonly tabindex="-1" style="pointer-events: none">
-                </div>
-
-                <div class="col-2 field-group">
-                    <label class="form-label" for="fldItemsGSTValue">Items GST Value</label>
-                    <input type="number" id="fldItemsGSTValue" class="form-control  text-end" name="fldItemsGSTValue"
-                        [(ngModel)]="model.fldItemsGSTValue" step="0.01" min="0" readonly tabindex="-1" style="pointer-events: none">
-                </div>
-
-                <div class="col-2 field-group">
-                    <label class="form-label" for="fldItemsTotalValue">Items Total Value</label>
-                    <input type="number" id="fldItemsTotalValue" class="form-control text-end" name="fldItemsTotalValue"
-                        [(ngModel)]="model.fldItemsTotalValue" step="0.01" min="0" readonly tabindex="-1" style="pointer-events: none">
-                </div>
-
-            </div>
-
-            <div class="d-flex flex-row form-row">
-
-                <div class="col-2 field-group">
-                    <label class="form-label" for="fldDiscountPercentage">Discount Percentage</label>
-                    <input type="number" id="fldDiscountPercentage" class="form-control text-end" name="fldDiscountPercentage"
-                        [(ngModel)]="model.fldDiscountPercentage" step="0.01" min="0" max="100">
-                </div>
-
-                <div class="col-2 field-group">
-                    <label class="form-label" for="fldDiscountValue">Discount Value</label>
-                    <input type="number" id="fldDiscountValue" class="form-control text-end" name="fldDiscountValue"
-                        [(ngModel)]="model.fldDiscountValue" (ngModelChange)="calculateGrandTotal()"
-                        step="0.01" min="0">
-                </div>
-
-                <div class="col-2 field-group"></div>
-
-                <div class="col-2 field-group">
-                    <label class="form-label" for="fldGrandGrossValue">Grand Gross Value</label>
-                    <input type="number" id="fldGrandGrossValue" class="form-control text-end" name="fldGrandGrossValue"
-                        [(ngModel)]="model.fldGrandGrossValue" step="0.01" min="0" readonly tabindex="-1" style="pointer-events: none">
-                </div>
-            </div>
-
-            <div class="d-flex flex-row form-row">
-
-                <div class="col-2 field-group">
-                    <label class="form-label" for="fldOtherPlusValue">Other Plus Value</label>
-                    <input type="number" id="fldOtherPlusValue" class="form-control  text-end" name="fldOtherPlusValue"
-                        [(ngModel)]="model.fldOtherPlusValue" (ngModelChange)="calculateGrandTotal()"
-                        step="0.01" min="0">
-                </div>
-
-                <div class="col-2 field-group">
-                    <label class="form-label" for="fldOtherMinusValue">Other Minus Value</label>
-                    <input type="number" id="fldOtherMinusValue" class="form-control  text-end" name="fldOtherMinusValue"
-                        [(ngModel)]="model.fldOtherMinusValue" (ngModelChange)="calculateGrandTotal()"
-                        step="0.01" min="0">
-                </div>
-
-                <div class="col-2 field-group">
-                    <label class="form-label" for="fldRoundoff">Roundoff</label>
-                    <input type="number" id="fldRoundoff" class="form-control  text-end" name="fldRoundoff"
-                        [(ngModel)]="model.fldRoundoff" step="0.01" readonly tabindex="-1"
-                        style="pointer-events: none">
-                </div>
-
-                <div class="col-2 field-group">
-                    <label class="form-label" for="fldGrandTotalValue">Grand Total Value</label>
-                    <input type="number" id="fldGrandTotalValue" class="form-control text-end" name="fldGrandTotalValue"
-                        [(ngModel)]="model.fldGrandTotalValue" step="0.01" min="0" readonly tabindex="-1" style="pointer-events: none">
-                </div>
-
-            </div>
-
-            <div class="d-flex flex-row form-row">
-                <div class="col-9 field-group">
-                    <label class="form-label" for="fldRemarks">Remarks</label>
-                    <!-- <input type="text" id="fldRemarks" class="form-control" name="fldRemarks"
+      <div class="d-flex flex-row form-row">
+        <div class="col-9 field-group">
+          <label class="form-label" for="fldRemarks">Remarks</label>
+          <!-- <input type="text" id="fldRemarks" class="form-control" name="fldRemarks"
                         [(ngModel)]="model.fldRemarks" maxlength="200"> -->
 
-                    <textarea id="fldRemarks" class="form-control" name="fldRemarks" [(ngModel)]="model.fldRemarks"
-                        maxlength="200" rows="4" placeholder="Enter remarks">
-                    </textarea>
+          <textarea
+            id="fldRemarks"
+            class="form-control"
+            name="fldRemarks"
+            [(ngModel)]="model.fldRemarks"
+            maxlength="200"
+            rows="4"
+            placeholder="Enter remarks"
+          >
+          </textarea>
 
-                    <small class="text-muted">
-                        {{ model.fldRemarks?.length || 0 }}/200 characters
-                    </small>
-
-                </div>
-                <div class="col-3 field-group">
-                    <input type="number" id="fldFKStatus" class="form-control" name="fldFKStatus"
-                        [(ngModel)]="model.fldFKStatus" value="1" hidden>
-
-
-
-
-                </div>
-            </div>
-
-            <div class="d-flex flex-row form-row">
-
-                <input type="number" id="fldPaidAmount" class="form-control" name="fldPaidAmount"
-                    [(ngModel)]="model.fldPaidAmount" step="0.01" min="0" hidden>
-
-                <input type="number" id="fldFKPaymentStatus" class="form-control" name="fldFKPaymentStatus"
-                    [(ngModel)]="model.fldFKPaymentStatus" step="1" min="0" hidden>
-
-            </div>
-
+          <small class="text-muted">
+            {{ model.fldRemarks?.length || 0 }}/200 characters
+          </small>
         </div>
+        <div class="col-3 field-group">
+          <input
+            type="number"
+            id="fldFKStatus"
+            class="form-control"
+            name="fldFKStatus"
+            [(ngModel)]="model.fldFKStatus"
+            value="1"
+            hidden
+          />
+        </div>
+      </div>
 
-        <!-- ============================================
+      <div class="d-flex flex-row form-row">
+        <input
+          type="number"
+          id="fldPaidAmount"
+          class="form-control"
+          name="fldPaidAmount"
+          [(ngModel)]="model.fldPaidAmount"
+          step="0.01"
+          min="0"
+          hidden
+        />
+
+        <input
+          type="number"
+          id="fldFKPaymentStatus"
+          class="form-control"
+          name="fldFKPaymentStatus"
+          [(ngModel)]="model.fldFKPaymentStatus"
+          step="1"
+          min="0"
+          hidden
+        />
+      </div>
+    </div>
+
+    <!-- ============================================
 			 Section 3: Command buttons
 			 ============================================ -->
-        <div class="page-actions-bar">
-            <button type="button" (click)="OnFormSubmit(form, 'SaveAndAddNew')" class="btn-app btn-save"
-                [disabled]="isSaving">
-                <i class="bi bi-floppy"></i>
-                Save &amp; Add New
-            </button>
-            <button type="button" (click)="OnFormSubmit(form, 'SaveAndClose')" class="btn-app btn-new"
-                [disabled]="isSaving">
-                <i class="bi bi-check2-circle"></i>
-                Save &amp; Close
-            </button>
-            <button type="button" (click)="backToHome()" class="btn-app btn-dark">
-                <i class="bi bi-arrow-left"></i>
-                Back
-            </button>
-        </div>
-
-    </form>
-
+    <div class="page-actions-bar">
+      <button
+        type="button"
+        (click)="OnFormSubmit(form, 'SaveAndAddNew')"
+        class="btn-app btn-save"
+        [disabled]="isSaving"
+      >
+        <i class="bi bi-floppy"></i>
+        Save &amp; Add New
+      </button>
+      <button
+        type="button"
+        (click)="OnFormSubmit(form, 'SaveAndClose')"
+        class="btn-app btn-new"
+        [disabled]="isSaving"
+      >
+        <i class="bi bi-check2-circle"></i>
+        Save &amp; Close
+      </button>
+      <button type="button" (click)="backToHome()" class="btn-app btn-dark">
+        <i class="bi bi-arrow-left"></i>
+        Back
+      </button>
+    </div>
+  </form>
 </div>

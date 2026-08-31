@@ -1,9 +1,14 @@
-import { Component, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import {
+  Component,
+  OnDestroy,
+  ViewChild,
+  ChangeDetectorRef,
+} from "@angular/core";
+import { Observable, Subscription } from "rxjs";
+import { CommonModule } from "@angular/common";
+import { FormsModule, NgForm } from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
 
 // import { TblPropertyMasterService } from '../../tblPropertyMaster/services/tbl-property-master';
 // import { TblProperty } from '../../tblProperty/models/tblProperty.model';
@@ -15,61 +20,61 @@ import { Router } from '@angular/router';
 // import { TblPartyDetail } from '../../tblPartyDetail/models/tblPartyDetail.model';
 // import { TblPartyDetailService } from '../../tblPartyDetail/services/tbl-party-detail';
 
+import { TblPurchaseOrder } from "../models/tblPurchaseOrder.model";
+import { TblPurchaseOrderAdd } from "../models/tblPurchaseOrder-Add.model";
+import { TblPurchaseOrderService } from "../services/tbl-purchase-order";
 
-
-import { TblPurchaseOrder } from '../models/tblPurchaseOrder.model';
-import { TblPurchaseOrderAdd } from '../models/tblPurchaseOrder-Add.model';
-import { TblPurchaseOrderService } from '../services/tbl-purchase-order';
-
-import { TblProperty } from '../../../mastertables/tblProperty/models/tblProperty.model';
-import { TblUnitMaster } from '../../../mastertables/tblUnitMaster/models/tblUnitMaster.model';
-import { TblPropertyMasterService } from '../../../mastertables/tblPropertyMaster/services/tbl-property-master';
-import { TblPropertyService } from '../../../mastertables/tblProperty/services/tbl-property';
-import { TblPropertySharedservice } from '../../../../shared/services/tbl-property-shared';
-import { TblUnitMasterService } from '../../../mastertables/tblUnitMaster/services/tbl-unit-master';
-import { TblPartyDetail } from '../../../mastertables/tblPartyDetail/models/tblPartyDetail.model';
-import { TblPartyDetailService } from '../../../mastertables/tblPartyDetail/services/tbl-party-detail';
-
+import { TblProperty } from "../../../mastertables/tblProperty/models/tblProperty.model";
+import { TblUnitMaster } from "../../../mastertables/tblUnitMaster/models/tblUnitMaster.model";
+import { TblPropertyMasterService } from "../../../mastertables/tblPropertyMaster/services/tbl-property-master";
+import { TblPropertyService } from "../../../mastertables/tblProperty/services/tbl-property";
+import { TblPropertySharedservice } from "../../../../shared/services/tbl-property-shared";
+import { TblUnitMasterService } from "../../../mastertables/tblUnitMaster/services/tbl-unit-master";
+import { TblPartyDetail } from "../../../mastertables/tblPartyDetail/models/tblPartyDetail.model";
+import { TblPartyDetailService } from "../../../mastertables/tblPartyDetail/services/tbl-party-detail";
 
 @Component({
-  selector: 'app-tbl-purchase-order-add',
+  selector: "app-tbl-purchase-order-add",
   imports: [CommonModule, FormsModule],
-  templateUrl: './tbl-purchase-order-add.html',
-  styleUrl: './tbl-purchase-order-add.css',
+  templateUrl: "./tbl-purchase-order-add.html",
+  styleUrl: "./tbl-purchase-order-add.css",
 })
-
 export class TblPurchaseOrderAddComponent implements OnDestroy {
   model: TblPurchaseOrderAdd;
-  submitAction: 'SaveAndAddNew' | 'SaveAndClose' | 'exit' = 'exit'; // default to exit
+  submitAction: "SaveAndAddNew" | "SaveAndClose" | "exit" = "exit"; // default to exit
   private addTblPurchaseOrderSubscription?: Subscription;
   private unitMasterSubscription?: Subscription;
   private lastPurchaseOrderSubscription?: Subscription;
-  @ViewChild('form') form!: NgForm;
+  @ViewChild("form") form!: NgForm;
   isSaving: boolean = false;
 
   tblPropertyAll$?: Observable<TblProperty[]>;
 
-  tblUnitMaster$?: Observable<TblUnitMaster[]>
-  tblPartyDetail$?: Observable<TblPartyDetail[]>
+  tblUnitMaster$?: Observable<TblUnitMaster[]>;
+  tblPartyDetail$?: Observable<TblPartyDetail[]>;
   tblPropertyStatus$?: Observable<TblProperty[]>;
 
-  tblLastPurchaseOrder$?: Observable<TblPurchaseOrder>
+  tblLastPurchaseOrder$?: Observable<TblPurchaseOrder>;
 
-  minPODate = '';
-  minDeliveryStartDate = '';
-  minDeliveryEndDate = '';
+  minPODate = "";
+  minDeliveryStartDate = "";
+  minDeliveryEndDate = "";
 
-  constructor(private tblPurchaseOrderService: TblPurchaseOrderService,
+  constructor(
+    private tblPurchaseOrderService: TblPurchaseOrderService,
     private tblPropertyMasterService: TblPropertyMasterService,
     private tblPropertyService: TblPropertyService,
     private tblPropertySharedService: TblPropertySharedservice,
     private tblUnitMasterService: TblUnitMasterService,
     private tblPartyDetailService: TblPartyDetailService,
-    private router: Router, private toastr: ToastrService, private cdr: ChangeDetectorRef) {
+    private router: Router,
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef,
+  ) {
     this.model = {
       fldId: 0,
       fldFKUnitId: 0,
-      fldPONo: '',
+      fldPONo: "",
       fldPODate: new Date(),
       fldFKSupplierID: 0,
       fldDeliveryStartDate: new Date(),
@@ -78,7 +83,7 @@ export class TblPurchaseOrderAddComponent implements OnDestroy {
       fldInwardQty: 0,
       fldCancelQty: 0,
       fldBalanceQty: 0,
-      fldRemarks: '',
+      fldRemarks: "",
       fldFKStatus: 0,
       fldItemsGrossValue: 0,
       fldItemsTaxableValue: 0,
@@ -100,13 +105,16 @@ export class TblPurchaseOrderAddComponent implements OnDestroy {
   }
 
   ngOnInit(): void {
-    this.tblPropertyStatus$ = this.tblPropertySharedService.getPropertiesByType('Status');
+    this.tblPropertyStatus$ =
+      this.tblPropertySharedService.getPropertiesByType("Status");
 
-    this.tblUnitMaster$ = this.tblUnitMasterService.getActiveLeanTblUnitMasters();
-    this.tblPartyDetail$ = this.tblPartyDetailService.getActiveLeanTblPartyDetails();
+    this.tblUnitMaster$ =
+      this.tblUnitMasterService.getActiveLeanTblUnitMasters();
+    this.tblPartyDetail$ =
+      this.tblPartyDetailService.getActiveLeanTblPartyDetails();
 
     // Select the first available unit and generate its next PO number.
-    this.unitMasterSubscription = this.tblUnitMaster$.subscribe(units => {
+    this.unitMasterSubscription = this.tblUnitMaster$.subscribe((units) => {
       if (units?.length > 0) {
         this.model.fldFKUnitId = Number(units[0].fldId);
         this.loadLastPurchaseOrder(units[0]);
@@ -119,13 +127,15 @@ export class TblPurchaseOrderAddComponent implements OnDestroy {
     this.model.fldFKUnitId = selectedUnitId;
 
     if (!selectedUnitId) {
-      this.model.fldPONo = '';
+      this.model.fldPONo = "";
       return;
     }
 
     this.unitMasterSubscription?.unsubscribe();
-    this.unitMasterSubscription = this.tblUnitMaster$?.subscribe(units => {
-      const selectedUnit = units.find(unit => Number(unit.fldId) === selectedUnitId);
+    this.unitMasterSubscription = this.tblUnitMaster$?.subscribe((units) => {
+      const selectedUnit = units.find(
+        (unit) => Number(unit.fldId) === selectedUnitId,
+      );
       if (selectedUnit) {
         this.loadLastPurchaseOrder(selectedUnit);
       }
@@ -134,11 +144,14 @@ export class TblPurchaseOrderAddComponent implements OnDestroy {
 
   private loadLastPurchaseOrder(unit: TblUnitMaster): void {
     const unitId = Number(unit.fldId);
-    this.tblLastPurchaseOrder$ = this.tblPurchaseOrderService.getLastTblPurchaeOrder(unitId);
+    this.tblLastPurchaseOrder$ =
+      this.tblPurchaseOrderService.getLastTblPurchaeOrder(unitId);
 
     this.lastPurchaseOrderSubscription?.unsubscribe();
     this.lastPurchaseOrderSubscription = this.tblLastPurchaseOrder$.subscribe({
-      next: (response: TblPurchaseOrder | TblPurchaseOrder[] | null | undefined) => {
+      next: (
+        response: TblPurchaseOrder | TblPurchaseOrder[] | null | undefined,
+      ) => {
         // Support APIs that return either one object or an array containing the last PO.
         const lastPO = Array.isArray(response) ? response[0] : response;
         this.applyPurchaseOrderDefaults(unit, lastPO);
@@ -146,27 +159,27 @@ export class TblPurchaseOrderAddComponent implements OnDestroy {
       error: () => {
         // A 404/no-record response is treated as the unit's first PO.
         this.applyPurchaseOrderDefaults(unit, null);
-      }
+      },
     });
   }
 
   private applyPurchaseOrderDefaults(
     unit: TblUnitMaster,
-    lastPO: TblPurchaseOrder | null | undefined
+    lastPO: TblPurchaseOrder | null | undefined,
   ): void {
     const lastPONo = lastPO?.fldPONo?.trim();
 
     if (lastPONo) {
       const lastSerial = Number(lastPONo.slice(-4));
       const nextSerial = Number.isFinite(lastSerial) ? lastSerial + 1 : 1;
-      this.model.fldPONo = `${lastPONo.slice(0, -4)}${nextSerial.toString().padStart(4, '0')}`;
+      this.model.fldPONo = `${lastPONo.slice(0, -4)}${nextSerial.toString().padStart(4, "0")}`;
     } else {
-      const unitCode = (unit.fldName ?? '')
+      const unitCode = (unit.fldName ?? "")
         .trim()
-        .replace(/\s+/g, '')
+        .replace(/\s+/g, "")
         .substring(0, 2)
         .toUpperCase()
-        .padEnd(2, '#');
+        .padEnd(2, "#");
 
       this.model.fldPONo = `${unitCode}/PO/${this.getFinancialYear()}-0001`;
     }
@@ -205,7 +218,9 @@ export class TblPurchaseOrderAddComponent implements OnDestroy {
 
     const deliveryEndDate = new Date(`${startDate}T00:00:00`);
     deliveryEndDate.setDate(deliveryEndDate.getDate() + 7);
-    this.model.fldDeliveryEndDate = this.toDateInputValue(deliveryEndDate) as any;
+    this.model.fldDeliveryEndDate = this.toDateInputValue(
+      deliveryEndDate,
+    ) as any;
   }
 
   calculateGrandTotal(): void {
@@ -215,33 +230,37 @@ export class TblPurchaseOrderAddComponent implements OnDestroy {
     const otherMinusValue = Number(this.model.fldOtherMinusValue) || 0;
     const roundOffValue = Number(this.model.fldRoundoff) || 0;
 
-    this.model.fldGrandTotalValue = Number((
-      grossValue - discountValue + otherPlusValue - otherMinusValue + roundOffValue
-    ).toFixed(2));
+    this.model.fldGrandTotalValue = Number(
+      (
+        grossValue -
+        discountValue +
+        otherPlusValue -
+        otherMinusValue +
+        roundOffValue
+      ).toFixed(2),
+    );
   }
 
   private getFinancialYear(date: Date = new Date()): string {
-    const startYear = date.getMonth() >= 3
-      ? date.getFullYear()
-      : date.getFullYear() - 1;
+    const startYear =
+      date.getMonth() >= 3 ? date.getFullYear() : date.getFullYear() - 1;
 
     return `${startYear.toString().slice(-2)}${(startYear + 1).toString().slice(-2)}`;
   }
 
   private toDateInputValue(value: string | Date): string {
-    if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}/.test(value)) {
+    if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}/.test(value)) {
       return value.substring(0, 10);
     }
 
     const date = value instanceof Date ? value : new Date(value);
     const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
     return `${year}-${month}-${day}`;
   }
 
-  OnFormSubmit(form: NgForm, action: 'SaveAndAddNew' | 'SaveAndClose'): void {
-    
+  OnFormSubmit(form: NgForm, action: "SaveAndAddNew" | "SaveAndClose"): void {
     if (this.isSaving) {
       return;
     }
@@ -257,36 +276,37 @@ export class TblPurchaseOrderAddComponent implements OnDestroy {
       return;
     }
 
-    
     this.isSaving = true;
-   
-    this.addTblPurchaseOrderSubscription = this.tblPurchaseOrderService.addTblPurchaseOrder(this.model)
+
+    this.addTblPurchaseOrderSubscription = this.tblPurchaseOrderService
+      .addTblPurchaseOrder(this.model)
       .subscribe({
         next: (response) => {
           this.isSaving = false;
 
-          this.toastr.success('Record saved successfully!', 'Success', {
-            toastClass: 'ngx-toastr custom-toast'
+          this.toastr.success("Record saved successfully!", "Success", {
+            toastClass: "ngx-toastr custom-toast",
           });
 
-          if (this.submitAction === 'SaveAndAddNew') {
+          if (this.submitAction === "SaveAndAddNew") {
             this.resetForm();
             this.cdr.detectChanges();
           } else {
-            this.router.navigateByUrl('transactiontables/tblPurchaseOrder');
+            this.router.navigateByUrl("transactiontables/tblPurchaseOrder");
           }
         },
         error: (err) => {
           this.isSaving = false;
 
-          const errorMsg = err?.error?.message || err?.error || 'An unexpected error occurred';
+          const errorMsg =
+            err?.error?.message || err?.error || "An unexpected error occurred";
 
-          this.toastr.error(errorMsg, 'Error', {
-            toastClass: 'ngx-toastr custom-toast error-toast'
+          this.toastr.error(errorMsg, "Error", {
+            toastClass: "ngx-toastr custom-toast error-toast",
           });
 
-          console.error('API Error:', err);
-        }
+          console.error("API Error:", err);
+        },
       });
   }
 
@@ -294,7 +314,7 @@ export class TblPurchaseOrderAddComponent implements OnDestroy {
     this.model = {
       fldId: 0,
       fldFKUnitId: 0,
-      fldPONo: '',
+      fldPONo: "",
       fldPODate: new Date(),
       fldFKSupplierID: 0,
       fldDeliveryStartDate: new Date(),
@@ -303,7 +323,7 @@ export class TblPurchaseOrderAddComponent implements OnDestroy {
       fldInwardQty: 0,
       fldCancelQty: 0,
       fldBalanceQty: 0,
-      fldRemarks: '',
+      fldRemarks: "",
       fldFKStatus: 0,
       fldItemsGrossValue: 0,
       fldItemsTaxableValue: 0,
@@ -325,7 +345,7 @@ export class TblPurchaseOrderAddComponent implements OnDestroy {
 
     // Re-select the first unit and regenerate all PO/date defaults.
     this.unitMasterSubscription?.unsubscribe();
-    this.unitMasterSubscription = this.tblUnitMaster$?.subscribe(units => {
+    this.unitMasterSubscription = this.tblUnitMaster$?.subscribe((units) => {
       if (units?.length > 0) {
         this.model.fldFKUnitId = Number(units[0].fldId);
         this.loadLastPurchaseOrder(units[0]);
@@ -334,7 +354,7 @@ export class TblPurchaseOrderAddComponent implements OnDestroy {
   }
 
   backToHome(): void {
-    this.router.navigateByUrl('transactiontables/tblPurchaseOrder');
+    this.router.navigateByUrl("transactiontables/tblPurchaseOrder");
   }
 
   ngOnDestroy(): void {
@@ -344,7 +364,6 @@ export class TblPurchaseOrderAddComponent implements OnDestroy {
   }
 
   isFormValid(form: any): boolean {
-
     if (form.invalid) {
       return false;
     }
@@ -379,6 +398,4 @@ export class TblPurchaseOrderAddComponent implements OnDestroy {
 
     return true;
   }
-
 }
-

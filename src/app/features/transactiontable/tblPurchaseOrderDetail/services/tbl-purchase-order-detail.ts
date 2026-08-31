@@ -16,8 +16,9 @@ export class TblPurchaseOrderDetailService {
 
   //GET ALL
   getAllTblPurchaseOrderDetails(fldFKPo: number): Observable<TblPurchaseOrderDetail[]> {
-    return this.http.get<TblPurchaseOrderDetail[]>(`${environment.apiBaseUrl}/api/TblPurchaseOrderDetail/GetAllTblPurchaseOrderDetails/${fldFKPo}`);
+    return this.http.get<TblPurchaseOrderDetail[]>(`${environment.apiBaseUrl}/api/TblPurchaseOrderDetail/GetAllTblPurchaseOrderDetails?FldFKPO=${fldFKPo}`);
   };
+  //return this.http.get<TblUserDetail[]>(`${environment.apiBaseUrl}/api/TblUserDetail/GetAllTblUserDetails?FldFKUser=${fldFKUser}`);
 
   //GET ACTIVE
   getActiveTblPurchaseOrderDetails(fldFKPo: number): Observable<TblPurchaseOrderDetail[]> {

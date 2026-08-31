@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TblPurchaseOrder } from '../models/tblPurchaseOrder.model';
@@ -16,14 +16,23 @@ export class TblPurchaseOrderService {
   constructor(private http: HttpClient) { }
 
   //GET ALL
-  getAllTblPurchaseOrders(): Observable<TblPurchaseOrder[]> {
-    return this.http.get<TblPurchaseOrder[]>(`${environment.apiBaseUrl}/api/TblPurchaseOrder/GetAllTblPurchaseOrders`);
-  };
+  // getAllTblPurchaseOrders(fldFromDate: Date, fldToDate: Date): Observable<TblPurchaseOrder[]> {
+  //   return this.http.get<TblPurchaseOrder[]>(`${environment.apiBaseUrl}/api/TblPurchaseOrder/GetAllTblPurchaseOrders`);
+  // };
+  // GET ALL
+getAllTblPurchaseOrders(fldFromDate: string, fldToDate: string): Observable<TblPurchaseOrder[]> {
+  const params = new HttpParams()
+    .set('FldFromDate', fldFromDate)
+    .set('FldToDate', fldToDate);
 
-  //GET ACTIVE
-  getActiveTblPurchaseOrders(): Observable<TblPurchaseOrder[]> {
-    return this.http.get<TblPurchaseOrder[]>(`${environment.apiBaseUrl}/api/TblPurchaseOrder/GetActiveTblPurchaseOrders`);
-  };
+  return this.http.get<TblPurchaseOrder[]>(
+    `${environment.apiBaseUrl}/api/TblPurchaseOrder/GetAllTblPurchaseOrders`, 
+    { params }
+  );
+}
+
+
+ //https://localhost:7041/api/TblPurchaseOrder/GetAllTblPurchaseOrders?FldFromDate=2026-08-01&FldToDate=2026-08-30
 
   //GET ACTIVELEAN
   getActiveLeanTblPurchaseOrders(): Observable<TblPurchaseOrder[]> {

@@ -1,102 +1,117 @@
 <div class="container grid-page-shell">
-
-	<!-- ============================================
+  <!-- ============================================
 		 Page header: caption + record toggle + New Record
 		 ============================================ -->
-	<div class="page-header-bar transaction-header">
+  <div class="date-filter-container">
+    <div class="page-header-bar transaction-header">
+      <!-- Left: Title -->
+      <h1 class="page-caption">Purchase Orders</h1>
 
-		<!-- Left: Title -->
-		<h1 class="page-caption">Purchase Orders</h1>
+      <!-- Center: Date Inputs & Refresh Button -->
+      <div class="page-header-center">
+        <div class="tx-filter-group">
+          <div class="tx-field">
+            <label class="form-label" for="fldFromDate">From Date</label>
+            <input
+              type="date"
+              id="fldFromDate"
+              class="form-control"
+              name="fldFromDate"
+              [max]="currentDate"
+              (change)="onFromDateChange()"
+              [(ngModel)]="fldFromDate"
+            />
+          </div>
 
-		<!-- Center: Date Inputs & Refresh Button -->
-		<div class="page-header-center">
-			<div class="tx-filter-group">
+          <div class="tx-field">
+            <label class="form-label" for="fldToDate">To Date</label>
+            <input
+              type="date"
+              id="fldToDate"
+              class="form-control"
+              name="fldToDate"
+              [min]="fldFromDate"
+              [max]="currentDate"
+              (change)="onFromDateChange()"
+              [(ngModel)]="fldToDate"
+            />
+          </div>
 
-				<div class="tx-field">
-					<label class="form-label" for="fldFromDate">From Date</label>
-					<input type="date" id="fldFromDate" class="form-control" name="fldFromDate"
-						 [max]="currentDate" (change)="onFromDateChange()"
-						 >
-				</div>
+          <div class="tx-action">
+            <!-- <a [routerLink]="['Refresh']" class="btn-app btn-refresh" (click)="OnFormSubmit(form)">
+							<i class="bi bi-arrow-clockwise"></i> Refresh
+						</a> -->
 
-				<div class="tx-field">
-					<label class="form-label" for="fldToDate">To Date</label>
-					<input type="date" id="fldToDate" class="form-control" name="fldToDate" 
-						[min]="fldFromDate" [max]="currentDate" (change)="onFromDateChange()">
-				</div>
+            <button
+              type="button"
+              (click)="OnFormSubmit()"
+              class="btn-app btn-Refresh"
+            >
+              <i class="bi bi-arrow-clockwise"></i>
+              Refresh
+            </button>
+          </div>
+        </div>
+      </div>
 
-				<div class="tx-action">
-					<a [routerLink]="['Refresh']" class="btn-app btn-refresh">
-						<i class="bi bi-arrow-clockwise"></i> Refresh
-					</a>
-				</div>
+      <!-- Right: Action Button -->
+      <div class="page-header-right">
+        <a [routerLink]="['add']" class="btn-app btn-new">
+          <i class="bi bi-plus-lg"></i> New Record
+        </a>
+      </div>
+    </div>
+  </div>
 
-			</div>
-		</div>
+  <div class="page-card">
+    <div class="page-header-bar-secondary">
+      <div class="page-header-left">
+        <button type="button" class="btn-app btn-outline">
+          <i class="bi bi-funnel"></i>
+          Filter
+        </button>
 
-		<!-- Right: Action Button -->
-		<div class="page-header-right">
-			<a [routerLink]="['add']" class="btn-app btn-new">
-				<i class="bi bi-plus-lg"></i> New Record
-			</a>
-		</div>
+        <button type="button" class="btn-app btn-outline">
+          <i class="bi bi-download"></i>
+          Export CSV
+        </button>
+      </div>
 
-	</div>
+      <div class="page-header-right">
+        <ng-container *ngIf="tblPurchaseOrder$ | async as tblpurchaseorders">
+          <span class="pagination-info">
+            Showing {{ tblpurchaseorders.length }} of {{
+            tblpurchaseorders.length }} Records
+          </span>
+        </ng-container>
 
+        <button type="button" class="pager-btn" disabled>
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <button type="button" class="pager-btn" disabled>
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+    </div>
 
-
-	<div class="page-card">
-
-		<div class="page-header-bar-secondary">
-
-			<div class="page-header-left">
-				<button type="button" class="btn-app btn-outline">
-					<i class="bi bi-funnel"></i>
-					Filter
-				</button>
-
-				<button type="button" class="btn-app btn-outline">
-					<i class="bi bi-download"></i>
-					Export CSV
-				</button>
-			</div>
-
-			<div class="page-header-right">
-				<ng-container *ngIf="tblPurchaseOrder$ | async as tblpurchaseorders">
-					<span class="pagination-info">
-						Showing {{ tblpurchaseorders.length }} of {{ tblpurchaseorders.length }} Records
-					</span>
-				</ng-container>
-
-				<button type="button" class="pager-btn" disabled>
-					<i class="bi bi-chevron-left"></i>
-				</button>
-				<button type="button" class="pager-btn" disabled>
-					<i class="bi bi-chevron-right"></i>
-				</button>
-			</div>
-
-		</div>
-
-		<ng-container *ngIf="tblPurchaseOrder$ | async as tblpurchaseorders">
-
-			<table class="data-table">
-				<thead>
-					<tr>
-						<!-- <th>Id</th> -->
-						<th>Unit Name</th>
-						<th>PO No</th>
-						<th>PO Date</th>
-						<th>Supplier Name</th>
-						<!-- <th>Delivery Start Date</th>
+    <ng-container *ngIf="tblPurchaseOrder$ | async as tblpurchaseorders">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <!-- <th>Id</th> -->
+            <th>Unit Name</th>
+            <th>PO No</th>
+            <th>PO Date</th>
+            <th>Supplier Name</th>
+            <!-- <th>Delivery Start Date</th>
 						<th>Delivery End Date</th> -->
-						<th>Total Qty</th>
-						<th>Inward Qty</th>
-						<th>Cancel Qty</th>
-						<th>Balance Qty</th>
-						<!-- <th>Remarks</th> -->
-						<th>Status</th>
-						<!-- <th>Items Gross Value</th>
+            <th>Total Qty</th>
+            <th>Inward Qty</th>
+            <th>Cancel Qty</th>
+            <th>Balance Qty</th>
+            <!-- <th>Remarks</th> -->
+            <th>Status</th>
+            <!-- <th>Items Gross Value</th>
 						<th>Items Taxable Value</th>
 						<th>Items G S T Value</th>
 						<th>Items Total Value</th>
@@ -106,30 +121,30 @@
 						<th>Other Plus Value</th>
 						<th>Other Minus Value</th>
 						<th>Roundoff</th> -->
-						<th>Grand Total Value</th>
-						<!-- <th>Paid Amount</th>
+            <th>Grand Total Value</th>
+            <!-- <th>Paid Amount</th>
 						<th>F K Payment Status</th> -->
-						<th>Actions</th>
-					</tr>
-				</thead>
+            <th>Actions</th>
+          </tr>
+        </thead>
 
-				<tbody>
-					<tr *ngFor="let tblpurchaseorder of tblpurchaseorders">
-						<!-- <td class="cell-code">{{tblpurchaseorder.fldId}}</td> -->
-						<td>{{tblpurchaseorder.tblUnitMasterId.fldName}}</td>
-						<td class="cell-primary">{{tblpurchaseorder.fldPONo}}</td>
-						<td>{{tblpurchaseorder.fldPODate | date:'dd-MMM-yy' }}</td>
-						<!-- //{{ tblpurchaseorder.fldPODate | date:'dd-MMM-yy' }\ -->
-						<td>{{tblpurchaseorder.tblPartyDetailId.fldName}}</td>
-						<!-- <td>{{tblpurchaseorder.fldDeliveryStartDate}}</td>
+        <tbody>
+          <tr *ngFor="let tblpurchaseorder of tblpurchaseorders">
+            <!-- <td class="cell-code">{{tblpurchaseorder.fldId}}</td> -->
+            <td>{{tblpurchaseorder.tblUnitMasterId.fldName}}</td>
+            <td class="cell-primary">{{tblpurchaseorder.fldPONo}}</td>
+            <td>{{tblpurchaseorder.fldPODate | date:'dd-MMM-yy' }}</td>
+            <!-- //{{ tblpurchaseorder.fldPODate | date:'dd-MMM-yy' }\ -->
+            <td>{{tblpurchaseorder.tblPartyDetailId.fldName}}</td>
+            <!-- <td>{{tblpurchaseorder.fldDeliveryStartDate}}</td>
 						<td>{{tblpurchaseorder.fldDeliveryEndDate}}</td> -->
-						<td>{{tblpurchaseorder.fldTotalQty}}</td>
-						<td>{{tblpurchaseorder.fldInwardQty}}</td>
-						<td>{{tblpurchaseorder.fldCancelQty}}</td>
-						<td>{{tblpurchaseorder.fldBalanceQty}}</td>
-						<!-- <td>{{tblpurchaseorder.fldRemarks}}</td> -->
-						<td>{{tblpurchaseorder.fldFKStatus}}</td>
-						<!-- <td>{{tblpurchaseorder.fldItemsGrossValue}}</td>
+            <!-- <td>{{tblpurchaseorder.fldTotalQty}}</td>
+            <td>{{tblpurchaseorder.fldInwardQty}}</td>
+            <td>{{tblpurchaseorder.fldCancelQty}}</td>
+            <td>{{tblpurchaseorder.fldBalanceQty}}</td> -->
+            <!-- <td>{{tblpurchaseorder.fldRemarks}}</td> -->
+            <td>{{ getStatusDescription(tblpurchaseorder) }}</td>
+            <!-- <td>{{tblpurchaseorder.fldItemsGrossValue}}</td>
 						<td>{{tblpurchaseorder.fldItemsTaxableValue}}</td>
 						<td>{{tblpurchaseorder.fldItemsGSTValue}}</td>
 						<td>{{tblpurchaseorder.fldItemsTotalValue}}</td>
@@ -139,48 +154,85 @@
 						<td>{{tblpurchaseorder.fldOtherPlusValue}}</td>
 						<td>{{tblpurchaseorder.fldOtherMinusValue}}</td>
 						<td>{{tblpurchaseorder.fldRoundoff}}</td> -->
-						<td>{{tblpurchaseorder.fldGrandTotalValue}}</td>
-						<!-- <td>{{tblpurchaseorder.fldPaidAmount}}</td>
+            <td>{{tblpurchaseorder.fldGrandTotalValue}}</td>
+            <!-- <td>{{tblpurchaseorder.fldPaidAmount}}</td>
 						<td>{{tblpurchaseorder.fldFKPaymentStatus}}</td> -->
 
-						<td>
-							<div class="row-actions">
-
-
-								<a [routerLink]="['/transactiontables/tblPurchaseOrderDetail', tblpurchaseorder.fldId]"
+            <td>
+              <div class="row-actions">
+                <!-- <a [routerLink]="['/transactiontables/tblPurchaseOrderDetail', tblpurchaseorder.fldId]"
 									class="btn-app btn-new">
 									<i class="bi bi-plus-lg"></i>
 									Details
-								</a>
+								</a> -->
 
-							</div>
-						</td>
+                <!-- Replace your existing Details button with this -->
+                <a
+                  [routerLink]="['/transactiontables/tblPurchaseOrderDetail', tblpurchaseorder.fldId]"
+                  [queryParams]="{
+										unitName: tblpurchaseorder.tblUnitMasterId.fldName,
+										poNo: tblpurchaseorder.fldPONo,
+										poDate: tblpurchaseorder.fldPODate,
+										supplierName: tblpurchaseorder.tblPartyDetailId.fldName,
+										totalValue: tblpurchaseorder.fldGrandTotalValue,
+										dlyDate: tblpurchaseorder.fldDeliveryStartDate,
+										totalQty: tblpurchaseorder.fldTotalQty,
+										inwardQty: tblpurchaseorder.fldInwardQty,
+										cancelQty: tblpurchaseorder.fldCancelQty,
+										balanceQty: tblpurchaseorder.fldBalanceQty,
+										itemsGrossValue: tblpurchaseorder.fldItemsGrossValue,
+										itemsTaxableValue: tblpurchaseorder.fldItemsTaxableValue,
+										itemsGSTValue: tblpurchaseorder.fldItemsGSTValue,
+										itemsTotalValue: tblpurchaseorder.fldItemsTotalValue,
+										discountPercentage: tblpurchaseorder.fldDiscountPercentage,
+										discountValue: tblpurchaseorder.fldDiscountValue,
+										grandGrossValue: tblpurchaseorder.fldGrandGrossValue,
+										otherPlusValue: tblpurchaseorder.fldOtherPlusValue,
+										otherMinusValue: tblpurchaseorder.fldOtherMinusValue,
+										roundoff: tblpurchaseorder.fldRoundoff,
+										grandTotalValue: tblpurchaseorder.fldGrandTotalValue
+									}"
+                  class="btn btn-sm btn-primary"
+                >
+                  Details
+                </a>
+              </div>
+            </td>
 
-						<td>
-							<div class="row-actions">
-								<a class="icon-btn edit" title="Edit"
-									[routerLink]="['/transactiontables/tblPurchaseOrder/Edit', tblpurchaseorder.fldId]"
-									[queryParams]="{ action: 'Edit' }">
-									<i class="bi bi-pencil-square"></i>
-								</a>
-								<a class="icon-btn delete" title="Delete"
-									[routerLink]="['/transactiontables/tblPurchaseOrder/Edit', tblpurchaseorder.fldId]"
-									[queryParams]="{ action: 'Delete' }">
-									<i class="bi bi-trash3"></i>
-								</a>
-							</div>
-						</td>
-					</tr>
-				</tbody>
+            <td>
+              <div class="row-actions">
+                <a
+                  class="icon-btn edit"
+                  title="Edit"
+                  [routerLink]="['/transactiontables/tblPurchaseOrder/Edit', tblpurchaseorder.fldId]"
+                  [queryParams]="{ action: 'Edit' }"
+                >
+                  <i class="bi bi-pencil-square"></i>
+                </a>
+                <button
+                  type="button"
+                  class="icon-btn delete"
+                  [title]="isNewStatus(tblpurchaseorder) ? 'Delete' : 'Cancel'"
+                  (click)="requestDeleteOrCancel(tblpurchaseorder, tblpurchaseorders)"
+                >
+                  <i
+                    class="bi"
+                    [ngClass]="isNewStatus(tblpurchaseorder) ? 'bi-trash3' : 'bi-x-circle'"
+                  ></i>
+                  <span class="visually-hidden"
+                    >{{ isNewStatus(tblpurchaseorder) ? 'Delete' : 'Cancel'
+                    }}</span
+                  >
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-			</table>
-
-			<p class="grid-footnote" *ngIf="tblpurchaseorders.length === 0">
-				No records found.
-			</p>
-
-		</ng-container>
-
-	</div>
-
+      <p class="grid-footnote" *ngIf="tblpurchaseorders.length === 0">
+        No records found.
+      </p>
+    </ng-container>
+  </div>
 </div>
