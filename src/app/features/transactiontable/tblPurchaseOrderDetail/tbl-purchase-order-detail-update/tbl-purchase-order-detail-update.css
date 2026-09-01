@@ -1,0 +1,248 @@
+<div class="container grid-page-shell">
+	<!-- ============================================
+		 Section 1: Caption
+		 ============================================ -->
+	<div class="page-header-bar-simple">
+		<h1 class="page-caption">{{ actionType }} Purchase Order Details</h1>
+	</div>
+
+	<ng-container *ngIf="tblPurchaseOrderDetail; else notFound">
+
+		<form #form="ngForm" novalidate>
+
+			<!-- ============================================
+				 Section 2: Input fields
+				 ============================================ -->
+			<div class="page-card">
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldFKPo">F K Po</label>
+						<select id="fldFKPo" class="form-select" name="fldFKPo" [(ngModel)]="tblPurchaseOrderDetail.fldFKPo" required>
+							<option value="">-- Select --</option>
+							<option *ngFor="let tblPurchaseOrder of tblPurchaseOrder$ | async" [value]="tblPurchaseOrder.fldId"> {{ tblPurchaseOrder.fldDescription }}</option>
+						</select>
+						<div class="text-danger" *ngIf="form.controls['fldFKPo']?.touched && form.controls['fldFKPo']?.invalid">
+							F K Po is required and should be greater than 0.
+						</div>
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldFKItem">F K Item</label>
+						<select id="fldFKItem" class="form-select" name="fldFKItem" [(ngModel)]="tblPurchaseOrderDetail.fldFKItem" required>
+							<option value="">-- Select --</option>
+							<option *ngFor="let tblItemMaster of tblItemMaster$ | async" [value]="tblItemMaster.fldId"> {{ tblItemMaster.fldDescription }}</option>
+						</select>
+						<div class="text-danger" *ngIf="form.controls['fldFKItem']?.touched && form.controls['fldFKItem']?.invalid">
+							F K Item is required and should be greater than 0.
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldItemDescription">Item Description</label>
+						<input type="text" id="fldItemDescription" class="form-control" name="fldItemDescription" [(ngModel)]="tblPurchaseOrderDetail.fldItemDescription" maxlength="250">
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldItemSize">Item Size</label>
+						<input type="text" id="fldItemSize" class="form-control" name="fldItemSize" [(ngModel)]="tblPurchaseOrderDetail.fldItemSize" maxlength="50">
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldItemColour">Item Colour</label>
+						<input type="text" id="fldItemColour" class="form-control" name="fldItemColour" [(ngModel)]="tblPurchaseOrderDetail.fldItemColour" maxlength="50">
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldFKPurchaseUOM">F K Purchase U O M</label>
+						<input type="text" id="fldFKPurchaseUOM" class="form-control" name="fldFKPurchaseUOM" [(ngModel)]="tblPurchaseOrderDetail.fldFKPurchaseUOM" maxlength="50">
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldFKUsageUOM">F K Usage U O M</label>
+						<input type="text" id="fldFKUsageUOM" class="form-control" name="fldFKUsageUOM" [(ngModel)]="tblPurchaseOrderDetail.fldFKUsageUOM" maxlength="50">
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldFKHSNCode">F K H S N Code</label>
+						<select id="fldFKHSNCode" class="form-select" name="fldFKHSNCode" [(ngModel)]="tblPurchaseOrderDetail.fldFKHSNCode" required>
+							<option value="">-- Select --</option>
+							<option *ngFor="let tblHSNMaster of tblHSNMaster$ | async" [value]="tblHSNMaster.fldId"> {{ tblHSNMaster.fldDescription }}</option>
+						</select>
+						<div class="text-danger" *ngIf="form.controls['fldFKHSNCode']?.touched && form.controls['fldFKHSNCode']?.invalid">
+							F K H S N Code is required and should be greater than 0.
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldQuantity">Quantity</label>
+						<input type="number" id="fldQuantity" class="form-control" name="fldQuantity" [(ngModel)]="tblPurchaseOrderDetail.fldQuantity" step="0.01" min="0">
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldRate">Rate</label>
+						<input type="number" id="fldRate" class="form-control" name="fldRate" [(ngModel)]="tblPurchaseOrderDetail.fldRate" step="0.01" min="0">
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldGrossValue">Gross Value</label>
+						<input type="number" id="fldGrossValue" class="form-control" name="fldGrossValue" [(ngModel)]="tblPurchaseOrderDetail.fldGrossValue" step="0.01" min="0">
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldDiscountPercentage">Discount Percentage</label>
+						<input type="number" id="fldDiscountPercentage" class="form-control" name="fldDiscountPercentage" [(ngModel)]="tblPurchaseOrderDetail.fldDiscountPercentage" step="0.01" min="0">
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldDiscountValue">Discount Value</label>
+						<input type="number" id="fldDiscountValue" class="form-control" name="fldDiscountValue" [(ngModel)]="tblPurchaseOrderDetail.fldDiscountValue" step="0.01" min="0">
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldTaxableValue">Taxable Value</label>
+						<input type="number" id="fldTaxableValue" class="form-control" name="fldTaxableValue" [(ngModel)]="tblPurchaseOrderDetail.fldTaxableValue" step="0.01" min="0">
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldIGSTPercentage">I G S T Percentage</label>
+						<input type="number" id="fldIGSTPercentage" class="form-control" name="fldIGSTPercentage" [(ngModel)]="tblPurchaseOrderDetail.fldIGSTPercentage" step="0.01" min="0">
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldIGSTValue">I G S T Value</label>
+						<input type="number" id="fldIGSTValue" class="form-control" name="fldIGSTValue" [(ngModel)]="tblPurchaseOrderDetail.fldIGSTValue" step="0.01" min="0">
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldSGSTPercentage">S G S T Percentage</label>
+						<input type="number" id="fldSGSTPercentage" class="form-control" name="fldSGSTPercentage" [(ngModel)]="tblPurchaseOrderDetail.fldSGSTPercentage" step="0.01" min="0">
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldSGSTValue">S G S T Value</label>
+						<input type="number" id="fldSGSTValue" class="form-control" name="fldSGSTValue" [(ngModel)]="tblPurchaseOrderDetail.fldSGSTValue" step="0.01" min="0">
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldCGSTPercentage">C G S T Percentage</label>
+						<input type="number" id="fldCGSTPercentage" class="form-control" name="fldCGSTPercentage" [(ngModel)]="tblPurchaseOrderDetail.fldCGSTPercentage" step="0.01" min="0">
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldCGSTValue">C G S T Value</label>
+						<input type="number" id="fldCGSTValue" class="form-control" name="fldCGSTValue" [(ngModel)]="tblPurchaseOrderDetail.fldCGSTValue" step="0.01" min="0">
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldGSTValue">G S T Value</label>
+						<input type="number" id="fldGSTValue" class="form-control" name="fldGSTValue" [(ngModel)]="tblPurchaseOrderDetail.fldGSTValue" step="0.01" min="0">
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldTotalValue">Total Value</label>
+						<input type="number" id="fldTotalValue" class="form-control" name="fldTotalValue" [(ngModel)]="tblPurchaseOrderDetail.fldTotalValue" step="0.01" min="0">
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldDeliveryDate">Delivery Date</label>
+						<input type="date" id="fldDeliveryDate" class="form-control" name="fldDeliveryDate" [(ngModel)]="tblPurchaseOrderDetail.fldDeliveryDate" required>
+						<div class="text-danger" *ngIf="form.controls['fldDeliveryDate']?.touched && form.controls['fldDeliveryDate']?.invalid">
+							Delivery Date is required.
+						</div>
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldRemarks">Remarks</label>
+						<input type="text" id="fldRemarks" class="form-control" name="fldRemarks" [(ngModel)]="tblPurchaseOrderDetail.fldRemarks" maxlength="200" required>
+						<div class="text-danger" *ngIf="form.controls['fldRemarks']?.touched && form.controls['fldRemarks']?.invalid">
+							Remarks is required.
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldFKStatus">F K Status</label>
+						<select id="fldFKStatus" class="form-select" name="fldFKStatus" [(ngModel)]="tblPurchaseOrderDetail.fldFKStatus" required>
+							<option value="">-- Select --</option>
+							<option *ngFor="let tblPropertyStatus of tblPropertyStatus$ | async" [value]="tblPropertyStatus.fldId"> {{ tblPropertyStatus.fldDescription }}</option>
+						</select>
+						<div class="text-danger" *ngIf="form.controls['fldFKStatus']?.touched && form.controls['fldFKStatus']?.invalid">
+							F K Status is required and should be greater than 0.
+						</div>
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldInwardQuantity">Inward Quantity</label>
+						<input type="number" id="fldInwardQuantity" class="form-control" name="fldInwardQuantity" [(ngModel)]="tblPurchaseOrderDetail.fldInwardQuantity" step="0.01" min="0" required>
+						<div class="text-danger" *ngIf="form.controls['fldInwardQuantity']?.touched && form.controls['fldInwardQuantity']?.invalid">
+							Inward Quantity is required and should be greater than 0.
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-row form-row">
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldCancelQuantity">Cancel Quantity</label>
+						<input type="number" id="fldCancelQuantity" class="form-control" name="fldCancelQuantity" [(ngModel)]="tblPurchaseOrderDetail.fldCancelQuantity" step="0.01" min="0" required>
+						<div class="text-danger" *ngIf="form.controls['fldCancelQuantity']?.touched && form.controls['fldCancelQuantity']?.invalid">
+							Cancel Quantity is required and should be greater than 0.
+						</div>
+					</div>
+					<div class="col-3 field-group">
+						<label class="form-label" for="fldBalanceQuantity">Balance Quantity</label>
+						<input type="number" id="fldBalanceQuantity" class="form-control" name="fldBalanceQuantity" [(ngModel)]="tblPurchaseOrderDetail.fldBalanceQuantity" step="0.01" min="0" required>
+						<div class="text-danger" *ngIf="form.controls['fldBalanceQuantity']?.touched && form.controls['fldBalanceQuantity']?.invalid">
+							Balance Quantity is required and should be greater than 0.
+						</div>
+					</div>
+				</div>
+
+				<input id="fldId" name="fldId" [(ngModel)]="tblPurchaseOrderDetail.fldId" hidden>
+				<input id="fldIsActive" name="fldIsActive" [(ngModel)]="tblPurchaseOrderDetail.fldIsActive" hidden>
+				<input id="fldCreatedBy" name="fldCreatedBy" [(ngModel)]="tblPurchaseOrderDetail.fldCreatedBy" hidden>
+				<input id="fldCreatedDt" name="fldCreatedDt" [(ngModel)]="tblPurchaseOrderDetail.fldCreatedDt" hidden>
+
+			</div>
+
+			<!-- ============================================
+				 Section 3: Command buttons
+				 ============================================ -->
+			<div class="page-actions-bar">
+				<button type="button" (click)="submitAction = 'Edit'; OnFormSubmit(form)" class="btn-app btn-save" [disabled]="actionType !== 'Edit'">
+					<i class="bi bi-floppy"></i>
+					Save
+				</button>
+				<button type="button" (click)="submitAction = 'Delete'; OnFormSubmit(form)" class="btn-app btn-delete" [disabled]="actionType !== 'Delete'">
+					<i class="bi bi-trash3"></i>
+					Delete
+				</button>
+				<button type="button" (click)="backToHome()" class="btn-app btn-dark">
+					<i class="bi bi-arrow-left"></i>
+					Back
+				</button>
+			</div>
+
+		</form>
+
+	</ng-container>
+
+	<ng-template #notFound>
+		<div class="page-card">
+			<div class="alert alert-warning mb-0" role="alert">
+				TblPurchaseOrderDetail Not Found
+			</div>
+		</div>
+	</ng-template>
+
+</div>

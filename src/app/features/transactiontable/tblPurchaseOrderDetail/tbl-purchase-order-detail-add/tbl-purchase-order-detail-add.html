@@ -1,13 +1,7 @@
 <div class="container grid-page-shell">
-  <!-- ============================================
-		 Section 1: Caption
-		 ============================================ -->
-  <div class="page-header-bar-simple">
-    <h1 class="page-caption">Add Purchase Order Details</h1>
-  </div>
-
-  <!-- Panel 1: Purchase Order header information -->
+  <!-- Panel 1: Caption and Purchase Order header information -->
   <div class="page-card mb-2">
+    <h1 class="page-caption text-center mb-3">PO Detail [ Add ]</h1>
     <h2 class="h6 mb-2">PO Header Info</h2>
     <div class="row g-1">
       <div class="col-3">
@@ -49,7 +43,7 @@
     <!-- ============================================
 			 Section 2: Input fields
 			 ============================================ -->
-    <div class="page-card mb-2" style="--bs-gutter-y: 0">
+    <div class="page-card mb-2 compact-entry-panel" style="--bs-gutter-y: 0">
       <h2 class="h6 mb-2">Item / Rate / Quantity / Discount Entry</h2>
 
       <div class="d-flex flex-row form-row">
@@ -64,22 +58,44 @@
           hidden
         />
 
-        <div class="col-3 field-group">
-          <label class="form-label" for="fldFKItem">F K Item</label>
-          <select
-            id="fldFKItem"
-            class="form-select"
-            name="fldFKItem"
-            [(ngModel)]="model.fldFKItem"
-            required
+        <input
+          type="number"
+          id="fldFKItem"
+          name="fldFKItem"
+          [(ngModel)]="model.fldFKItem"
+          required
+          hidden
+        />
+
+        <div class="col-5 field-group">
+          <label class="form-label" for="fldItemDescription"
+            >Item Description</label
           >
-            <option
-              *ngFor="let tblItemMaster of tblItemMaster$ | async"
-              [value]="tblItemMaster.fldId"
+          <div class="input-group">
+            <input
+              type="text"
+              id="fldItemDescription"
+              class="form-control"
+              name="fldItemDescription"
+              [(ngModel)]="model.fldItemDescription"
+              placeholder="Double-click an item from the selection grid"
+              readonly
+              tabindex="-1"
+            />
+            <button
+              *ngIf="
+                !showItemSelectionGrid ||
+                itemGridLoadFailed ||
+                (!isItemGridLoading && itemMasters.length === 0)
+              "
+              type="button"
+              class="btn btn-outline-primary"
+              (click)="itemGridLoadFailed ? retryItemGrid() : showItemGrid()"
             >
-              {{ tblItemMaster.fldDesc }}
-            </option>
-          </select>
+              <i class="bi bi-grid-3x3-gap"></i>
+              {{ itemGridLoadFailed ? 'Retry Items' : 'Select Item' }}
+            </button>
+          </div>
           <div
             class="text-danger"
             *ngIf="form.controls['fldFKItem']?.touched && form.controls['fldFKItem']?.invalid"
@@ -89,10 +105,10 @@
         </div>
       </div>
 
-      <!-- Existing select is retained; the grid offers faster item selection by double-click. -->
+      <!-- Item selection grid is hidden after double-click and can be reopened. -->
       <div
         class="table-responsive mb-1"
-        *ngIf="tblItemMaster$ | async as items"
+        *ngIf="showItemSelectionGrid && itemMasters.length > 0"
       >
         <table class="data-table">
           <thead>
@@ -105,7 +121,7 @@
           </thead>
           <tbody>
             <tr
-              *ngFor="let item of items"
+              *ngFor="let item of itemMasters"
               (dblclick)="onItemRowDoubleClick(item)"
               [class.table-active]="model.fldFKItem == item.fldId"
               title="Double-click to select"
@@ -119,15 +135,31 @@
         </table>
       </div>
 
-      <input
-        type="text"
-        id="fldItemDescription"
-        class="form-control"
-        name="fldItemDescription"
-        [(ngModel)]="model.fldItemDescription"
-        value=""
-        hidden
-      />
+      <p
+        class="text-muted mb-1"
+        *ngIf="showItemSelectionGrid && isItemGridLoading"
+      >
+        Loading items...
+      </p>
+
+      <p
+        class="text-danger mb-1"
+        *ngIf="showItemSelectionGrid && itemGridLoadFailed"
+      >
+        Item selection could not be loaded. Use Retry Items.
+      </p>
+
+      <p
+        class="text-muted mb-1"
+        *ngIf="
+          showItemSelectionGrid &&
+          !isItemGridLoading &&
+          !itemGridLoadFailed &&
+          itemMasters.length === 0
+        "
+      >
+        No active items are available.
+      </p>
 
       <input
         type="text"
@@ -283,7 +315,8 @@
             [(ngModel)]="model.fldSGSTPercentage"
             step="0.01"
             min="0"
-            (ngModelChange)="calculateItemValue()"
+            readonly
+            tabindex="-1"
           />
         </div>
         <div class="col-2 field-group">
@@ -315,7 +348,8 @@
             [(ngModel)]="model.fldCGSTPercentage"
             step="0.01"
             min="0"
-            (ngModelChange)="calculateItemValue()"
+            readonly
+            tabindex="-1"
           />
         </div>
         <div class="col-2 field-group">
@@ -347,7 +381,8 @@
             [(ngModel)]="model.fldIGSTPercentage"
             step="0.01"
             min="0"
-            (ngModelChange)="calculateItemValue()"
+            readonly
+            tabindex="-1"
           />
         </div>
         <div class="col-2 field-group">
@@ -520,4 +555,70 @@
       </div>
     </div>
   </form>
+
+  <!-- Panel 5: Details returned by OnFormSubmit (display only) -->
+  <div class="page-card mt-2">
+    <h2 class="h6 mb-2">Saved PO Details</h2>
+
+    <div
+      class="table-responsive"
+      *ngIf="savedPurchaseOrderDetails.length > 0; else noSavedDetails"
+    >
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            
+            <th>Colour</th>
+            <th>UOM</th>
+            <th class="text-end">Quantity</th>
+            <th class="text-end">Rate</th>
+            <th class="text-end">Gross Value</th>
+            <th class="text-end">Total Value</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let detail of savedPurchaseOrderDetails">
+            <td>{{ detail.fldItemDescription }}</td>
+                     <td>{{ detail.fldItemColour }}</td>
+            <td>{{ detail.fldFKPurchaseUOM }}</td>
+            <td class="text-end">{{ detail.fldQuantity | number:'1.2-2' }}</td>
+            <td class="text-end">{{ detail.fldRate | number:'1.2-2' }}</td>
+            <td class="text-end">
+              {{ detail.fldGrossValue | number:'1.2-2' }}
+            </td>
+            
+            <td class="text-end">
+              {{ detail.fldTotalValue | number:'1.2-2' }}
+            </td>
+            
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #noSavedDetails>
+      <p class="grid-footnote mb-0">
+        No PO detail has been saved in this session.
+      </p>
+    </ng-template>
+  </div>
+
+  <style>
+    .compact-entry-panel .form-row {
+      margin-top: 0;
+      margin-bottom: 0;
+      row-gap: 0;
+    }
+
+    .compact-entry-panel .field-group {
+      margin-top: 0;
+      margin-bottom: 0.25rem;
+    }
+
+    .compact-entry-panel .form-label {
+      margin-bottom: 0.15rem;
+    }
+  </style>
 </div>

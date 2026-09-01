@@ -12,29 +12,14 @@
         <div class="tx-filter-group">
           <div class="tx-field">
             <label class="form-label" for="fldFromDate">From Date</label>
-            <input
-              type="date"
-              id="fldFromDate"
-              class="form-control"
-              name="fldFromDate"
-              [max]="currentDate"
-              (change)="onFromDateChange()"
-              [(ngModel)]="fldFromDate"
-            />
+            <input type="date" id="fldFromDate" class="form-control" name="fldFromDate" [max]="currentDate"
+              (change)="onFromDateChange()" [(ngModel)]="fldFromDate" />
           </div>
 
           <div class="tx-field">
             <label class="form-label" for="fldToDate">To Date</label>
-            <input
-              type="date"
-              id="fldToDate"
-              class="form-control"
-              name="fldToDate"
-              [min]="fldFromDate"
-              [max]="currentDate"
-              (change)="onFromDateChange()"
-              [(ngModel)]="fldToDate"
-            />
+            <input type="date" id="fldToDate" class="form-control" name="fldToDate" [min]="fldFromDate"
+              [max]="currentDate" (change)="onFromDateChange()" [(ngModel)]="fldToDate" />
           </div>
 
           <div class="tx-action">
@@ -42,11 +27,7 @@
 							<i class="bi bi-arrow-clockwise"></i> Refresh
 						</a> -->
 
-            <button
-              type="button"
-              (click)="OnFormSubmit()"
-              class="btn-app btn-Refresh"
-            >
+            <button type="button" (click)="OnFormSubmit()" class="btn-app btn-Refresh">
               <i class="bi bi-arrow-clockwise"></i>
               Refresh
             </button>
@@ -98,65 +79,33 @@
       <table class="data-table">
         <thead>
           <tr>
-            <!-- <th>Id</th> -->
             <th>Unit Name</th>
             <th>PO No</th>
             <th>PO Date</th>
             <th>Supplier Name</th>
-            <!-- <th>Delivery Start Date</th>
-						<th>Delivery End Date</th> -->
             <th>Total Qty</th>
-            <th>Inward Qty</th>
+            <!-- <th>Inward Qty</th>
             <th>Cancel Qty</th>
-            <th>Balance Qty</th>
-            <!-- <th>Remarks</th> -->
+            <th>Balance Qty</th> -->
             <th>Status</th>
-            <!-- <th>Items Gross Value</th>
-						<th>Items Taxable Value</th>
-						<th>Items G S T Value</th>
-						<th>Items Total Value</th>
-						<th>Discount Percentage</th>
-						<th>Discount Value</th>
-						<th>Grand Gross Value</th>
-						<th>Other Plus Value</th>
-						<th>Other Minus Value</th>
-						<th>Roundoff</th> -->
             <th>Grand Total Value</th>
-            <!-- <th>Paid Amount</th>
-						<th>F K Payment Status</th> -->
             <th>Actions</th>
           </tr>
         </thead>
 
         <tbody>
           <tr *ngFor="let tblpurchaseorder of tblpurchaseorders">
-            <!-- <td class="cell-code">{{tblpurchaseorder.fldId}}</td> -->
             <td>{{tblpurchaseorder.tblUnitMasterId.fldName}}</td>
             <td class="cell-primary">{{tblpurchaseorder.fldPONo}}</td>
             <td>{{tblpurchaseorder.fldPODate | date:'dd-MMM-yy' }}</td>
-            <!-- //{{ tblpurchaseorder.fldPODate | date:'dd-MMM-yy' }\ -->
             <td>{{tblpurchaseorder.tblPartyDetailId.fldName}}</td>
-            <!-- <td>{{tblpurchaseorder.fldDeliveryStartDate}}</td>
-						<td>{{tblpurchaseorder.fldDeliveryEndDate}}</td> -->
-            <!-- <td>{{tblpurchaseorder.fldTotalQty}}</td>
-            <td>{{tblpurchaseorder.fldInwardQty}}</td>
+            <td>{{tblpurchaseorder.fldTotalQty}}</td>
+            <!-- <td>{{tblpurchaseorder.fldInwardQty}}</td>
             <td>{{tblpurchaseorder.fldCancelQty}}</td>
             <td>{{tblpurchaseorder.fldBalanceQty}}</td> -->
-            <!-- <td>{{tblpurchaseorder.fldRemarks}}</td> -->
             <td>{{ getStatusDescription(tblpurchaseorder) }}</td>
-            <!-- <td>{{tblpurchaseorder.fldItemsGrossValue}}</td>
-						<td>{{tblpurchaseorder.fldItemsTaxableValue}}</td>
-						<td>{{tblpurchaseorder.fldItemsGSTValue}}</td>
-						<td>{{tblpurchaseorder.fldItemsTotalValue}}</td>
-						<td>{{tblpurchaseorder.fldDiscountPercentage}}</td>
-						<td>{{tblpurchaseorder.fldDiscountValue}}</td>
-						<td>{{tblpurchaseorder.fldGrandGrossValue}}</td>
-						<td>{{tblpurchaseorder.fldOtherPlusValue}}</td>
-						<td>{{tblpurchaseorder.fldOtherMinusValue}}</td>
-						<td>{{tblpurchaseorder.fldRoundoff}}</td> -->
             <td>{{tblpurchaseorder.fldGrandTotalValue}}</td>
-            <!-- <td>{{tblpurchaseorder.fldPaidAmount}}</td>
-						<td>{{tblpurchaseorder.fldFKPaymentStatus}}</td> -->
+
 
             <td>
               <div class="row-actions">
@@ -167,33 +116,17 @@
 								</a> -->
 
                 <!-- Replace your existing Details button with this -->
-                <a
-                  [routerLink]="['/transactiontables/tblPurchaseOrderDetail', tblpurchaseorder.fldId]"
-                  [queryParams]="{
+                <a [routerLink]="['/transactiontables/tblPurchaseOrderDetail', tblpurchaseorder.fldId]" [queryParams]="{
 										unitName: tblpurchaseorder.tblUnitMasterId.fldName,
 										poNo: tblpurchaseorder.fldPONo,
 										poDate: tblpurchaseorder.fldPODate,
 										supplierName: tblpurchaseorder.tblPartyDetailId.fldName,
-										totalValue: tblpurchaseorder.fldGrandTotalValue,
-										dlyDate: tblpurchaseorder.fldDeliveryStartDate,
-										totalQty: tblpurchaseorder.fldTotalQty,
-										inwardQty: tblpurchaseorder.fldInwardQty,
-										cancelQty: tblpurchaseorder.fldCancelQty,
-										balanceQty: tblpurchaseorder.fldBalanceQty,
-										itemsGrossValue: tblpurchaseorder.fldItemsGrossValue,
-										itemsTaxableValue: tblpurchaseorder.fldItemsTaxableValue,
-										itemsGSTValue: tblpurchaseorder.fldItemsGSTValue,
-										itemsTotalValue: tblpurchaseorder.fldItemsTotalValue,
-										discountPercentage: tblpurchaseorder.fldDiscountPercentage,
-										discountValue: tblpurchaseorder.fldDiscountValue,
-										grandGrossValue: tblpurchaseorder.fldGrandGrossValue,
-										otherPlusValue: tblpurchaseorder.fldOtherPlusValue,
-										otherMinusValue: tblpurchaseorder.fldOtherMinusValue,
-										roundoff: tblpurchaseorder.fldRoundoff,
-										grandTotalValue: tblpurchaseorder.fldGrandTotalValue
-									}"
-                  class="btn btn-sm btn-primary"
-                >
+										grandTotalValue: tblpurchaseorder.fldGrandTotalValue,
+                    companyStateCode: tblpurchaseorder.tblUnitMasterId.fldStateCode,
+                    supplierStateCode: tblpurchaseorder.tblPartyDetailId.fldStateCode,
+                    fromDate: fldFromDate,
+                    toDate: fldToDate
+									}" class="btn btn-sm btn-primary">
                   Details
                 </a>
               </div>
@@ -201,28 +134,17 @@
 
             <td>
               <div class="row-actions">
-                <a
-                  class="icon-btn edit"
-                  title="Edit"
+                <a class="icon-btn edit" title="Edit"
                   [routerLink]="['/transactiontables/tblPurchaseOrder/Edit', tblpurchaseorder.fldId]"
-                  [queryParams]="{ action: 'Edit' }"
-                >
+                  [queryParams]="{ action: 'Edit' }">
                   <i class="bi bi-pencil-square"></i>
                 </a>
-                <button
-                  type="button"
-                  class="icon-btn delete"
+                <button type="button" class="icon-btn delete"
                   [title]="isNewStatus(tblpurchaseorder) ? 'Delete' : 'Cancel'"
-                  (click)="requestDeleteOrCancel(tblpurchaseorder, tblpurchaseorders)"
-                >
-                  <i
-                    class="bi"
-                    [ngClass]="isNewStatus(tblpurchaseorder) ? 'bi-trash3' : 'bi-x-circle'"
-                  ></i>
-                  <span class="visually-hidden"
-                    >{{ isNewStatus(tblpurchaseorder) ? 'Delete' : 'Cancel'
-                    }}</span
-                  >
+                  (click)="requestDeleteOrCancel(tblpurchaseorder, tblpurchaseorders)">
+                  <i class="bi" [ngClass]="isNewStatus(tblpurchaseorder) ? 'bi-trash3' : 'bi-x-circle'"></i>
+                  <span class="visually-hidden">{{ isNewStatus(tblpurchaseorder) ? 'Delete' : 'Cancel'
+                    }}</span>
                 </button>
               </div>
             </td>

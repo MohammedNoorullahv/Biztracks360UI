@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Observable } from "rxjs";
 import { CommonModule, AsyncPipe } from "@angular/common";
-import { Router, RouterLink } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { FormsModule, NgForm } from "@angular/forms";
 
 import { TblPurchaseOrder } from "../models/tblPurchaseOrder.model";
@@ -25,6 +25,7 @@ export class TblPurchaseOrderListComponent implements OnInit {
   constructor(
     private tblPurchaseOrderService: TblPurchaseOrderService,
     private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   isNewStatus(purchaseOrder: TblPurchaseOrder): boolean {
@@ -105,14 +106,25 @@ export class TblPurchaseOrderListComponent implements OnInit {
     // Maximum selectable date
     this.currentDate = this.toInputDate(today);
 
-    // To Date defaults to today
-    this.fldToDate = this.currentDate;
-
     // From Date defaults to 7 days before today
     const oneWeekEarlier = new Date(today);
     oneWeekEarlier.setDate(today.getDate() - 7);
 
-    this.fldFromDate = this.toInputDate(oneWeekEarlier);
+    const defaultFromDate = this.toInputDate(oneWeekEarlier);
+    const requestedFromDate = this.route.snapshot.queryParamMap.get("fromDate");
+    const requestedToDate = this.route.snapshot.queryParamMap.get("toDate");
+
+    this.fldFromDate = this.isValidFilterDate(requestedFromDate)
+      ? requestedFromDate
+      : defaultFromDate;
+    this.fldToDate = this.isValidFilterDate(requestedToDate)
+      ? requestedToDate
+      : this.currentDate;
+
+    if (this.fldFromDate > this.fldToDate) {
+      this.fldFromDate = defaultFromDate;
+      this.fldToDate = this.currentDate;
+    }
 
     console.log(
       "Init : FldFromDate, FldDtoDate",
@@ -135,6 +147,12 @@ export class TblPurchaseOrderListComponent implements OnInit {
     return `${year}-${month}-${day}`;
   }
 
+  private isValidFilterDate(value: string | null): value is string {
+    return (
+      !!value && /^\d{4}-\d{2}-\d{2}$/.test(value) && value <= this.currentDate
+    );
+  }
+
   onFromDateChange(): void {
     // Prevent From Date from exceeding To Date
     // if (this.fldToDate && this.fldFromDate > this.fldToDate) {
@@ -151,6 +169,13 @@ export class TblPurchaseOrderListComponent implements OnInit {
   // }
 
   OnFormSubmit(): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { fromDate: this.fldFromDate, toDate: this.fldToDate },
+      queryParamsHandling: "merge",
+      replaceUrl: true,
+    });
+
     this.tblPurchaseOrder$ =
       this.tblPurchaseOrderService.getAllTblPurchaseOrders(
         this.fldFromDate,

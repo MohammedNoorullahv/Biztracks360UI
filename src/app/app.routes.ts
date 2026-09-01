@@ -42,6 +42,7 @@ import { TblPurchaseOrderAddComponent } from './features/transactiontable/tblPur
 import { TblPartyDetailListComponent } from './features/mastertables/tblPartyDetail/tbl-party-detail-list/tbl-party-detail-list';
 import { TblPurchaseOrderDetailListComponent } from './features/transactiontable/tblPurchaseOrderDetail/tbl-purchase-order-detail-list/tbl-purchase-order-detail-list';
 import { TblPurchaseOrderDetailAddComponent } from './features/transactiontable/tblPurchaseOrderDetail/tbl-purchase-order-detail-add/tbl-purchase-order-detail-add';
+import { TblPurchaseOrderDetailUpdateComponent } from './features/transactiontable/tblPurchaseOrderDetail/tbl-purchase-order-detail-update/tbl-purchase-order-detail-update';
 
 export const routes: Routes = [
   {
@@ -216,7 +217,14 @@ export const routes: Routes = [
       {
         path: 'transactiontables/tblPurchaseOrderDetail/:fldFKPo/add',
         component: TblPurchaseOrderDetailAddComponent,
+      },
+      {
+        // path: 'mastertables/tblUserDetail/:fldFKUser/Edit/:id',
+        // component: TblUserDetailUpdateComponent,
+        path: 'transactiontables/tblPurchaseOrderDetail/:fldFKPo/Edit/:id',
+        component: TblPurchaseOrderDetailUpdateComponent,
       }
+
 
 
 

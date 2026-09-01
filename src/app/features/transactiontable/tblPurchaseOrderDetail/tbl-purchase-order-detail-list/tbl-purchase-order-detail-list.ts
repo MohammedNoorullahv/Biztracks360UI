@@ -27,6 +27,10 @@ export class TblPurchaseOrderDetailListComponent implements OnInit {
     poNo: "",
     poDate: "",
     supplierName: "",
+    companyStateCode: "",
+    supplierStateCode: "",
+    fromDate: "",
+    toDate: "",
     totalValue: 0,
     dlyDate: "",
     totalQty: 0,
@@ -66,6 +70,10 @@ export class TblPurchaseOrderDetailListComponent implements OnInit {
         poNo: queryParams["poNo"] || "",
         poDate: queryParams["poDate"] || "",
         supplierName: queryParams["supplierName"] || "",
+        companyStateCode: queryParams["companyStateCode"] || "",
+        supplierStateCode: queryParams["supplierStateCode"] || "",
+        fromDate: queryParams["fromDate"] || "",
+        toDate: queryParams["toDate"] || "",
         totalValue: this.toNumber(queryParams["totalValue"]),
         dlyDate: queryParams["dlyDate"] || "",
         totalQty: this.toNumber(queryParams["totalQty"]),
@@ -153,6 +161,10 @@ export class TblPurchaseOrderDetailListComponent implements OnInit {
   }
 
   getDetailQueryParams(action: "Edit" | "Delete"): any {
-    return { ...this.poHeaderInfo, action };
+    return { ...this.poHeaderInfo, fldFKPo: this.fldFKPo, action };
+  }
+
+  getAddQueryParams(): any {
+    return { ...this.poHeaderInfo, fldFKPo: this.fldFKPo };
   }
 }
