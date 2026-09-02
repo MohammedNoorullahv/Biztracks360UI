@@ -12,14 +12,29 @@
         <div class="tx-filter-group">
           <div class="tx-field">
             <label class="form-label" for="fldFromDate">From Date</label>
-            <input type="date" id="fldFromDate" class="form-control" name="fldFromDate" [max]="currentDate"
-              (change)="onFromDateChange()" [(ngModel)]="fldFromDate" />
+            <input
+              type="date"
+              id="fldFromDate"
+              class="form-control"
+              name="fldFromDate"
+              [max]="currentDate"
+              (change)="onFromDateChange()"
+              [(ngModel)]="fldFromDate"
+            />
           </div>
 
           <div class="tx-field">
             <label class="form-label" for="fldToDate">To Date</label>
-            <input type="date" id="fldToDate" class="form-control" name="fldToDate" [min]="fldFromDate"
-              [max]="currentDate" (change)="onFromDateChange()" [(ngModel)]="fldToDate" />
+            <input
+              type="date"
+              id="fldToDate"
+              class="form-control"
+              name="fldToDate"
+              [min]="fldFromDate"
+              [max]="currentDate"
+              (change)="onFromDateChange()"
+              [(ngModel)]="fldToDate"
+            />
           </div>
 
           <div class="tx-action">
@@ -27,7 +42,11 @@
 							<i class="bi bi-arrow-clockwise"></i> Refresh
 						</a> -->
 
-            <button type="button" (click)="OnFormSubmit()" class="btn-app btn-Refresh">
+            <button
+              type="button"
+              (click)="OnFormSubmit()"
+              class="btn-app btn-Refresh"
+            >
               <i class="bi bi-arrow-clockwise"></i>
               Refresh
             </button>
@@ -106,7 +125,6 @@
             <td>{{ getStatusDescription(tblpurchaseorder) }}</td>
             <td>{{tblpurchaseorder.fldGrandTotalValue}}</td>
 
-
             <td>
               <div class="row-actions">
                 <!-- <a [routerLink]="['/transactiontables/tblPurchaseOrderDetail', tblpurchaseorder.fldId]"
@@ -116,17 +134,14 @@
 								</a> -->
 
                 <!-- Replace your existing Details button with this -->
-                <a [routerLink]="['/transactiontables/tblPurchaseOrderDetail', tblpurchaseorder.fldId]" [queryParams]="{
-										unitName: tblpurchaseorder.tblUnitMasterId.fldName,
-										poNo: tblpurchaseorder.fldPONo,
-										poDate: tblpurchaseorder.fldPODate,
-										supplierName: tblpurchaseorder.tblPartyDetailId.fldName,
-										grandTotalValue: tblpurchaseorder.fldGrandTotalValue,
-                    companyStateCode: tblpurchaseorder.tblUnitMasterId.fldStateCode,
-                    supplierStateCode: tblpurchaseorder.tblPartyDetailId.fldStateCode,
+                <a
+                  [routerLink]="['/transactiontables/tblPurchaseOrderDetail', tblpurchaseorder.fldId]"
+                  [queryParams]="{
                     fromDate: fldFromDate,
                     toDate: fldToDate
-									}" class="btn btn-sm btn-primary">
+									}"
+                  class="btn btn-sm btn-primary"
+                >
                   Details
                 </a>
               </div>
@@ -134,17 +149,28 @@
 
             <td>
               <div class="row-actions">
-                <a class="icon-btn edit" title="Edit"
+                <a
+                  class="icon-btn edit"
+                  title="Edit"
                   [routerLink]="['/transactiontables/tblPurchaseOrder/Edit', tblpurchaseorder.fldId]"
-                  [queryParams]="{ action: 'Edit' }">
+                  [queryParams]="{ action: 'Edit' }"
+                >
                   <i class="bi bi-pencil-square"></i>
                 </a>
-                <button type="button" class="icon-btn delete"
+                <button
+                  type="button"
+                  class="icon-btn delete"
                   [title]="isNewStatus(tblpurchaseorder) ? 'Delete' : 'Cancel'"
-                  (click)="requestDeleteOrCancel(tblpurchaseorder, tblpurchaseorders)">
-                  <i class="bi" [ngClass]="isNewStatus(tblpurchaseorder) ? 'bi-trash3' : 'bi-x-circle'"></i>
-                  <span class="visually-hidden">{{ isNewStatus(tblpurchaseorder) ? 'Delete' : 'Cancel'
-                    }}</span>
+                  (click)="requestDeleteOrCancel(tblpurchaseorder, tblpurchaseorders)"
+                >
+                  <i
+                    class="bi"
+                    [ngClass]="isNewStatus(tblpurchaseorder) ? 'bi-trash3' : 'bi-x-circle'"
+                  ></i>
+                  <span class="visually-hidden"
+                    >{{ isNewStatus(tblpurchaseorder) ? 'Delete' : 'Cancel'
+                    }}</span
+                  >
                 </button>
               </div>
             </td>

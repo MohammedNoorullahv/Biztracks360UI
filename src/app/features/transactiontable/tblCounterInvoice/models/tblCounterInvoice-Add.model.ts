@@ -1,0 +1,31 @@
+export interface TblCounterInvoiceAdd {
+	fldId: number;
+	fldFKUnitId: number;
+	fldInvNo: string;
+	fldInvDate: Date;
+	fldFKSupplierID: number;
+	fldDeliveryStartDate: Date;
+	fldDeliveryEndDate: Date;
+	fldTotalQty: number;
+	fldInwardQty: number;
+	fldCancelQty: number;
+	fldBalanceQty: number;
+	fldRemarks: string;
+	fldFKStatus: number;
+	fldItemsGrossValue: number;
+	fldItemsTaxableValue: number;
+	fldItemsGSTValue: number;
+	fldItemsTotalValue: number;
+	fldDiscountPercentage: number;
+	fldDiscountValue: number;
+	fldGrandGrossValue: number;
+	fldOtherPlusValue: number;
+	fldOtherMinusValue: number;
+	fldRoundoff: number;
+	fldGrandTotalValue: number;
+	fldPaidAmount: number;
+	fldFKPaymentStatus: number;
+	fldIsActive: boolean;
+	fldCreatedBy: number;
+	fldCreatedDt: Date;
+}

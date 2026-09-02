@@ -43,6 +43,8 @@ import { TblPartyDetailListComponent } from './features/mastertables/tblPartyDet
 import { TblPurchaseOrderDetailListComponent } from './features/transactiontable/tblPurchaseOrderDetail/tbl-purchase-order-detail-list/tbl-purchase-order-detail-list';
 import { TblPurchaseOrderDetailAddComponent } from './features/transactiontable/tblPurchaseOrderDetail/tbl-purchase-order-detail-add/tbl-purchase-order-detail-add';
 import { TblPurchaseOrderDetailUpdateComponent } from './features/transactiontable/tblPurchaseOrderDetail/tbl-purchase-order-detail-update/tbl-purchase-order-detail-update';
+import { TblCounterInvoiceListComponent } from './features/transactiontable/tblCounterInvoice/tbl-counter-invoice-list/tbl-counter-invoice-list';
+import { TblCounterInvoiceAddComponent } from './features/transactiontable/tblCounterInvoice/tbl-counter-invoice-add/tbl-counter-invoice-add';
 
 export const routes: Routes = [
   {
@@ -219,31 +221,14 @@ export const routes: Routes = [
         component: TblPurchaseOrderDetailAddComponent,
       },
       {
-        // path: 'mastertables/tblUserDetail/:fldFKUser/Edit/:id',
-        // component: TblUserDetailUpdateComponent,
         path: 'transactiontables/tblPurchaseOrderDetail/:fldFKPo/Edit/:id',
         component: TblPurchaseOrderDetailUpdateComponent,
-      }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      },
+      {
+        path: 'transactiontables/tblCounterInvoice',
+        component: TblCounterInvoiceListComponent,
+      },
+      { path: 'transactiontables/tblCounterInvoice/add', component: TblCounterInvoiceAddComponent }
 
 
 

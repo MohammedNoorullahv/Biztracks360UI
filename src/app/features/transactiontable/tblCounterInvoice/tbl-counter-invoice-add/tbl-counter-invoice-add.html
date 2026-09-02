@@ -3,7 +3,7 @@
 		 Section 1: Caption
 		 ============================================ -->
   <div class="page-header-bar-simple">
-    <h1 class="page-caption">Add Purchase Orders</h1>
+    <h1 class="page-caption">Add Counter Invoices</h1>
   </div>
 
   <form #form="ngForm" novalidate>
@@ -38,18 +38,18 @@
         </div>
 
         <div class="col-3 field-group">
-          <label class="form-label" for="fldPONo"
-            >PO #
+          <label class="form-label" for="fldInvNo"
+            >Inv #
             <span class="text-danger"
               >- This may change while saving</span
             ></label
           >
           <input
             type="text"
-            id="fldPONo"
+            id="fldInvNo"
             class="form-control"
-            name="fldPONo"
-            [ngModel]="model.fldPONo"
+            name="fldInvNo"
+            [ngModel]="model.fldInvNo"
             maxlength="50"
             required
             readonly
@@ -58,20 +58,20 @@
         </div>
 
         <div class="col-3 field-group">
-          <label class="form-label" for="fldPODate">P O Date</label>
+          <label class="form-label" for="fldInvDate">P O Date</label>
           <input
             type="date"
-            id="fldPODate"
+            id="fldInvDate"
             class="form-control"
-            name="fldPODate"
-            [(ngModel)]="model.fldPODate"
+            name="fldInvDate"
+            [(ngModel)]="model.fldInvDate"
             [min]="minPODate"
             (ngModelChange)="onPODateChange($event)"
             required
           />
           <div
             class="text-danger"
-            *ngIf="form.controls['fldPODate']?.touched && form.controls['fldPODate']?.invalid"
+            *ngIf="form.controls['fldInvDate']?.touched && form.controls['fldInvDate']?.invalid"
           >
             P O Date is required.
           </div>

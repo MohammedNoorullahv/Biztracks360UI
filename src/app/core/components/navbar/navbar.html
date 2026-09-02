@@ -61,7 +61,7 @@
         </div>
 
         <div class="submenu" *ngIf="isMenuOpen('purchasing')">
-        
+
           <a routerLink="/transactiontables/tblPurchaseOrder" routerLinkActive="active-submenu">Purchase Order</a>
         </div>
 
@@ -100,6 +100,8 @@
              ? 'bi-chevron-down menu-arrow'
              : 'bi-chevron-right menu-arrow'">
           </i>
+
+          <a routerLink="/transactiontables/tblCounterInvoice" routerLinkActive="active-submenu">Counter Invoice</a>
         </div>
 
         <div class="submenu" *ngIf="isMenuOpen('invoicing')">

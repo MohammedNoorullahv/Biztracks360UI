@@ -58,7 +58,22 @@
   border-radius: 8px;
   /* Soft light red family background color */
   background-color: #fff5f5;
-  border: 1px solid #ffe3e3;
+  border: 2px solid navy;
+
+  /* display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+
+  background-color: #ffffff;
+  border: 1px solid #e3e7f3;
+  border-radius: 12px;
+
+  padding: 12px 22px;
+  margin-bottom: 16px;
+
+  box-shadow: 0 4px 14px rgba(16, 24, 64, 0.07); */
 }
 
 .page-header-bar::before {
@@ -117,6 +132,8 @@
   /* Centers title and new button vertically */
   justify-content: space-between;
   gap: 24px;
+
+  
 }
 
 /* Flex wrapper for the center row */

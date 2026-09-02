@@ -46,6 +46,7 @@ export class TblPurchaseOrderDetailUpdateComponent implements OnDestroy {
   private deleteTblPurchaseOrderDetailSubscription?: Subscription;
   private detailLoadSubscription?: Subscription;
   private itemMasterLoadSubscription?: Subscription;
+  private headerLoadSubscription?: Subscription;
   @ViewChild("form") form!: NgForm;
   isSaving: boolean = false;
   fldFKPo: number | null = null;
@@ -97,7 +98,7 @@ export class TblPurchaseOrderDetailUpdateComponent implements OnDestroy {
   constructor(
     private tblPurchaseOrderDetailService: TblPurchaseOrderDetailService,
     private tblPropertySharedService: TblPropertySharedservice,
-    // private tblPurchaseOrderService: TblPurchaseOrderService,
+    private tblPurchaseOrderService: TblPurchaseOrderService,
     private tblItemMasterService: TblItemMasterService,
     private tblHSNMasterService: TblHSNMasterService,
     private router: Router,
@@ -146,27 +147,22 @@ export class TblPurchaseOrderDetailUpdateComponent implements OnDestroy {
   ngOnInit(): void {
     console.log("01. Initializing TblPurchaseOrderDetailUpdateComponent...");
     const queryParams = this.route.snapshot.queryParams;
+    const poIdParam =
+      this.route.snapshot.paramMap.get("fldFKPo") ??
+      queryParams["fldFKPo"] ??
+      null;
     const idParam =
       this.route.snapshot.paramMap.get("id") ?? queryParams["id"] ?? null;
+    this.fldFKPo = poIdParam ? parseInt(poIdParam, 10) : null;
     this.id = idParam ? parseInt(idParam, 10) : null;
+
     this.actionType = queryParams["action"] === "Delete" ? "Delete" : "Edit";
 
-    // Paste it here
-    this.actionType =
-      queryParams["action"] === "Delete"
-        ? "Delete"
-        : "Edit";
-
-    Object.keys(this.poHeaderInfo).forEach((key) => {
-      const value = queryParams[key];
-      if (value !== undefined) {
-        this.poHeaderInfo[key] = this.isNumericHeaderField(key)
-          ? Number(value) || 0
-          : value;
-      }
-    });
+    this.poHeaderInfo.fromDate = queryParams["fromDate"] || "";
+    this.poHeaderInfo.toDate = queryParams["toDate"] || "";
 
     this.loadItemSelectionGrid();
+    this.loadPurchaseOrderHeader();
 
     if (!this.id) {
       this.recoverAfterSubmitFailure(
@@ -181,7 +177,10 @@ export class TblPurchaseOrderDetailUpdateComponent implements OnDestroy {
         next: (response) => {
           this.model = response as TblPurchaseOrderDetailUpdate;
           this.originalDetail = { ...this.model };
-          this.fldFKPo = Number(this.model.fldFKPo) || null;
+          this.fldFKPo = this.fldFKPo || Number(this.model.fldFKPo) || null;
+          if (!this.poHeaderInfo.poNo) {
+            this.loadPurchaseOrderHeader();
+          }
           this.fldFKHsnCode = Number(this.model.fldFKHSNCode) || null;
           this.showItemSelectionGrid = false;
           this.loadExistingGstPercentage();
@@ -197,6 +196,55 @@ export class TblPurchaseOrderDetailUpdateComponent implements OnDestroy {
           this.cdr.detectChanges();
         },
       });
+  }
+
+  private loadPurchaseOrderHeader(): void {
+    if (!this.fldFKPo) return;
+
+    this.headerLoadSubscription?.unsubscribe();
+    this.headerLoadSubscription = this.tblPurchaseOrderService
+      .getTblPurchaseOrderById(this.fldFKPo)
+      .subscribe({
+        next: (purchaseOrder) => {
+          this.assignPurchaseOrderHeader(purchaseOrder);
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          this.toastr.error(
+            err?.error?.message || "Unable to load Purchase Order information.",
+            "PO Load Failed",
+            { toastClass: "ngx-toastr custom-toast error-toast" },
+          );
+        },
+      });
+  }
+
+  private assignPurchaseOrderHeader(purchaseOrder: TblPurchaseOrder): void {
+    this.poHeaderInfo = {
+      ...this.poHeaderInfo,
+      unitName: purchaseOrder.tblUnitMasterId?.fldName ?? "",
+      supplierName: purchaseOrder.tblPartyDetailId?.fldName ?? "",
+      companyStateCode: purchaseOrder.tblUnitMasterId?.fldStateCode ?? "",
+      supplierStateCode: purchaseOrder.tblPartyDetailId?.fldStateCode ?? "",
+      poNo: purchaseOrder.fldPONo ?? "",
+      poDate: purchaseOrder.fldPODate ?? "",
+      dlyDate: purchaseOrder.fldDeliveryStartDate ?? "",
+      totalQty: this.toNumber(purchaseOrder.fldTotalQty),
+      inwardQty: this.toNumber(purchaseOrder.fldInwardQty),
+      cancelQty: this.toNumber(purchaseOrder.fldCancelQty),
+      balanceQty: this.toNumber(purchaseOrder.fldBalanceQty),
+      itemsGrossValue: this.toNumber(purchaseOrder.fldItemsGrossValue),
+      itemsTaxableValue: this.toNumber(purchaseOrder.fldItemsTaxableValue),
+      itemsGSTValue: this.toNumber(purchaseOrder.fldItemsGSTValue),
+      itemsTotalValue: this.toNumber(purchaseOrder.fldItemsTotalValue),
+      discountPercentage: this.toNumber(purchaseOrder.fldDiscountPercentage),
+      discountValue: this.toNumber(purchaseOrder.fldDiscountValue),
+      grandGrossValue: this.toNumber(purchaseOrder.fldGrandGrossValue),
+      otherPlusValue: this.toNumber(purchaseOrder.fldOtherPlusValue),
+      otherMinusValue: this.toNumber(purchaseOrder.fldOtherMinusValue),
+      roundoff: this.toNumber(purchaseOrder.fldRoundoff),
+      grandTotalValue: this.toNumber(purchaseOrder.fldGrandTotalValue),
+    };
   }
 
   private loadExistingGstPercentage(): void {
@@ -446,7 +494,6 @@ export class TblPurchaseOrderDetailUpdateComponent implements OnDestroy {
           .subscribe({
             next: () => {
               this.isSaving = false;
-              this.applyDeletedDetailToHeader();
               this.toastr.success("Record deleted successfully!", "Success", {
                 toastClass: "ngx-toastr custom-toast",
               });
@@ -465,7 +512,6 @@ export class TblPurchaseOrderDetailUpdateComponent implements OnDestroy {
             this.isSaving = false;
 
             this.captureSavedDetails(response);
-            this.applyUpdatedDetailToHeader(updateRequest);
             this.originalDetail = { ...updateRequest };
 
             this.toastr.success("Record updated successfully!", "Success", {
@@ -485,102 +531,6 @@ export class TblPurchaseOrderDetailUpdateComponent implements OnDestroy {
     });
     console.error("API Error:", err);
     this.recoverAfterSubmitFailure(undefined, false);
-  }
-
-  private applyUpdatedDetailToHeader(
-    updated: TblPurchaseOrderDetailUpdate,
-  ): void {
-    const original = this.originalDetail;
-    if (!original) return;
-
-    this.adjustHeaderValue(
-      "totalQty",
-      updated.fldQuantity,
-      original.fldQuantity,
-    );
-    this.adjustHeaderValue(
-      "inwardQty",
-      updated.fldInwardQuantity,
-      original.fldInwardQuantity,
-    );
-    this.adjustHeaderValue(
-      "cancelQty",
-      updated.fldCancelQuantity,
-      original.fldCancelQuantity,
-    );
-    this.adjustHeaderValue(
-      "itemsGrossValue",
-      updated.fldGrossValue,
-      original.fldGrossValue,
-    );
-    this.adjustHeaderValue(
-      "itemsTaxableValue",
-      updated.fldTaxableValue,
-      original.fldTaxableValue,
-    );
-    this.adjustHeaderValue(
-      "itemsGSTValue",
-      updated.fldGSTValue,
-      original.fldGSTValue,
-    );
-    this.adjustHeaderValue(
-      "itemsTotalValue",
-      updated.fldTotalValue,
-      original.fldTotalValue,
-    );
-    this.recalculateHeaderTotals();
-  }
-
-  private applyDeletedDetailToHeader(): void {
-    const original = this.originalDetail;
-    if (!original) return;
-
-    this.adjustHeaderValue("totalQty", 0, original.fldQuantity);
-    this.adjustHeaderValue("inwardQty", 0, original.fldInwardQuantity);
-    this.adjustHeaderValue("cancelQty", 0, original.fldCancelQuantity);
-    this.adjustHeaderValue("itemsGrossValue", 0, original.fldGrossValue);
-    this.adjustHeaderValue("itemsTaxableValue", 0, original.fldTaxableValue);
-    this.adjustHeaderValue("itemsGSTValue", 0, original.fldGSTValue);
-    this.adjustHeaderValue("itemsTotalValue", 0, original.fldTotalValue);
-    this.recalculateHeaderTotals();
-  }
-
-  private adjustHeaderValue(
-    key: string,
-    current: unknown,
-    previous: unknown,
-  ): void {
-    this.poHeaderInfo[key] = Number(
-      (
-        this.toNumber(this.poHeaderInfo[key]) +
-        this.toNumber(current) -
-        this.toNumber(previous)
-      ).toFixed(2),
-    );
-  }
-
-  private recalculateHeaderTotals(): void {
-    this.poHeaderInfo.balanceQty = Number(
-      (
-        this.toNumber(this.poHeaderInfo.totalQty) -
-        this.toNumber(this.poHeaderInfo.inwardQty) -
-        this.toNumber(this.poHeaderInfo.cancelQty)
-      ).toFixed(2),
-    );
-    this.poHeaderInfo.grandGrossValue = Number(
-      (
-        this.toNumber(this.poHeaderInfo.itemsTotalValue) -
-        this.toNumber(this.poHeaderInfo.discountValue)
-      ).toFixed(2),
-    );
-    this.poHeaderInfo.grandTotalValue = Number(
-      (
-        this.poHeaderInfo.grandGrossValue +
-        this.toNumber(this.poHeaderInfo.otherPlusValue) -
-        this.toNumber(this.poHeaderInfo.otherMinusValue) +
-        this.toNumber(this.poHeaderInfo.roundoff)
-      ).toFixed(2),
-    );
   }
 
   private recoverAfterSubmitFailure(
@@ -657,7 +607,10 @@ export class TblPurchaseOrderDetailUpdateComponent implements OnDestroy {
 
     this.router
       .navigate(["/transactiontables/tblPurchaseOrderDetail", this.fldFKPo], {
-        queryParams: this.poHeaderInfo,
+        queryParams: {
+          fromDate: this.poHeaderInfo.fromDate,
+          toDate: this.poHeaderInfo.toDate,
+        },
       })
       .then((navigated) => {
         if (!navigated) {
@@ -699,6 +652,7 @@ export class TblPurchaseOrderDetailUpdateComponent implements OnDestroy {
     this.deleteTblPurchaseOrderDetailSubscription?.unsubscribe();
     this.detailLoadSubscription?.unsubscribe();
     this.itemMasterLoadSubscription?.unsubscribe();
+    this.headerLoadSubscription?.unsubscribe();
   }
 
   isFormValid(form: any): boolean {
