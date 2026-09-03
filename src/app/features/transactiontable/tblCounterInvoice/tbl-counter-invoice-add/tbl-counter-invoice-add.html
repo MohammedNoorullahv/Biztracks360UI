@@ -65,8 +65,8 @@
             class="form-control"
             name="fldInvDate"
             [(ngModel)]="model.fldInvDate"
-            [min]="minPODate"
-            (ngModelChange)="onPODateChange($event)"
+            [min]="minDeliveryStartDate"
+            (ngModelChange)="onInvDateChange($event)"
             required
           />
           <div

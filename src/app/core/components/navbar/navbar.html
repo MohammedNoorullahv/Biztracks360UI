@@ -101,7 +101,9 @@
              : 'bi-chevron-right menu-arrow'">
           </i>
 
-          <a routerLink="/transactiontables/tblCounterInvoice" routerLinkActive="active-submenu">Counter Invoice</a>
+          
+
+
         </div>
 
         <div class="submenu" *ngIf="isMenuOpen('invoicing')">
@@ -113,6 +115,11 @@
           <a routerLink="/invoicing/invoiceList" routerLinkActive="active-submenu">
             Invoice List
           </a>
+
+          <!-- <div class="submenu" *ngIf="isMenuOpen('invoicing')"> -->
+
+            <a routerLink="/transactiontables/tblCounterInvoice" routerLinkActive="active-submenu">Counter Invoice</a>
+          <!-- </div> -->
 
         </div>
 

@@ -30,6 +30,11 @@ getActiveLeanTblCounterInvoices(): Observable<TblCounterInvoice[]>{
 	return this.http.get<TblCounterInvoice[]>(`${environment.apiBaseUrl}/api/TblCounterInvoice/GetActiveLeanTblCounterInvoices`);
 };
 
+  //GET LAST PO
+  getLastTblCounterInvoice(fldFKUnit: number): Observable<TblCounterInvoice>{
+	return this.http.get<TblCounterInvoice>(`${environment.apiBaseUrl}/api/TblCounterInvoice/GetLastTblCounterInvoice/${fldFKUnit}`);
+  };
+
 //POST
 addTblCounterInvoice(model: TblCounterInvoiceAdd): Observable<TblCounterInvoice>{
 	return this.http.post<TblCounterInvoice>(`${environment.apiBaseUrl}/api/TblCounterInvoice/CreateTblCounterInvoice`, model);

@@ -1,24 +1,16 @@
-import {
-  Component,
-  OnDestroy,
-  ViewChild,
-  ChangeDetectorRef,
-} from "@angular/core";
 import { Observable, Subscription } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { FormsModule, NgForm } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { ActivatedRoute, Router } from "@angular/router";
 
-// import { TblPropertyMasterService } from '../../tblPropertyMaster/services/tbl-property-master';
-// import { TblProperty } from '../../tblProperty/models/tblProperty.model';
-// import { TblPropertyService } from '../../tblProperty/services/tbl-property';
-// import { TblPropertySharedservice } from '../../../../shared/services/tbl-property-shared';
+import {
+  Component,
+  OnDestroy,
+  ViewChild,
+  ChangeDetectorRef,
+} from "@angular/core";
 
-// import { TblUnitMaster } from '../../tblUnitMaster/models/tblUnitMaster.model';
-// import { TblUnitMasterService } from '../../tblUnitMaster/services/tbl-unit-master';
-// import { TblPartyDetail } from '../../tblPartyDetail/models/tblPartyDetail.model';
-// import { TblPartyDetailService } from '../../tblPartyDetail/services/tbl-party-detail';
 
 import { TblPurchaseOrder } from "../models/tblPurchaseOrder.model";
 import { TblPurchaseOrderAdd } from "../models/tblPurchaseOrder-Add.model";
@@ -39,6 +31,7 @@ import { TblPartyDetailService } from "../../../mastertables/tblPartyDetail/serv
   templateUrl: "./tbl-purchase-order-add.html",
   styleUrl: "./tbl-purchase-order-add.css",
 })
+
 export class TblPurchaseOrderAddComponent implements OnDestroy {
   model: TblPurchaseOrderAdd;
   submitAction:
