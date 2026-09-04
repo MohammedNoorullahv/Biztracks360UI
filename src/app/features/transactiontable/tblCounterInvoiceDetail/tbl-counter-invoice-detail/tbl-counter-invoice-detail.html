@@ -1,0 +1,167 @@
+
+<div class="container grid-page-shell">
+  <!-- ============================================
+		 Page header: caption + record toggle + New Record
+		 ============================================ -->
+  <div class="page-header-bar">
+    <h1 class="page-caption">Inv Details</h1>
+
+    <!-- Added d-flex layout utility classes to enforce perfect center alignment -->
+    <div class="page-header-center">
+      <!-- //d-flex flex-column align-items-center justify-content-center w-100 -->
+      <div class="d-flex flex-row form-row tx-detail-header-panel">
+        <div class="col-5 field-group">
+          <label class="form-label" for="fldPOUnitName">Unit Name</label>
+          <input type="text" id="fldPOUnitName" class="form-control" name="fldPOUnitName"
+            value="{{ poHeaderInfo.unitName }}" disabled />
+        </div>
+
+        <div class="col-6 field-group">
+          <!-- Fixed typo from "Supplier Name Name" to "Supplier Name" -->
+          <label class="form-label" for="fldPOSupplierName">Supplier Name</label>
+          <input type="text" id="fldPOSupplierName" class="form-control" name="fldPOSupplierName"
+            value="{{ poHeaderInfo.supplierName }}" disabled />
+        </div>
+      </div>
+
+      <div class="d-flex flex-row form-row tx-detail-row:last-child">
+        <div class="col-3 field-group">
+          <label class="form-label" for="fldInvNo">PO No.</label>
+          <input type="text" id="fldInvNo" class="form-control" name="fldInvNo" value="{{ poHeaderInfo.poNo }}"
+            disabled />
+        </div>
+
+        <div class="col-3 field-group">
+          <label class="form-label" for="fldInvDate">PO Date</label>
+          <input type="text" id="fldInvDate" class="form-control" name="fldInvDate"
+            value="{{ poHeaderInfo.poDate | date:'dd-MMM-yy' }}" disabled />
+        </div>
+
+        <div class="col-3 field-group">
+          <label class="form-label" for="fldPOValue">PO Value</label>
+          <input type="text" id="fldPOValue" class="form-control text-end" name="fldPOValue"
+            [value]="poHeaderInfo.grandTotalValue | number:'1.2-2'" disabled />
+        </div>
+      </div>
+    </div>
+
+    <div class="page-header-right">
+      <div class="d-flex flex-row form-row">
+        <a [routerLink]="['/transactiontables/tblCounterInvoice']" [queryParams]="{
+            fromDate: poHeaderInfo.fromDate,
+            toDate: poHeaderInfo.toDate
+          }" class="btn btn-secondary d-inline-flex align-items-center gap-2">
+          <i class="bi bi-arrow-left"></i>
+          <span>Back to PO</span>
+        </a>
+      </div>
+      <div class="d-flex flex-row form-row">
+        <a [routerLink]="['add']" [queryParams]="getAddQueryParams()" class="btn-app btn-new">
+          <i class="bi bi-plus-lg"></i>
+          New Details
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-card">
+    <div class="page-header-bar-secondary">
+      <div class="page-header-left">
+        <button type="button" class="btn-app btn-outline">
+          <i class="bi bi-funnel"></i>
+          Filter
+        </button>
+
+        <button type="button" class="btn-app btn-outline">
+          <i class="bi bi-download"></i>
+          Export CSV
+        </button>
+      </div>
+
+      <div class="page-header-right">
+        <ng-container *ngIf="tblCounterInvoiceDetail$ | async as tblpurchaseorderdetails">
+          <span class="pagination-info">
+            Showing {{ tblpurchaseorderdetails.length }} of {{
+            tblpurchaseorderdetails.length }} Records
+          </span>
+        </ng-container>
+
+        <button type="button" class="pager-btn" disabled>
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <button type="button" class="pager-btn" disabled>
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <ng-container *ngIf="tblCounterInvoiceDetail$ | async as tblpurchaseorderdetails">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Item Description</th>
+            <th>Item Colour</th>
+            <th>UOM</th>
+            <th>Quantity</th>
+            <th>Rate</th>
+            <th>Gross Value</th>
+            <th>GST Value</th>
+            <th>Total Value</th>
+            <th>Inward Quantity</th>
+            <th>Cancel Quantity</th>
+            <th>Balance Quantity</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let tblpurchaseorderdetail of tblpurchaseorderdetails">
+            <td class="cell-primary">
+              {{tblpurchaseorderdetail.fldItemDescription}}
+            </td>
+            <td>{{tblpurchaseorderdetail.fldItemColour}}</td>
+            <td>{{tblpurchaseorderdetail.fldFKPurchaseUOM}}</td>
+            <td>{{tblpurchaseorderdetail.fldQuantity}}</td>
+            <td>{{tblpurchaseorderdetail.fldRate}}</td>
+            <td>{{tblpurchaseorderdetail.fldGrossValue}}</td>
+            <td>{{tblpurchaseorderdetail.fldGSTValue}}</td>
+            <td>{{tblpurchaseorderdetail.fldTotalValue}}</td>
+            <td>{{tblpurchaseorderdetail.fldInwardQuantity}}</td>
+            <td>{{tblpurchaseorderdetail.fldCancelQuantity}}</td>
+            <td>{{tblpurchaseorderdetail.fldBalanceQuantity}}</td>
+            <td>
+              <div class="row-actions">
+                <a class="icon-btn edit" title="Edit"
+                  [routerLink]="['/transactiontables/tblCounterInvoiceDetail', tblpurchaseorderdetail.fldFKInv, 'Edit', tblpurchaseorderdetail.fldId]"
+                  [queryParams]="getDetailQueryParams('Edit')"
+                  [class.disabled]="tblpurchaseorderdetail.fldInwardQuantity > 0"
+                  [attr.aria-disabled]="tblpurchaseorderdetail.fldInwardQuantity > 0"
+                  [attr.tabindex]="tblpurchaseorderdetail.fldInwardQuantity > 0 ? -1 : null" (click)="
+  tblpurchaseorderdetail.fldInwardQuantity > 0 &&
+  $event.preventDefault()
+">
+                  <i class=" bi bi-pencil-square"></i>
+                </a>
+
+                <a class="icon-btn delete" title="Delete"
+                  [routerLink]="['/transactiontables/tblCounterInvoiceDetail', tblpurchaseorderdetail.fldFKInv, 'Edit', tblpurchaseorderdetail.fldId]"
+                  [queryParams]="getDetailQueryParams('Delete')"
+                  [class.disabled]="tblpurchaseorderdetail.fldInwardQuantity > 0"
+                  [attr.aria-disabled]="tblpurchaseorderdetail.fldInwardQuantity > 0"
+                  [attr.tabindex]="tblpurchaseorderdetail.fldInwardQuantity > 0 ? -1 : null"
+                  (click)="tblpurchaseorderdetail.fldInwardQuantity > 0 && $event.preventDefault()">
+                  <i class="bi bi-trash3"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="grid-footnote" *ngIf="tblpurchaseorderdetails.length === 0">
+        No records found.
+      </p>
+    </ng-container>
+  </div>
+</div>
+
