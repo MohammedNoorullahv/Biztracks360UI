@@ -23,7 +23,7 @@ export interface TblCounterInvoiceDetailAdd {
 	fldGSTValue: number;
 	fldTotalValue: number;
 	fldDeliveryDate: Date;
-	fldRemarks: string;
+	fldRemarks?: string;
 	fldFKStatus: number;
 	fldInwardQuantity: number;
 	fldCancelQuantity: number;

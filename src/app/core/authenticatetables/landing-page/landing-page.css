@@ -1,0 +1,147 @@
+:host {
+    display: block;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.landing-panel {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+
+    border: 5px solid #8b005d;
+    background-color: #ffffff;
+
+    overflow: hidden;
+}
+
+/* Main area above the footer */
+.landing-main {
+    display: grid;
+    grid-template-columns: 60% 40%;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+}
+
+/* Left block */
+.left-section {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    min-width: 0;
+    min-height: 0;
+
+    overflow: hidden;
+
+    background-color: #eaf8ff;
+    border-right: 2px solid #8b005d;
+}
+
+.left-image {
+    display: block;
+
+    width: auto;
+    height: auto;
+
+    max-width: 100%;
+    max-height: 100%;
+
+    object-fit: contain;
+    object-position: top center;
+}
+
+/* Right block */
+.right-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 0;
+    min-height: 0;
+
+    color: #082858;
+    background-color: #ffffff;
+}
+
+.left-section h1,
+.right-section h1 {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: clamp(24px, 3vw, 46px);
+    text-align: center;
+}
+
+/* Footer */
+.landing-footer {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+
+    padding: 8px 16px;
+
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    text-align: center;
+
+    border-top: 2px solid #8b005d;
+    background-color: #082858;
+}
+
+/* Tablet and mobile */
+@media (max-width: 768px) {
+    .landing-main {
+        grid-template-columns: 1fr;
+        grid-template-rows: 55% 45%;
+    }
+
+    /* .left-section {
+        min-width: 0;
+        min-height: 0;
+
+        background-image:
+            url("/images/relaffsol-morning-seashore-leftside.png");
+
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        background-color: #dff4fc;
+
+        border-right: 2px solid #8b005d;
+    } */
+
+    .left-section {
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+        border-right: 2px solid #8b005d;
+    }
+
+    .left-background-test {
+        display: block;
+
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+        object-position: top center;
+    }
+
+    .landing-footer {
+        min-height: 40px;
+        font-size: 11px;
+    }
+}

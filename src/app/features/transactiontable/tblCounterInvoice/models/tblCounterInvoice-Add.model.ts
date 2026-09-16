@@ -1,6 +1,7 @@
 export interface TblCounterInvoiceAdd {
 	fldId: number;
 	fldFKUnitId: number;
+	fldFKTypeofCI: number;
 	fldInvNo: string;
 	fldInvDate: Date;
 	fldFKSupplierID: number;
@@ -10,7 +11,7 @@ export interface TblCounterInvoiceAdd {
 	fldInwardQty: number;
 	fldCancelQty: number;
 	fldBalanceQty: number;
-	fldRemarks: string;
+	fldRemarks?: string;
 	fldFKStatus: number;
 	fldItemsGrossValue: number;
 	fldItemsTaxableValue: number;

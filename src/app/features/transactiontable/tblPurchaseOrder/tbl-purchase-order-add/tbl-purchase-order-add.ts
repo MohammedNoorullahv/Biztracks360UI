@@ -46,18 +46,13 @@ export class TblPurchaseOrderAddComponent implements OnDestroy {
   isSaving: boolean = false;
 
   tblPropertyAll$?: Observable<TblProperty[]>;
-
   tblUnitMaster$?: Observable<TblUnitMaster[]>;
   tblPartyDetail$?: Observable<TblPartyDetail[]>;
   tblPropertyStatus$?: Observable<TblProperty[]>;
-
   tblLastPurchaseOrder$?: Observable<TblPurchaseOrder>;
 
-  minPODate = "";
-  minDeliveryStartDate = "";
-  minDeliveryEndDate = "";
-  fromDate = "";
-  toDate = "";
+  minPODate = ""; minDeliveryStartDate = ""; minDeliveryEndDate = "";
+  fromDate = ""; toDate = "";
 
   constructor(
     private tblPurchaseOrderService: TblPurchaseOrderService,

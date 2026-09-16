@@ -10,7 +10,7 @@ export interface TblPurchaseOrderAdd {
 	fldInwardQty: number;
 	fldCancelQty: number;
 	fldBalanceQty: number;
-	fldRemarks: string;
+	fldRemarks?: string;
 	fldFKStatus: number;
 	fldItemsGrossValue: number;
 	fldItemsTaxableValue: number;

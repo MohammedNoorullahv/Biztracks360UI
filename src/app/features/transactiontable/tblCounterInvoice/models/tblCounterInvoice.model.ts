@@ -6,6 +6,8 @@ export interface TblCounterInvoice {
     fldId: number;
     fldFKUnitId: number;
     tblUnitMasterId: TblUnitMaster;
+    fldFKTypeofCI: number;
+    tblPropertyTypeofCIId: TblProperty;
     fldInvNo: string;
     fldInvDate: Date;
     fldFKSupplierID: number;

@@ -50,6 +50,7 @@ export class TblCounterInvoiceAddComponent implements OnDestroy {
   tblUnitMaster$?: Observable<TblUnitMaster[]>;
   tblPartyDetail$?: Observable<TblPartyDetail[]>;
   tblPropertyStatus$?: Observable<TblProperty[]>;
+  tblPropertyTypeofCI$?: Observable<TblProperty[]>;
 
   tblLastCounterInvoice$?: Observable<TblCounterInvoice>;
 
@@ -74,6 +75,7 @@ export class TblCounterInvoiceAddComponent implements OnDestroy {
     this.model = {
       fldId: 0,
       fldFKUnitId: 0,
+      fldFKTypeofCI: 0,
       fldInvNo: "",
       fldInvDate: new Date(),
       fldFKSupplierID: 0,
@@ -110,6 +112,9 @@ export class TblCounterInvoiceAddComponent implements OnDestroy {
 
     this.tblPropertyStatus$ =
       this.tblPropertySharedService.getPropertiesByType("Status");
+
+    this.tblPropertyTypeofCI$ =
+      this.tblPropertySharedService.getPropertiesByType("Type of Counter Invoice");
 
     this.tblUnitMaster$ =
       this.tblUnitMasterService.getActiveLeanTblUnitMasters();
@@ -366,6 +371,7 @@ export class TblCounterInvoiceAddComponent implements OnDestroy {
     this.model = {
       fldId: 0,
       fldFKUnitId: 0,
+      fldFKTypeofCI: 0,
       fldInvNo: "",
       fldInvDate: new Date(),
       fldFKSupplierID: 0,

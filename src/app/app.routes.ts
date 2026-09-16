@@ -47,8 +47,19 @@ import { TblCounterInvoiceListComponent } from './features/transactiontable/tblC
 import { TblCounterInvoiceAddComponent } from './features/transactiontable/tblCounterInvoice/tbl-counter-invoice-add/tbl-counter-invoice-add';
 import { TblCounterInvoiceDetailListComponent } from './features/transactiontable/tblCounterInvoiceDetail/tbl-counter-invoice-detail/tbl-counter-invoice-detail';
 import { TblCounterInvoiceDetailAddComponent } from './features/transactiontable/tblCounterInvoiceDetail/tbl-counter-invoice-detail-add/tbl-counter-invoice-detail-add';
+import { LandingPageComponent } from './core/authenticatetables/landing-page/landing-page';
+import { TblSaleInvoiceComponentList } from './features/transactiontable/tblSaleInvoice/tbl-sale-invoice-component-list/tbl-sale-invoice-component-list';
+import { TblSaleInvoiceDetailComponentList } from './features/transactiontable/tblSaleInvoiceDetail/tbl-sale-invoice-detail-component-list/tbl-sale-invoice-detail-component-list';
 
 export const routes: Routes = [
+  // {
+  //   // Public landing page
+  //     path: '',
+  //   component: LandingPageComponent,
+  //   pathMatch: 'full'
+  // },
+
+  // Application layout containing Navbar/Sidebar
   {
     path: '',
     component: Navbar,
@@ -232,8 +243,18 @@ export const routes: Routes = [
       },
       { path: 'transactiontables/tblCounterInvoice/add', component: TblCounterInvoiceAddComponent },
       { path: 'transactiontables/tblCounterInvoiceDetail/:fldFKInv', component: TblCounterInvoiceDetailListComponent },
-      { path: 'transactiontables/tblCounterInvoiceDetail/:fldFKInv/add', component: TblCounterInvoiceDetailAddComponent,
+      { path: 'transactiontables/tblCounterInvoiceDetail/:fldFKInv/add', component: TblCounterInvoiceDetailAddComponent},
+      
+      { path: 'transactiontables/tblSaleInvoice', component: TblSaleInvoiceComponentList}
+
+
+      {
+	path: 'transactiontables/tblSaleInvoiceDetail',
+	component: TblSaleInvoiceDetailComponentList,
 }
+
+
+
 
 
 

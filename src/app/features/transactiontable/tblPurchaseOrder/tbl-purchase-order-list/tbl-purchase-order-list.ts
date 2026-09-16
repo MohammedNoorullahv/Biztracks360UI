@@ -16,7 +16,6 @@ import { TblPurchaseOrderService } from "../services/tbl-purchase-order";
 export class TblPurchaseOrderListComponent implements OnInit {
   tblPurchaseOrder$?: Observable<TblPurchaseOrder[]>;
   actionType: string = "";
-  submitAction: "Load All" | "Active Only" = "Load All"; // default to Load All
   fldFromDate = "";
   fldToDate = "";
   currentDate = "";
@@ -24,9 +23,8 @@ export class TblPurchaseOrderListComponent implements OnInit {
 
   constructor(
     private tblPurchaseOrderService: TblPurchaseOrderService,
-    private router: Router,
-    private route: ActivatedRoute,
-  ) {}
+    private router: Router, private route: ActivatedRoute
+  ) { }
 
   isNewStatus(purchaseOrder: TblPurchaseOrder): boolean {
     const status =
@@ -45,13 +43,9 @@ export class TblPurchaseOrderListComponent implements OnInit {
     );
   }
 
-  requestDeleteOrCancel(
-    purchaseOrder: TblPurchaseOrder,
-    _allRows: TblPurchaseOrder[],
-  ): void {
+  requestDeleteOrCancel(purchaseOrder: TblPurchaseOrder, _allRows: TblPurchaseOrder[]): void {
     const action: "Delete" | "Cancel" = this.isNewStatus(purchaseOrder)
-      ? "Delete"
-      : "Cancel";
+      ? "Delete" : "Cancel";
     const unitId =
       Number((purchaseOrder as any).fldFKUnitId) ||
       Number((purchaseOrder as any).tblUnitMasterId?.fldId);
@@ -70,11 +64,8 @@ export class TblPurchaseOrderListComponent implements OnInit {
     });
   }
 
-  private confirmDeleteOrCancel(
-    purchaseOrder: TblPurchaseOrder,
-    action: "Delete" | "Cancel",
-    isLastRecord: boolean,
-  ): void {
+  private confirmDeleteOrCancel(purchaseOrder: TblPurchaseOrder, action: "Delete" | "Cancel",
+    isLastRecord: boolean): void {
     const effect = isLastRecord
       ? "This is the last purchase order in the current sequence and will be permanently deleted."
       : `This purchase order will not be removed; its status will be changed to ${action === "Delete" ? "Deleted" : "Cancelled"}.`;
@@ -84,9 +75,7 @@ export class TblPurchaseOrderListComponent implements OnInit {
     }
 
     if (
-      !window.confirm(
-        `Final acknowledgement: Do you want to continue with ${action.toLowerCase()}?`,
-      )
+      !window.confirm(`Final acknowledgement: Do you want to continue with ${action.toLowerCase()}?`,)
     ) {
       return;
     }
@@ -115,11 +104,9 @@ export class TblPurchaseOrderListComponent implements OnInit {
     const requestedToDate = this.route.snapshot.queryParamMap.get("toDate");
 
     this.fldFromDate = this.isValidFilterDate(requestedFromDate)
-      ? requestedFromDate
-      : defaultFromDate;
+      ? requestedFromDate : defaultFromDate;
     this.fldToDate = this.isValidFilterDate(requestedToDate)
-      ? requestedToDate
-      : this.currentDate;
+      ? requestedToDate : this.currentDate;
 
     if (this.fldFromDate > this.fldToDate) {
       this.fldFromDate = defaultFromDate;
@@ -176,8 +163,7 @@ export class TblPurchaseOrderListComponent implements OnInit {
       replaceUrl: true,
     });
 
-    this.tblPurchaseOrder$ =
-      this.tblPurchaseOrderService.getAllTblPurchaseOrders(
+    this.tblPurchaseOrder$ = this.tblPurchaseOrderService.getAllTblPurchaseOrders(
         this.fldFromDate,
         this.fldToDate,
       );
