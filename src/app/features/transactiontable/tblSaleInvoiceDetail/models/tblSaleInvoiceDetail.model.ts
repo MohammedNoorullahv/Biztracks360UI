@@ -1,0 +1,41 @@
+import { TblProperty } from "../../../mastertables/tblProperty/models/tblProperty.model";
+
+export interface TblSaleInvoiceDetail {
+	fldId: number;
+	fldFKInv: number;
+	fldFKItem: number;
+	fldItemDescription: string;
+	fldItemSize: string;
+	fldItemColour: string;
+	fldFKPurchaseUOM: string;
+	fldFKUsageUOM: string;
+	fldFKHSNCode: number;
+	fldQuantity: number;
+	fldRate: number;
+	fldGrossValue: number;
+	fldDiscountPercentage: number;
+	fldDiscountValue: number;
+	fldTaxableValue: number;
+	fldIGSTPercentage: number;
+	fldIGSTValue: number;
+	fldSGSTPercentage: number;
+	fldSGSTValue: number;
+	fldCGSTPercentage: number;
+	fldCGSTValue: number;
+	fldGSTValue: number;
+	fldTotalValue: number;
+	fldDeliveryDate: Date;
+	fldRemarks: string;
+	fldFKStatus: number;
+tblPropertyStatusId: TblProperty;
+	fldInwardQuantity: number;
+	fldCancelQuantity: number;
+	fldBalanceQuantity: number;
+	fldIsActive: boolean;
+	fldCreatedBy: number;
+	fldCreatedDt: Date;
+	fldModifiedBy: number;
+	fldModifiedDt: Date;
+	fldDeletedBy: number;
+	fldDeletedDt: Date;
+}

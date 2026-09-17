@@ -48,8 +48,11 @@ import { TblCounterInvoiceAddComponent } from './features/transactiontable/tblCo
 import { TblCounterInvoiceDetailListComponent } from './features/transactiontable/tblCounterInvoiceDetail/tbl-counter-invoice-detail/tbl-counter-invoice-detail';
 import { TblCounterInvoiceDetailAddComponent } from './features/transactiontable/tblCounterInvoiceDetail/tbl-counter-invoice-detail-add/tbl-counter-invoice-detail-add';
 import { LandingPageComponent } from './core/authenticatetables/landing-page/landing-page';
-import { TblSaleInvoiceComponentList } from './features/transactiontable/tblSaleInvoice/tbl-sale-invoice-component-list/tbl-sale-invoice-component-list';
+
 import { TblSaleInvoiceDetailComponentList } from './features/transactiontable/tblSaleInvoiceDetail/tbl-sale-invoice-detail-component-list/tbl-sale-invoice-detail-component-list';
+import { TblSaleInvoiceListComponent } from './features/transactiontable/tblSaleInvoice/tbl-sale-invoice-component-list/tbl-sale-invoice-component-list';
+import { TblSaleInvoiceAddComponent } from './features/transactiontable/tblSaleInvoice/tbl-sale-invoice-component-add/tbl-sale-invoice-component-add';
+
 
 export const routes: Routes = [
   // {
@@ -245,12 +248,11 @@ export const routes: Routes = [
       { path: 'transactiontables/tblCounterInvoiceDetail/:fldFKInv', component: TblCounterInvoiceDetailListComponent },
       { path: 'transactiontables/tblCounterInvoiceDetail/:fldFKInv/add', component: TblCounterInvoiceDetailAddComponent},
       
-      { path: 'transactiontables/tblSaleInvoice', component: TblSaleInvoiceComponentList}
+      { path: 'transactiontables/tblSaleInvoice', component: TblSaleInvoiceListComponent},
+      { path: 'transactiontables/tblSaleInvoice/add', component: TblSaleInvoiceAddComponent},
 
 
-      {
-	path: 'transactiontables/tblSaleInvoiceDetail',
-	component: TblSaleInvoiceDetailComponentList,
+      { path: 'transactiontables/tblSaleInvoiceDetail/:fldFKInv', component: TblSaleInvoiceDetailComponentList,
 }
 
 

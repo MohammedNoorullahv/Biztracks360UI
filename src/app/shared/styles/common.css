@@ -964,3 +964,16 @@ input.tx-detail-input:disabled {
   border-color: #e9ecef;
   color: #212529 !important;
 }
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+body {
+  min-height: 100vh;
+}

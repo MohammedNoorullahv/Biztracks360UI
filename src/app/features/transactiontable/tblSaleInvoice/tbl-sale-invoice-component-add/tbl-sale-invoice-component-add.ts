@@ -1,0 +1,457 @@
+import { Observable, Subscription } from "rxjs";
+import { CommonModule } from "@angular/common";
+import { FormsModule, NgForm } from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
+import { ActivatedRoute, Router } from "@angular/router";
+
+import {
+  Component,
+  OnDestroy,
+  ViewChild,
+  ChangeDetectorRef,
+} from "@angular/core";
+
+
+import { TblSaleInvoice } from "../models/tblSaleInvoice.model";
+import { TblSaleInvoiceAdd } from "../models/tblSaleInvoice-Add.model";
+// import { TblSaleInvoiceService } from "../services/tbl-Sale-invoice";
+
+import { TblProperty } from "../../../mastertables/tblProperty/models/tblProperty.model";
+import { TblUnitMaster } from "../../../mastertables/tblUnitMaster/models/tblUnitMaster.model";
+import { TblPropertyMasterService } from "../../../mastertables/tblPropertyMaster/services/tbl-property-master";
+import { TblPropertyService } from "../../../mastertables/tblProperty/services/tbl-property";
+import { TblPropertySharedservice } from "../../../../shared/services/tbl-property-shared";
+import { TblUnitMasterService } from "../../../mastertables/tblUnitMaster/services/tbl-unit-master";
+import { TblPartyDetail } from "../../../mastertables/tblPartyDetail/models/tblPartyDetail.model";
+import { TblPartyDetailService } from "../../../mastertables/tblPartyDetail/services/tbl-party-detail";
+import { TblSaleInvoiceService } from "../services/tbl-sale-invoice-service";
+
+@Component({
+  selector: 'app-tbl-Sale-invoice-component-add',
+  imports: [CommonModule, FormsModule],
+  templateUrl: './tbl-Sale-invoice-component-add.html',
+  styleUrl: './tbl-Sale-invoice-component-add.css',
+})
+
+//TblSaleInvoiceListComponent
+export class TblSaleInvoiceAddComponent implements OnDestroy {
+  model: TblSaleInvoiceAdd;
+  submitAction:
+    | "SaveAndAddNew"
+    | "SaveAndClose"
+    | "SaveAndProceedToDetail"  
+    | "exit" = "exit";
+  private addTblSaleInvoiceSubscription?: Subscription;
+  private unitMasterSubscription?: Subscription;
+  private lastCustomerInvoiceSubscription?: Subscription;
+  @ViewChild("form") form!: NgForm;
+  isSaving: boolean = false;
+
+  tblPropertyAll$?: Observable<TblProperty[]>;
+
+  tblUnitMaster$?: Observable<TblUnitMaster[]>;
+  tblPartyDetail$?: Observable<TblPartyDetail[]>;
+  tblPropertyStatus$?: Observable<TblProperty[]>;
+  tblPropertyTypeofCI$?: Observable<TblProperty[]>;
+
+  tblLastSaleInvoice$?: Observable<TblSaleInvoice>;
+
+  minPODate = "";
+  minDeliveryStartDate = "";
+  minDeliveryEndDate = "";
+  fromDate = "";
+  toDate = "";
+
+  constructor(
+    private tblSaleInvoiceService: TblSaleInvoiceService,
+    private tblPropertyMasterService: TblPropertyMasterService,
+    private tblPropertyService: TblPropertyService,
+    private tblPropertySharedService: TblPropertySharedservice,
+    private tblUnitMasterService: TblUnitMasterService,
+    private tblPartyDetailService: TblPartyDetailService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef,
+  ) {
+    this.model = {
+      fldId: 0,
+      fldFKUnitId: 0,
+      fldInvNo: "",
+      fldInvDate: new Date(),
+      fldFKSupplierID: 0,
+      fldDeliveryStartDate: new Date(),
+      fldDeliveryEndDate: new Date(),
+      fldTotalQty: 0,
+      fldInwardQty: 0,
+      fldCancelQty: 0,
+      fldBalanceQty: 0,
+      fldRemarks: "",
+      fldFKStatus: 0,
+      fldItemsGrossValue: 0,
+      fldItemsTaxableValue: 0,
+      fldItemsGSTValue: 0,
+      fldItemsTotalValue: 0,
+      fldDiscountPercentage: 0,
+      fldDiscountValue: 0,
+      fldGrandGrossValue: 0,
+      fldOtherPlusValue: 0,
+      fldOtherMinusValue: 0,
+      fldRoundoff: 0,
+      fldGrandTotalValue: 0,
+      fldPaidAmount: 0,
+      fldFKPaymentStatus: 0,
+      fldIsActive: true,
+      fldCreatedBy: 0,
+      fldCreatedDt: new Date(),
+    };
+  }
+
+  ngOnInit(): void {
+    this.fromDate = this.route.snapshot.queryParamMap.get("fromDate") ?? "";
+    this.toDate = this.route.snapshot.queryParamMap.get("toDate") ?? "";
+
+    this.tblPropertyStatus$ =
+      this.tblPropertySharedService.getPropertiesByType("Status");
+    
+    this.tblUnitMaster$ =
+      this.tblUnitMasterService.getActiveLeanTblUnitMasters();
+    this.tblPartyDetail$ =
+      this.tblPartyDetailService.getActiveLeanTblPartyDetails();
+
+    // Select the first available unit and generate its next PO number.
+    this.unitMasterSubscription = this.tblUnitMaster$.subscribe((units) => {
+      if (units?.length > 0) {
+        this.model.fldFKUnitId = Number(units[0].fldId);
+        this.loadLastSaleInvoice(units[0]);
+      }
+    });
+  }
+
+  onUnitChange(unitId: number | string): void {
+    const selectedUnitId = Number(unitId);
+    this.model.fldFKUnitId = selectedUnitId;
+
+    if (!selectedUnitId) {
+      this.model.fldInvNo = "";
+      return;
+    }
+
+    this.unitMasterSubscription?.unsubscribe();
+    this.unitMasterSubscription = this.tblUnitMaster$?.subscribe((units) => {
+      const selectedUnit = units.find(
+        (unit) => Number(unit.fldId) === selectedUnitId,
+      );
+      if (selectedUnit) {
+        this.loadLastSaleInvoice(selectedUnit);
+      }
+    });
+  }
+
+    private loadLastSaleInvoice(unit: TblUnitMaster): void {
+      const unitId = Number(unit.fldId);
+      this.tblLastSaleInvoice$ =
+        this.tblSaleInvoiceService.getLastTblSaleInvoice(unitId);
+  
+      this.lastCustomerInvoiceSubscription?.unsubscribe();
+      this.lastCustomerInvoiceSubscription = this.tblLastSaleInvoice$.subscribe({
+        next: (
+          response: TblSaleInvoice | TblSaleInvoice[] | null | undefined,
+        ) => {
+          // Support APIs that return either one object or an array containing the last PO.
+          const lastPO = Array.isArray(response) ? response[0] : response;
+          this.applySaleInvoiceDefaults(unit, lastPO);
+        },
+        error: () => {
+          // A 404/no-record response is treated as the unit's first PO.
+          this.applySaleInvoiceDefaults(unit, null);
+        },
+      });
+    }
+
+  
+    private applySaleInvoiceDefaults(
+      unit: TblUnitMaster,
+      lastInv: TblSaleInvoice | null | undefined,
+    ): void {
+      const lastPONo = lastInv?.fldInvNo?.trim();
+  
+      if (lastPONo) {
+        const lastSerial = Number(lastPONo.slice(-4));
+        const nextSerial = Number.isFinite(lastSerial) ? lastSerial + 1 : 1;
+        this.model.fldInvNo = `${lastPONo.slice(0, -4)}${nextSerial.toString().padStart(4, "0")}`;
+      } else {
+        const unitCode = (unit.fldName ?? "")
+          .trim()
+          .replace(/\s+/g, "")
+          .substring(0, 2)
+          .toUpperCase()
+          .padEnd(2, "#");
+  
+        this.model.fldInvNo = `${unitCode}/IN/${this.getFinancialYear()}-0001`;
+      }
+  
+      // Ensure the generated number is reflected immediately in the readonly input.
+      this.cdr.detectChanges();
+  
+      const today = this.toDateInputValue(new Date());
+      const lastInvDate = lastInv?.fldInvDate
+        ? this.toDateInputValue(lastInv.fldInvDate)
+        : today;
+  
+      this.minPODate = lastInvDate;
+      const poDate = lastInvDate > today ? lastInvDate : today;
+      this.model.fldInvDate = poDate as any;
+      this.onInvDateChange(poDate);
+    }
+
+    onInvDateChange(value: string | Date): void {
+    const invDate = this.toDateInputValue(value);
+    this.model.fldInvDate = invDate as any;
+    this.minDeliveryStartDate = invDate;
+
+    const currentStart = this.toDateInputValue(this.model.fldDeliveryStartDate);
+    if (!currentStart || currentStart < invDate) {
+      this.model.fldDeliveryStartDate = invDate as any;
+    }
+
+    this.onDeliveryStartDateChange(this.model.fldDeliveryStartDate);
+  }
+
+  onDeliveryStartDateChange(value: string | Date): void {
+    const startDate = this.toDateInputValue(value);
+    this.model.fldDeliveryStartDate = startDate as any;
+    this.minDeliveryEndDate = startDate;
+
+    const deliveryEndDate = new Date(`${startDate}T00:00:00`);
+    deliveryEndDate.setDate(deliveryEndDate.getDate() + 7);
+    this.model.fldDeliveryEndDate = this.toDateInputValue(
+      deliveryEndDate,
+    ) as any;
+  }
+
+  calculateGrandTotal(): void {
+    const grossValue = Number(this.model.fldItemsGrossValue) || 0;
+    const discountValue = Number(this.model.fldDiscountValue) || 0;
+    const otherPlusValue = Number(this.model.fldOtherPlusValue) || 0;
+    const otherMinusValue = Number(this.model.fldOtherMinusValue) || 0;
+    const roundOffValue = Number(this.model.fldRoundoff) || 0;
+
+    this.model.fldGrandTotalValue = Number(
+      (
+        grossValue -
+        discountValue +
+        otherPlusValue -
+        otherMinusValue +
+        roundOffValue
+      ).toFixed(2),
+    );
+  }
+
+  private getFinancialYear(date: Date = new Date()): string {
+    const startYear =
+      date.getMonth() >= 3 ? date.getFullYear() : date.getFullYear() - 1;
+
+    return `${startYear.toString().slice(-2)}${(startYear + 1).toString().slice(-2)}`;
+  }
+
+  private toDateInputValue(value: string | Date): string {
+    if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}/.test(value)) {
+      return value.substring(0, 10);
+    }
+
+    const date = value instanceof Date ? value : new Date(value);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  OnFormSubmit(
+    form: NgForm,
+    action: "SaveAndAddNew" | "SaveAndClose" | "SaveAndProceedToDetail",
+  ): void {
+    if (this.isSaving) {
+      return;
+    }
+
+    this.submitAction = action;
+
+    if (form.invalid) {
+      form.control.markAllAsTouched();
+      return;
+    }
+
+    if (!this.model.fldFKUnitId || this.model.fldFKUnitId <= 0) {
+      return;
+    }
+
+    this.isSaving = true;
+
+    this.addTblSaleInvoiceSubscription = this.tblSaleInvoiceService
+      .addTblSaleInvoice(this.model)
+      .subscribe({
+        next: (response) => {
+          this.isSaving = false;
+
+          this.toastr.success("Record saved successfully!", "Success", {
+            toastClass: "ngx-toastr custom-toast",
+          });
+
+          if (this.submitAction === "SaveAndAddNew") {
+            this.resetForm();
+            this.cdr.detectChanges();
+          } else if (this.submitAction === "SaveAndProceedToDetail") {
+            const savedSaleInvoiceId = this.getSavedSaleInvoiceId(response);
+
+            if (savedSaleInvoiceId > 0) {
+              this.router.navigate(
+                [
+                  "/transactiontables/tblSaleInvoiceDetail",
+                  savedSaleInvoiceId,
+                ],
+                {
+                  queryParams: {
+                    fromDate: this.fromDate,
+                    toDate: this.toDate,
+                  },
+                },
+              );
+            } else {
+              this.toastr.warning(
+                "The Sale Invoice was saved, but the API did not return its ID. Please open Details from the Sale Invoice List.",
+                "Saved - Navigation Unavailable",
+                { toastClass: "ngx-toastr custom-toast" },
+              );
+              this.router.navigateByUrl("transactiontables/tblSaleInvoice");
+            }
+          } else {
+            this.router.navigateByUrl("transactiontables/tblSaleInvoice");
+          }
+        },
+        error: (err) => {
+          this.isSaving = false;
+
+          const errorMsg =
+            err?.error?.message || err?.error || "An unexpected error occurred";
+
+          this.toastr.error(errorMsg, "Error", {
+            toastClass: "ngx-toastr custom-toast error-toast",
+          });
+
+          console.error("API Error:", err);
+        },
+      });
+  }
+
+  private getSavedSaleInvoiceId(response: unknown): number {
+    const responseObject = response as any;
+    const payload =
+      responseObject?.body ??
+      responseObject?.data ??
+      responseObject?.result ??
+      responseObject;
+
+    if (typeof payload === "number" || typeof payload === "string") {
+      return Number(payload) || 0;
+    }
+
+    return Number(
+      payload?.fldId ??
+      payload?.id ??
+      responseObject?.fldId ??
+      responseObject?.id ??
+      0,
+    );
+  }
+
+  resetForm() {
+    this.model = {
+      fldId: 0,
+      fldFKUnitId: 0,
+      fldInvNo: "",
+      fldInvDate: new Date(),
+      fldFKSupplierID: 0,
+      fldDeliveryStartDate: new Date(),
+      fldDeliveryEndDate: new Date(),
+      fldTotalQty: 0,
+      fldInwardQty: 0,
+      fldCancelQty: 0,
+      fldBalanceQty: 0,
+      fldRemarks: "",
+      fldFKStatus: 0,
+      fldItemsGrossValue: 0,
+      fldItemsTaxableValue: 0,
+      fldItemsGSTValue: 0,
+      fldItemsTotalValue: 0,
+      fldDiscountPercentage: 0,
+      fldDiscountValue: 0,
+      fldGrandGrossValue: 0,
+      fldOtherPlusValue: 0,
+      fldOtherMinusValue: 0,
+      fldRoundoff: 0,
+      fldGrandTotalValue: 0,
+      fldPaidAmount: 0,
+      fldFKPaymentStatus: 0,
+      fldIsActive: true,
+      fldCreatedBy: 0,
+      fldCreatedDt: new Date(),
+    };
+
+    // Re-select the first unit and regenerate all PO/date defaults.
+    this.unitMasterSubscription?.unsubscribe();
+    this.unitMasterSubscription = this.tblUnitMaster$?.subscribe((units) => {
+      if (units?.length > 0) {
+        this.model.fldFKUnitId = Number(units[0].fldId);
+        this.loadLastSaleInvoice(units[0]);
+      }
+    });
+  }
+
+  backToHome(): void {
+    this.router.navigateByUrl("transactiontables/tblSaleInvoice");
+  }
+
+  ngOnDestroy(): void {
+    this.addTblSaleInvoiceSubscription?.unsubscribe();
+    this.unitMasterSubscription?.unsubscribe();
+    this.lastCustomerInvoiceSubscription?.unsubscribe();
+  }
+
+  isFormValid(form: any): boolean {
+    if (form.invalid) {
+      return false;
+    }
+
+    if (!this.model.fldFKUnitId || this.model.fldFKUnitId <= 0) {
+      return false;
+    }
+
+    if (!this.model.fldInvNo?.trim()) {
+      return false;
+    }
+
+    if (!this.model.fldFKSupplierID || this.model.fldFKSupplierID <= 0) {
+      return false;
+    }
+
+    if (!this.model.fldRemarks?.trim()) {
+      return false;
+    }
+
+    if (!this.model.fldFKStatus || this.model.fldFKStatus <= 0) {
+      return false;
+    }
+
+    if (!this.model.fldPaidAmount || this.model.fldPaidAmount <= 0) {
+      return false;
+    }
+
+    if (!this.model.fldFKPaymentStatus || this.model.fldFKPaymentStatus <= 0) {
+      return false;
+    }
+
+    return true;
+  }
+}
+
